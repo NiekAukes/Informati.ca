@@ -13,4 +13,4 @@ print("name", "frequency") #print de naam en frequentie van die naam uit
 _namelist = sorted(_namelist) #sorteert de lijst
 for i in _namelist: #Neemt alle namen apart,
     print(i, seen[i]) #print de frequentie van die naam uit,
-print(uniq) #... en print de uniekheid van die namen uit.
+print("Er zitten", uniq," verschillende namen in.") #... en print de uniekheid van die namen uit.
