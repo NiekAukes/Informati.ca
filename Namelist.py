@@ -7,7 +7,7 @@ for i in namelist: #Vraagt alle namen apart van elkaar
     if i not in seen: #Als de naam nog niet gezien is,
         seen[i] = 0  #...creeërt het een value daarvoor
         _namelist.append(i) #.. en voegt het aan de parallele lijst toe
-        uniq += 1;
+        uniq += 1
     seen[i] += 1 #Als het gezien is, voegt het 1 toe aan de frequentie van 'gezien', zodat het programma het herkent als gezien.
 print("name", "frequency") #print de naam en frequentie van die naam uit
 _namelist = sorted(_namelist) #sorteert de lijst
