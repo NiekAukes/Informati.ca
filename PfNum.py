@@ -1,14 +1,14 @@
 pfNum = input()
 pfNum = int(pfNum)
-d = [] #declares list
-for i in range(pfNum-1): #takes every number smaller than the input
-    Pfnum = float(pfNum) #declares var equal to the float of pfnum
-    if float(pfNum/(i+1)) == Pfnum/(i+1): #if the number turns out equal, then the number is a real divider
-        d.append(i+1) #appends the number to the divider list
-if sum(d) == pfNum: #if the sum of the dividers is equal to the number, it is a 0erfect number
-    print("this is a perfect number")
-    print("delers:")
+d = [] #Maakt lijst aan
+for i in range(pfNum-1): #Neemt elk nummer kleiner dan de input
+    Pfnum = float(pfNum) #Declareert een variabele gelijk aan de input
+    if float(pfNum/(i+1)) == Pfnum/(i+1): #Als het getal even is, is het een echte deler
+        d.append(i+1) #Voegt het nummer toe aan de delerlijst
+if sum(d) == pfNum: #Als de som van de delers gelijk is aan het getal, is het een perfect getal.
+    print("Het nummer", pfNum , "is een perfect getal")
+    print("Delers:")
     for i in d:
         print(i)
 else:
-    print("this is not a perfect number")
+    print("Het getal ",pfNum," is niet een perfect getal.")
