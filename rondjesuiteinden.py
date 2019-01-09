@@ -12,4 +12,5 @@ for i in word: ##Takes chars of input seperately
 print(word) ##outputs the origional word
 print("rondjes:", rondjes) ##outputs the circles
 print("uiteinden:", uiteinden) ##outputs the ends
+input("press 'Enter' to continue")
 ##end of code

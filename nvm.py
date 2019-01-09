@@ -13,3 +13,4 @@ try:
 
 except Exception as exc:
     print("Error occured! Try again.", exc)
+input("press 'Enter' to continue")

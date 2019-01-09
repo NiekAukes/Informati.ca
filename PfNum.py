@@ -12,3 +12,4 @@ if sum(d) == pfNum: #Als de som van de delers gelijk is aan het getal, is het ee
         print(i)
 else:
     print("Het getal ",pfNum," is niet een perfect getal.")
+input("press 'Enter' to continue")

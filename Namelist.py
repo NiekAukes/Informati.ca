@@ -1,4 +1,4 @@
-names = input("Vul de namen in") #Vraagt om namen
+﻿names = input("Vul de namen in") #Vraagt om namen
 seen = {} #Maakt er een 'dictionary'(dubbele lijst) van. (Wachtwoorden en Namen)
 uniq = 0 #Declareert een variabele
 namelist = names.split() #Split namen naar een lijst
@@ -14,3 +14,4 @@ _namelist = sorted(_namelist) #sorteert de lijst
 for i in _namelist: #Neemt alle namen apart,
     print(i, seen[i]) #print de frequentie van die naam uit,
 print("Er zitten", uniq," verschillende namen in.") #... en print de uniekheid van die namen uit.
+input("press 'Enter' to continue")

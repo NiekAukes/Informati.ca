@@ -17,4 +17,4 @@ if T: #als het wel mogelijk is om een driehoek te maken:
         if abc[i] == abc[i-1]:
             print("Dit is een gelijkbenige driehoek")
             break
-
+input("press 'Enter' to continue")

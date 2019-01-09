@@ -37,3 +37,4 @@ prijsIngredientenOppervlakte = prijsIngredienten + ((diameter /2) **2) * math.pi
 prijsInCent = prijsIngredientenOppervlakte + prijsPizza
 
 print("De prijs van je pizza is ",int(prijsInCent / 100), "euro en ",int(prijsInCent % 100), "cent.")
+input("press 'Enter' to continue")

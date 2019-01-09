@@ -41,3 +41,4 @@ else:
 		pass
 	else:
 		pass
+input("press 'Enter' to continue")
