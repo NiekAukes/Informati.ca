@@ -15,7 +15,7 @@ elif diameter == "groot":
 else:
     print("Ongeldige grootte.")
 
-Ingredienten = Ingredienten.split() #Ingrediënten splitten in een list
+Ingredienten = Ingredienten.split() #IngrediÃ«nten splitten in een list
 lijstIngredienten = ["champignons", "ansjovis", "ham", "salami", "ui", "paprika", "mosselen", "baguette"]
 for lijstIngredienten in Ingredienten:
     if "champignons" in Ingredienten:
@@ -37,4 +37,3 @@ prijsIngredientenOppervlakte = prijsIngredienten + ((diameter /2) **2) * math.pi
 prijsInCent = prijsIngredientenOppervlakte + prijsPizza
 
 print("De prijs van je pizza is ",int(prijsInCent / 100), "euro en ",int(prijsInCent % 100), "cent.")
-input("press 'Enter' to continue")
