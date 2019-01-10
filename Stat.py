@@ -19,5 +19,5 @@ print("Mediaan:", (row[int((len(row)-1) // 2)] + row[(len(row)) // 2]) / 2) #Pro
 if Db[max(Db.keys())] > 1: #Als de maximale frequentie van Db groter is dan 1
     print("Modus niet mogelijk")
 else:
-    print("Modus:", max(seen))
+    print("Modus:", seen[max(seen.keys())])
 

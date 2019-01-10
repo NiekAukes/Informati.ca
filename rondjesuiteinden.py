@@ -1,4 +1,4 @@
-word = input() ##asks for input
+word = input("Vul uw woord(en) in HOOFDLETTERS in a.u.b. \n\n\n(alvast bedankt)") ##asks for input
 rondjes = 0
 uiteinden = 0 ##declares var
 check = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" ##alfabet string
