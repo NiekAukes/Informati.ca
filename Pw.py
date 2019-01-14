@@ -3,15 +3,17 @@ normques = { #maakt een dictionary van de normale vragen (normal questions wordt
 "Hoelang duurde de 80-jarige oorlog?\nA: 80 jaar\nB: 69 jaar\n C: 79,5 jaar\nD: 68 jaar":"D",
 "Hoe heet de grote vogel in Sesamstraat?\nA: Mickey\nB: Pino\nC: Timo\nD: Elmo":"B",
 "Hoe snel gaat licht?\nA: Snel\nB: Heel snel\nC: 300.000 km/sec\nD: ZOEM":"C",
+"Wanneer speelt 'Flappie' zich af? \nA: 1961 \nB: 1962 \nC: 1963 \nD: 1964":"A"
 }
 diffques = { #maakt een dictionary voor de moeilijke vragen (difficult questions wordt diffques)
 "In welke taal is Windows geschreven?\nA:Python 2.7\nB: Java\nC: C\nD: D":"C",
 "Wat is het meest gestolen boek ter wereld?\nA: De Bijbel\nB: The Davinci Code\nD: Alfabet voor Kleuters\nD: Harry Potter en de Gestolen Ring":"A",
-"":""
+"Wat is het meest gebruikte type geweer in WOI? \nA: Semi-Automatische geweren \nB: Vol-Automatische geweren \nC: Bolt-Action geweren \nD: Kanonnen":"C"
 }
 easyques ={ #maakt een dictionary voor de makkelijke vragen (easy questions wordt easyques)
-"Hoeveel kanten heeft een bol? \nA: -1 \nB: 1 \nC: 27 \nD: Z":"B"
-"hoeveel kleuren heeft een regenboog"
+"Hoeveel kanten heeft een bol? \nA: -1 \nB: 1 \nC: 27 \nD: Z":"B",
+"Hoeveel kleuren heeft een regenboog? \nA: 37 \nB: 653 \nC: 7 \nD: 0":"C",
+"Wat zegt een kat? \nA: woef \nB: mauw \nC: hallo \nD: blep":"B"
 }
 Correct = 0 #Declareert een variabele Correct met een var 0
 for ques in normques.keys(): #Voor alle vragen in normale vragen (dictionaries werken met keys en values, door .keys te specificeren selecteer je aleen de 'keys', dus de vragen)
