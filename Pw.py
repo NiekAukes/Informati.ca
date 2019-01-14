@@ -13,7 +13,8 @@ diffques = { #maakt een dictionary voor de moeilijke vragen (difficult questions
 easyques ={ #maakt een dictionary voor de makkelijke vragen (easy questions wordt easyques)
 "Hoeveel kanten heeft een bol? \nA: -1 \nB: 1 \nC: 27 \nD: Z":"B",
 "Hoeveel kleuren heeft een regenboog? \nA: 37 \nB: 653 \nC: 7 \nD: 0":"C",
-"Wat zegt een kat? \nA: woef \nB: mauw \nC: hallo \nD: blep":"B"
+"Wat zegt een kat? \nA: woef \nB: mauw \nC: hallo \nD: blep":"B",
+"Wat staat hier: C \nA: B \nB: B\nC: D \nD: C":"D"
 }
 Correct = 0 #Declareert een variabele Correct met een var 0
 for ques in normques.keys(): #Voor alle vragen in normale vragen (dictionaries werken met keys en values, door .keys te specificeren selecteer je aleen de 'keys', dus de vragen)
@@ -26,27 +27,29 @@ saveCorrect = Correct #Maakt een variabele saveCorrect aan met hetzelfde var als
 Correct = 0
 if saveCorrect > 2:	#als de opgeslagen goede antwoorden meer dan twee zijn (dus als je meer dan twee goede antwoorden hebt)
 	for ques in diffques.keys():	#vraagt de code de lastige vragen
-		print(ques.keys()[0])
+		print(ques)
 		In = input()		#..en vraagt weer om een input
 		if diffques[ques] == In:
 			Correct += 1 	#...en voor elk goed antwoord komt er bij Correct weer 1 bij.
 else:	#als er MINDER dan twee antwoorden goed waren....
 	for ques in easyques.keys():	#stelt de code makkelijke vragen i.p.v. moeilijke.
-		print(easyques[ques])
+		print(ques)
 		In = input()		#...en vraagt weer om een input, etc.
 		if easyques[ques] == In:
 			Correct += 1
 saveCorrect += Correct			#Bij de opgeslagen goede antwoorden van de normale vragen worden de goede antwoorden van de vorige vragen opgeteld.
 
-if saveCorrect-Correct < 2:	#Als de totale goede antwoorden min de laatste
-	if Correct == 2:
-		pass
-	if Correct == 3:
-		pass
+if saveCorrect-Correct < 2:	#Als de laatste opgaven
+	if Correct == len(easyques.keys):
+	   print("Je had", Correct, "vragen goed.")
+	if Correct == len(easyques.keys) - 1:
+		print("Je had", Correct, "vragen goed.")
 	else:
-		pass
+		print("Je had bij de laatste vragen", Correct, "vragen goed. Dit kan beter")
 else:
-	if Correct > 1:
-		pass
-	else:
-		pass
+    if Correct == len(diffques.keys):
+        print("Er zijn bij de laatste opgaven", Correct, "opgaven goed beantwoord. Fantastische score! Je hebt van de laatste opgaven alles goed!")
+    elif Correct == (len(diffques.keys) - 1):
+        print("Je hebt bij de laatste vragen 1 gemist. Nog steeds een goede score hoor!")
+    else:
+        print("Jezus wat slecht")
