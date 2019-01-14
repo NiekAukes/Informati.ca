@@ -10,7 +10,8 @@ diffques = { #maakt een dictionary voor de moeilijke vragen (difficult questions
 "":""
 }
 easyques ={ #maakt een dictionary voor de makkelijke vragen (easy questions wordt easyques)
-"Hoeveel kanten"
+"Hoeveel kanten heeft een bol? \nA: -1 \nB: 1 \nC: 27 \nD: Z":"B"
+"hoeveel kleuren heeft een regenboog"
 }
 Correct = 0 #Declareert een variabele Correct met een var 0
 for ques in normques.keys(): #Voor alle vragen in normale vragen (dictionaries werken met keys en values, door .keys te specificeren selecteer je aleen de 'keys', dus de vragen)
