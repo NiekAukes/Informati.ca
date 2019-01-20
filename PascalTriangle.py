@@ -1,5 +1,4 @@
-In = input("Vul het aantal rijen in: ")
-In = int(In)
+In = int(input("Vul het aantal rijen in: "))
 
 def T(_n, _k): #Herhalingsmethode
     if _k == 0 or _k == _n-1:
@@ -9,5 +8,5 @@ def T(_n, _k): #Herhalingsmethode
 for n in range(In): #counts for n in range of input
     nk = [] #declares empty list
     for k in range(n): #counts for k in range of n
-        nk.append(T(n, k)) #appends the output o the recursion method
+        nk.append(T(n, k)) #appends the output of the recursion method
     print(nk) #prints the output of the recursion method
