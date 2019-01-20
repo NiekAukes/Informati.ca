@@ -1,1 +1,0 @@
-# Informati.ca
