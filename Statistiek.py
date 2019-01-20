@@ -15,3 +15,4 @@ j = max(gezien.values())
 for i in gezien:
     if gezien[i] == j:
         print("Modus:",i)
+#test case: (10 10 6 7 3 33 2 3 9 9 60 54 34 12), (50 5000 392 56758 300 9000 23 1 65 343 2355 3245 2222 998), (10 8 8 4)

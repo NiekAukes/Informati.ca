@@ -13,3 +13,4 @@ _namelist = sorted(_namelist) #sorteert de lijst
 for i in _namelist: #Neemt alle namen apart,
     print(i,'-',seen[i]) #print de frequentie van die naam uit,
 print("Er zijn", uniq,"verschillende namen.") #... en print de uniekheid van die namen uit.
+#test case: (Niek Douwe Coen Douwe), (Taco Burrito Taco Taco Burrito Enchilada Enchilada), (1 3 4 3 3 22 1 2)

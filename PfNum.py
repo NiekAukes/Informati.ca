@@ -12,3 +12,4 @@ if sum(d) == pfNum:
         print(i)
 else:
     print("Het getal ",pfNum," is niet een perfect getal.")
+#test case: 6, 28 ,18
