@@ -24,3 +24,4 @@ try:
 except (ValueError, TypeError):
     print("Ongeldige input. Programma gestopt.\nRun de code overnieuw om opnieuw te proberen.") #Als je geen int invoert stopt het de code.
 
+#test case: (20 10 11), (30 18 18), (12 3 4)
