@@ -40,16 +40,16 @@ else:	#als er MINDER dan twee antwoorden goed waren....
 saveCorrect += Correct			#Bij de opgeslagen goede antwoorden van de normale vragen worden de goede antwoorden van de vorige vragen opgeteld.
 
 if saveCorrect-Correct < 2:	#Als de laatste opgaven
-	if Correct == len(easyques.keys):
+	if Correct == len(easyques):
 	   print("Je had", Correct, "vragen goed.")
-	if Correct == len(easyques.keys) - 1:
+	if Correct == len(easyques) - 1:
 		print("Je had", Correct, "vragen goed.")
 	else:
 		print("Je had bij de laatste vragen", Correct, "vragen goed. Dit kan beter")
 else:
-    if Correct == len(diffques.keys):
+    if Correct == len(diffques):
         print("Er zijn bij de laatste opgaven", Correct, "opgaven goed beantwoord. Fantastische score! Je hebt van de laatste opgaven alles goed!")
-    elif Correct == (len(diffques.keys) - 1):
+    elif Correct == (len(diffques) - 1):
         print("Je hebt bij de laatste vragen 1 gemist. Nog steeds een goede score hoor!")
     else:
         print("Jezus wat slecht")
