@@ -1,4 +1,4 @@
-﻿names = input("Vul de namen in: ") #Vraagt om namen
+﻿znames = input("Vul de namen in: ") #Vraagt om namen
 seen = {} #Maakt er een 'dictionary'(dubbele lijst) van. (Namen en Keren Gezien)
 uniq = 0 #Declareert een variabele
 namelist = names.split() #Split namen naar een lijst
