@@ -1,10 +1,11 @@
 import random
 import pip
 import pygame
-lenX = 10
-lenY = 10
+lenX = int(input("length of x: "))
+lenY = int(input("length of y: "))
 
-Radius = 50
+Radius = int(input("radius of cell: "))
+speed = int(input("speed: "))
 t = [[]]
 stack = []
 pygame.init()
@@ -38,7 +39,7 @@ class Cell:
             pygame.display.update()
             print("updated wallDown", self.position.y * Radius , self.position.y, Radius)
         if self.wallUp:
-            pygame.draw.rect(hWnd, (0,0,0), (self.position.x * Radius, self.position.y * Radius + Radius * 0.9, Radius, Radius * 0.1))
+            pygame.draw.rect(hWnd, (0,0,0), (self.position.x * Radius, self.position.y * Radius + Radius, Radius, Radius * 0.1))
             pygame.display.update()
             print("updated wallUp")
         if self.wallLeft:
@@ -46,7 +47,7 @@ class Cell:
             pygame.display.update()
             print("updated wallLeft")
         if self.wallRight:
-            pygame.draw.rect(hWnd, (0,0,0), (self.position.x * Radius + Radius * 0.9, self.position.y * Radius, Radius * 0.1, Radius))
+            pygame.draw.rect(hWnd, (0,0,0), (self.position.x * Radius + Radius, self.position.y * Radius, Radius * 0.1, Radius))
             pygame.display.update()
             print("updated wallRight")
 
@@ -130,7 +131,10 @@ n = 0
 
 while flag_run:
     n+=1
-    pygame.time.delay(200)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: 
+            break
+    pygame.time.delay(speed)
     var = ToNext()
     if var != 0:
         stack.append(var)
