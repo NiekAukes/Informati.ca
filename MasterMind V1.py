@@ -4,12 +4,18 @@ Antwoord = []
 Rondes = []
 Feedback = []
 slechtetekens = ",. ?!qwertyuiopasdfghjklzxcvbnm QWERTYUIOPASDFGHJKLZXCVBNM |\{\}[]\`~"
+geenDuplicates = 1
 for i in range(40):
     Rondes.append("#")
     Feedback.append("-")
 #Creëert random nummers:
-for i in range(4):
-    Antwoord.append(round(random.randint(0,5)))
+while(len(Antwoord) < 5):
+    k = round(random.randint(0,5))
+    if (geenDuplicates):
+        if (k not in Antwoord):
+            Antwoord.append(k)
+    else:
+        Antwoord.append(k)
 #print(Antwoord)
 def Input(gok):
     gok = gok.split()
