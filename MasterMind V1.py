@@ -4,12 +4,12 @@ Antwoord = []
 Rondes = []
 Feedback = []
 slechtetekens = ",. ?!qwertyuiopasdfghjklzxcvbnm QWERTYUIOPASDFGHJKLZXCVBNM |\{\}[]\`~"
-geenDuplicates = 1
+geenDuplicates = 0
 for i in range(40):
     Rondes.append("#")
     Feedback.append("-")
 #Creëert random nummers:
-while(len(Antwoord) < 5):
+while(len(Antwoord) < 4):
     k = round(random.randint(0,5))
     if (geenDuplicates):
         if (k not in Antwoord):
@@ -33,10 +33,8 @@ def GeefFeedback(cijfers):
     k = []
 
     colorset = set(Antwoord) #maakt een set voor de codes om te checken of de code in het antwoord zit
+    print(Antwoord)
     for i in range(4):
-        OnPlaceCurrentCode = 0 #flag voor correcte plaats
-        OnCurrentCode = 0 #flag voor correcte kleur
-
         #kijkt of er correcte picks zijn
         if (cijfers[i] == Antwoord[i]):
             output.append("#")
@@ -79,27 +77,9 @@ while(CurrentRound < 11):
         CurrentRound = 49
     CurrentRound += 1
 
-
 #Ronde 1:
 #CurrentRound += 1
 #gok1 = input("Geef een gokje voor de eerste ronde")
 #Input(gok1)
 #GeefFeedback([Rondes[0 + (CurrentRound * 4)], Rondes[1 + (CurrentRound * 4)] ,Rondes[2 + (CurrentRound * 4)] ,Rondes[3 + (CurrentRound * 4)]])
 #TekenSpeelgebied()
-##Ronde 2:
-#CurrentRound += 1
-##Ronde 3:
-#
-#Ronde 4:
-
-#Ronde 5:
-
-#Ronde 6:
-
-#Ronde 7:
-
-#Ronde 8:
-
-#Ronde 9:
-
-#Ronde 10:
