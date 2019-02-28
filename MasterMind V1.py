@@ -33,7 +33,6 @@ def GeefFeedback(cijfers):
     k = []
 
     colorset = set(Antwoord) #maakt een set voor de codes om te checken of de code in het antwoord zit
-    print(Antwoord)
     for i in range(4):
         #kijkt of er correcte picks zijn
         if (cijfers[i] == Antwoord[i]):
@@ -61,8 +60,7 @@ def TekenSpeelgebied():
     print("=========================")
 
 
-while(CurrentRound < 11):
-    
+while(CurrentRound < 10):
     gok = input("Geef een gokje voor ronde " + str(CurrentRound + 1) + ": ")
     Input(gok)
     f = GeefFeedback([Rondes[0 + (CurrentRound * 4)], Rondes[1 + (CurrentRound * 4)] ,Rondes[2 + (CurrentRound * 4)] ,Rondes[3 + (CurrentRound * 4)]])
@@ -76,7 +74,7 @@ while(CurrentRound < 11):
         Win()
         CurrentRound = 49
     CurrentRound += 1
-
+print(Antwoord)
 #Ronde 1:
 #CurrentRound += 1
 #gok1 = input("Geef een gokje voor de eerste ronde")
