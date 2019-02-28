@@ -3,14 +3,14 @@ CurrentRound = 0
 Antwoord = []
 Rondes = []
 Feedback = []
-slechtetekens = ",. ?!qwertyuiopasdfghjklzxcvbnm QWERTYUIOPASDFGHJKLZXCVBNM |{}[]\`~"
+slechtetekens = ",. ?!qwertyuiopasdfghjklzxcvbnm QWERTYUIOPASDFGHJKLZXCVBNM |\{\}[]\`~"
 for i in range(40):
     Rondes.append("#")
     Feedback.append("-")
 #Creëert random nummers:
 for i in range(4):
     Antwoord.append(round(random.randint(0,5)))
-
+#print(Antwoord)
 def Input(gok):
     gok = gok.split()
     for i in range(len(gok)):
@@ -18,12 +18,13 @@ def Input(gok):
             gok[i] = ""
         elif gok[i] not in slechtetekens:
             gok[i] = int(gok[i])
-            Rondes[i] = gok[i]
+            Rondes[i + (CurrentRound * 4)] = gok[i]
 
 def GeefFeedback(cijfers):
     #input: lijst met 4 cijfers
     #output: aantal goede cijfers en goed geplaatste cijfers
     output = []
+    k = []
 
     colorset = set(Antwoord) #maakt een set voor de codes om te checken of de code in het antwoord zit
     for i in range(4):
@@ -32,10 +33,14 @@ def GeefFeedback(cijfers):
 
         #kijkt of er correcte picks zijn
         if (cijfers[i] == Antwoord[i]):
-            Feedback[i + ((CurrentRound - 1)* 4)] = 0
+            output.append("#")
         elif (cijfers[i] in colorset):
-            Feedback[i + ((CurrentRound - 1)* 4)] = 1
-    return Feedback
+            k.append("&")
+    return output + k
+
+def Win():
+    print("U heeft gewonnen")
+    input("press enter to continue...")
 
 def TekenSpeelgebied():
     print("=========================")
@@ -52,17 +57,33 @@ def TekenSpeelgebied():
     print("=========================")
 
 
+while(CurrentRound < 11):
+    
+    gok = input("Geef een gokje voor ronde " + str(CurrentRound + 1) + ": ")
+    Input(gok)
+    f = GeefFeedback([Rondes[0 + (CurrentRound * 4)], Rondes[1 + (CurrentRound * 4)] ,Rondes[2 + (CurrentRound * 4)] ,Rondes[3 + (CurrentRound * 4)]])
+    counter = 0
+    for i in range(len(f)):
+        Feedback[i + (CurrentRound * 4)] = f[i]
+        if (f[i] == "#"):
+            counter += 1
+    TekenSpeelgebied()
+    if (counter == 4):
+        Win()
+        CurrentRound = 49
+    CurrentRound += 1
+
 
 #Ronde 1:
-CurrentRound += 1
-gok1 = input("Geef een gokje voor de eerste ronde")
-Input(gok1)
-GeefFeedback([Rondes[0], Rondes[1] ,Rondes[2] ,Rondes[3]])
-TekenSpeelgebied()
-#Ronde 2:
-CurrentRound += 1
-#Ronde 3:
-
+#CurrentRound += 1
+#gok1 = input("Geef een gokje voor de eerste ronde")
+#Input(gok1)
+#GeefFeedback([Rondes[0 + (CurrentRound * 4)], Rondes[1 + (CurrentRound * 4)] ,Rondes[2 + (CurrentRound * 4)] ,Rondes[3 + (CurrentRound * 4)]])
+#TekenSpeelgebied()
+##Ronde 2:
+#CurrentRound += 1
+##Ronde 3:
+#
 #Ronde 4:
 
 #Ronde 5:
