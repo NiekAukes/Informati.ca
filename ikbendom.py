@@ -14,3 +14,4 @@ for i in lijstje:
         x += 1
 
 print("Er zijn ",len(even),"even getallen en",len(oneven),"oneven getallen in.\nDe getallen zijn:\n",even,"\n",oneven)
+input()

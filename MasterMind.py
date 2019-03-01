@@ -1,17 +1,19 @@
 import random
 import os
 CurrentRound = 0
+AantalCodes = 6
+AantalRondes = 20
 Antwoord = []
 Rondes = []
 Feedback = []
-slechtetekens = ",. ?!qwertyuiopasdfghjklzxcvbnm QWERTYUIOPASDFGHJKLZXCVBNM |\{\}[]\`~"
-geenDuplicates = 0
-for i in range(40):
+slechtetekens = ",. ?!qwertyuiopasdfghjklzxcvbnm QWERTYUIOPASDFGHJKLZXCVBNM |\{\}[]\`~/\\"
+geenDuplicates = int(input("wel of geen zelfde cijfers? 0/1: "))
+for i in range(AantalRondes * 4):
     Rondes.append("#")
     Feedback.append("-")
 #Creëert random nummers:
 while(len(Antwoord) < 4):
-    k = round(random.randint(0,5))
+    k = round(random.randint(0,AantalCodes - 1))
     if (geenDuplicates):
         if (k not in Antwoord):
             Antwoord.append(k)
@@ -49,7 +51,7 @@ def Win():
 def TekenSpeelgebied():
     os.system('cls')
     print("   ==============================")
-    for i in range(10):
+    for i in range(AantalRondes):
         print(
         "   ",
         i + 1,
@@ -66,8 +68,8 @@ def TekenSpeelgebied():
         " |")
     print("   ==============================")
 
-
-while(CurrentRound < 10):
+TekenSpeelgebied()
+while(CurrentRound < AantalRondes):
     gok = input("Geef een gokje voor ronde " + str(CurrentRound + 1) + ": ")
     Input(gok)
     f = GeefFeedback([Rondes[0 + (CurrentRound * 4)], Rondes[1 + (CurrentRound * 4)] ,Rondes[2 + (CurrentRound * 4)] ,Rondes[3 + (CurrentRound * 4)]])
