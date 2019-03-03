@@ -1,28 +1,64 @@
 import random as rm
+import os
 
 #variables
 d2map = []
 seenmap = []
 maplength = 11
+AreasCleared = 9
 bombcount = 20
-
+Continue = 1
 letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+flag_char = "*"
+space_char = "#"
 #functions
 
 def printmap(mp):
-    print("\t  A  B  C  D  E  F  G  H  I  J  K")
+    #os.system('cls')
+    print("\t  0  1  2  3  4  5  6  7  8  9  10")
     print("\t==================================")
     for i in range(len(mp)):
-        k = str(i) + "\t| "
+        k = str(letter[i]) + "\t| "
         for j in range(len(mp[i])):
             k += str(mp[i][j]) + "  "
         print(k)
 
+def endGame(Win):
+    if (not Win):
+        Continue = 0
+        printmap(d2map)
+        printmap(seenmap)
+        input("you Lost, press enter to continue")
+    else:
+        pass
+
+def flagCell(x, y):
+    if not (x < 0 or x > maplength or y < 0 or y > maplength):
+        if (seenmap[x][y] != d2map[x][y]):
+            seenmap[x][y] = "*"
+
+def execCell(x, y):
+    if not (x < 0 or x > maplength or y < 0 or y > maplength):
+        if (seenmap[x][y] != d2map[x][y]):
+            if (d2map[x][y] == "b"):
+                print(x, y)
+                endGame(0)
+            elif (d2map[x][y] == 0):
+                for i in range(3):
+                    for j in range(3):
+                        if not (x + i < 0 or x + i >= maplength or y + j < 0 or y + j >= maplength or (j == 1 and i == 1)):
+                            print(x + i - 1, y + j - 1)
+                            execCell(x + i - 1, y + j - 1)
+                            seenmap[x][y] = d2map[x][y]
+            else:
+                seenmap[x][y] = d2map[x][y]
+
 def buildMap(Start):
-    y = letter.find(Start[0])
+    y = Start[0]
         
-    x = int(Start[1])
-    if (x < 1 or x > maplength - 1 or y < 1 or y > maplength - 1):
+    x = Start[1]
+    if (x <= 0 or x >= maplength or y <= 0 or y >= maplength):
         print("invalid character")
         return 0
     untouched = []
@@ -44,21 +80,24 @@ def buildMap(Start):
             if (d2map[i][j] != "b"):
                 for a in range(3):
                     for b in range(3):
-                        if i + a > 0 and i + a < maplength - 1 and j + b > 0 and j + b < maplength - 1:
+                        if not (a + i - 1 < 0 or a + i - 1 >= maplength or b + j - 1 < 0 or b + j - 1 >= maplength):
                             if d2map[a + i - 1][b + j - 1] == "b":
                                 count += 1
             
                 d2map[i][j] = count
     
     for i in untouched:
-        print(i[0],i[1])
-        print(seenmap)
-        seenmap[i[0]][i[1]] = d2map[i[0]][i[1]]
+        execCell(i[0], i[1])
         
 def Input(Message):
     st = input(Message)
     st = st.split()
-    return st
+    flag = 0
+    if (st[0] == "f"):
+        flag = 1
+    x = letter.find(st[-2])
+    y = int(st[-1])
+    return [x, y, flag]
                 
 
 
@@ -76,7 +115,11 @@ buildMap(start)
 printmap(d2map)
 printmap(seenmap)
 
-Continue = 1
 while Continue:
+    print(d2map)
     In = Input("Next Guess: ")
-    In
+    if (In[2] == 1):
+        flagCell(In[0], In[1])
+    else:
+        execCell(In[0], In[1])
+    printmap(seenmap)
