@@ -15,7 +15,7 @@ space_char = "#"
 #functions
 
 def printmap(mp):
-    #os.system('cls')
+    os.system('cls')
     print("\t  0  1  2  3  4  5  6  7  8  9  10")
     print("\t==================================")
     for i in range(len(mp)):
@@ -33,32 +33,44 @@ def endGame(Win):
     else:
         pass
 
-def flagCell(x, y):
-    if not (x < 0 or x > maplength or y < 0 or y > maplength):
+def flagCell(x, y, callback):
+    if not (x <= 0 or x >= maplength or y <= 0 or y >= maplength):
         if (seenmap[x][y] != d2map[x][y]):
-            seenmap[x][y] = "*"
+            if (seenmap[x][y] != "*"):
+                seenmap[x][y] = "*"
+            else:
+                seenmap[x][y] = "#"
+    if (callback != None):
+        callback(x, y)
 
-def execCell(x, y):
-    if not (x < 0 or x > maplength or y < 0 or y > maplength):
-        if (seenmap[x][y] != d2map[x][y]):
+def execCell(x, y, callback):
+    if not (x < 0 or x >= maplength or y < 0 or y > maplength):
+        if (seenmap[x][y] != d2map[x][y] and seenmap[x][y] != "*"):
             if (d2map[x][y] == "b"):
-                print(x, y)
                 endGame(0)
             elif (d2map[x][y] == 0):
                 for i in range(3):
                     for j in range(3):
-                        if not (x + i < 0 or x + i >= maplength or y + j < 0 or y + j >= maplength or (j == 1 and i == 1)):
-                            print(x + i - 1, y + j - 1)
-                            execCell(x + i - 1, y + j - 1)
+                        if not (x + i - 1 < 0 or x + i - 1 >= maplength or y + j - 1 < 0 or y + j - 1 >= maplength or (j == 1 and i == 1)):
+                            execCell(x + i - 1, y + j - 1, callback)
                             seenmap[x][y] = d2map[x][y]
             else:
                 seenmap[x][y] = d2map[x][y]
+    if (callback != None):
+        print("callback here")
+        callback(x, y)
 
-def buildMap(Start):
+def buildMap(Start, c):
+    for i in range(maplength):
+        d2map.append([])
+        seenmap.append([])
+        for j in range(maplength):
+            d2map[i].append("#")
+            seenmap[i].append("#")
     y = Start[0]
         
     x = Start[1]
-    if (x <= 0 or x >= maplength or y <= 0 or y >= maplength):
+    if (x < 0 or x > maplength or y < 0 or y > maplength):
         print("invalid character")
         return 0
     untouched = []
@@ -76,7 +88,6 @@ def buildMap(Start):
     for i in range(maplength):
         for j in range(maplength):
             count = 0
-            print(i, j, d2map[i][j] != "b")
             if (d2map[i][j] != "b"):
                 for a in range(3):
                     for b in range(3):
@@ -87,7 +98,7 @@ def buildMap(Start):
                 d2map[i][j] = count
     
     for i in untouched:
-        execCell(i[0], i[1])
+        execCell(i[0], i[1], callback=c)
         
 def Input(Message):
     st = input(Message)
@@ -102,24 +113,19 @@ def Input(Message):
 
 
 #executable
-for i in range(maplength):
-    d2map.append([])
-    seenmap.append([])
-    for j in range(maplength):
-        d2map[i].append("#")
-        seenmap[i].append("#")
 
-start = Input("what is your startingpoint: ")
-print(start)
-buildMap(start)
-printmap(d2map)
-printmap(seenmap)
-
-while Continue:
-    print(d2map)
-    In = Input("Next Guess: ")
-    if (In[2] == 1):
-        flagCell(In[0], In[1])
-    else:
-        execCell(In[0], In[1])
+if (__name__ == "__main__"):
+    start = Input("what is your startingpoint: ")
+    print(start)
+    buildMap(start, None)
+    printmap(d2map)
     printmap(seenmap)
+
+    while Continue:
+        In = Input("Next Guess: ")
+        print(In)
+        if (In[2] == 1):
+            flagCell(In[0], In[1])
+        else:
+            execCell(In[0], In[1], None)
+        printmap(seenmap)
