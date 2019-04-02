@@ -1,32 +1,33 @@
 import MineSweeper as ms
 import tkinter as tk
 
-CellLength = 20
-ScreenLength = 500
-ms.maplength = ScreenLength // CellLength
+CellLength = 32
+ScreenLength = 800
+ms.maplength = int(ScreenLength // CellLength)
 ms.bombcount = 100
 CellList = []
 
 
 root = tk.Tk()
-root.geometry("500x500")
+root.geometry(str(ScreenLength) + "x" + str(ScreenLength))
 
 First = 1
-canvas = tk.Canvas(root, width=500, height=500)
+canvas = tk.Canvas(root, width=ScreenLength, height=ScreenLength)
 canvas.pack()
 
 
-one = tk.PhotoImage(file="Src/One.gif").subsample(96, 96)
-two = tk.PhotoImage(file="Src/Two.gif").subsample(64, 64)
-three = tk.PhotoImage(file="Src/Three.gif").subsample(16, 16)
-four = tk.PhotoImage(file="Src/Four.gif").subsample(64, 64)
-flag = tk.PhotoImage(file="Src/golf_flag.gif").subsample(16, 16)
+one = tk.PhotoImage(file="Src/One.gif").subsample(int(ScreenLength // 12.5))
+two = tk.PhotoImage(file="Src/Two.gif").subsample(int(ScreenLength // 16.6))
+three = tk.PhotoImage(file="Src/Three.gif").subsample(int(ScreenLength // 66.6))
+four = tk.PhotoImage(file="Src/Four.gif").subsample(int(ScreenLength // 16.6))
+flag = tk.PhotoImage(file="Src/golf_flag.gif").subsample(int(ScreenLength // 100))
 imageSelector = {
     0: None,
     1: one,
     2: two,
     3: three,
     4: four,
+    5: None,
     "*": flag
 }
 
@@ -38,14 +39,14 @@ def Draw(x, y):
     if (j != "#"):
         print(imageSelector[j], x, y)
         if (j == 0):
-            canvas.create_rectangle(y * 20, x * 20, y * 20 + 20, x * 20 + 20, fill='gray20')
+            canvas.create_rectangle(y * 32, x * 32, y * 32 + 32, x * 32 + 32, fill='gray20')
         else:
             if (j != "*"):
-                canvas.create_rectangle(y * 20, x * 20, y * 20 + 20, x * 20 + 20, fill='gray20')
-            canvas.create_image([y * 20 + 10, x * 20 + 10], image=imageSelector[j])
+                canvas.create_rectangle(y * 32, x * 32, y * 32 + 32, x * 32 + 32, fill='gray20')
+            canvas.create_image([y * 32 + 16, x * 32 + 16], image=imageSelector[j])
             #canvas.create_rectangle(y * 20, x * 20, y * 20 + 20, x * 20 + 20, fill=tempimg[j])
     else:
-        canvas.create_rectangle(y * 20, x * 20, y * 20 + 20, x * 20 + 20, fill='grey')
+        canvas.create_rectangle(y * 32, x * 32, y * 32 + 32, x * 32 + 32, fill='grey')
                         
 
 def LMB(event):

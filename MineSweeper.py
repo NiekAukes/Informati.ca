@@ -73,10 +73,12 @@ def buildMap(Start, c):
     if (x < 0 or x > maplength or y < 0 or y > maplength):
         print("invalid character")
         return 0
+
     untouched = []
     for i in range(3):
         for j in range(3):
             untouched.append([x + i - 1,y + j - 1])
+
     count = 0
     while (count < bombcount):
         xcalc = rm.randint(0,maplength-1)
@@ -108,7 +110,7 @@ def Input(Message):
         flag = 1
     x = letter.find(st[-2])
     y = int(st[-1])
-    return [x, y, flag]
+    return [y, x, flag]
                 
 
 
@@ -125,7 +127,7 @@ if (__name__ == "__main__"):
         In = Input("Next Guess: ")
         print(In)
         if (In[2] == 1):
-            flagCell(In[0], In[1])
+            flagCell(In[0], In[1], None)
         else:
             execCell(In[0], In[1], None)
         printmap(seenmap)
