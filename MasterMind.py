@@ -2,12 +2,11 @@ import random
 import os
 CurrentRound = 0
 AantalCodes = 6
-AantalRondes = 20
+AantalRondes = 12
 Antwoord = []
 Rondes = []
 Feedback = []
 goedetekens = "012345"
-geraden = []
 geenDuplicates = input("wel of geen zelfde cijfers? y/n: ")
 for i in range(AantalRondes * 4):
     Rondes.append("#")
@@ -35,20 +34,21 @@ def GeefFeedback(cijfers):
     #output: aantal goede cijfers en goed geplaatste cijfers
     output = []
     k = []
+    geraden = []
 
     colorset = set(Antwoord) #maakt een set voor de codes om te checken of de code in het antwoord zit
     for i in range(4):
         #kijkt of er correcte picks zijn
         if (cijfers[i] == Antwoord[i]):
             output.append("#")
-            geraden.append(cijfers[i])
             cijfers[i] = None
         elif (cijfers[i] in colorset):
             k.append("&")
             geraden.append(cijfers[i])
-            for i in range(4):
-                if cijfers[i] in geraden and cijfers[i] != None:
-                        cijfers[i] = None
+            for j in range(4):
+                if cijfers[j] in geraden and cijfers[j] != None:
+                    geraden.append(cijfers[j])
+                    cijfers[j] = None
     return output + k
 
 def Win():
@@ -56,7 +56,7 @@ def Win():
     input("press enter to continue...")
 
 def TekenSpeelgebied():
-    os.system('cls')
+    #os.system('cls')
     print("   ==============================")
     for i in range(AantalRondes):
         print(
