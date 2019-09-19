@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Autodinges",
+    "\\Autodinges\\App",
+    "\\Autodinges\\App\\Auto Besturing",
+    "\\Autodinges\\App\\Auto Besturing\\Auto Besturing"
   ],
-  "SelectedNode": "\\PascalTriangle.py",
+  "SelectedNode": "\\Autodinges\\App\\Auto Besturing\\Auto Besturing\\App.xaml.cs",
   "PreviewInSolutionExplorer": false
 }
