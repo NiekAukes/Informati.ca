@@ -1,11 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Autodinges",
     "\\Autodinges\\App",
-    "\\Autodinges\\App\\Auto Besturing",
-    "\\Autodinges\\App\\Auto Besturing\\Auto Besturing"
+    "\\Autodinges\\App\\Auto Besturing"
   ],
-  "SelectedNode": "\\Autodinges\\App\\Auto Besturing\\Auto Besturing\\App.xaml.cs",
+  "SelectedNode": "\\Autodinges",
   "PreviewInSolutionExplorer": false
 }
