@@ -1,0 +1,10 @@
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing\bin\Debug\netstandard2.0\Auto Besturing.deps.json
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing\bin\Debug\netstandard2.0\Auto Besturing.dll
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing\obj\Debug\netstandard2.0\Auto Besturing.csprojAssemblyReference.cache
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing\obj\Debug\netstandard2.0\Auto Besturing.csproj.CoreCompileInputs.cache
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing\obj\Debug\netstandard2.0\Auto Besturing.AssemblyInfoInputs.cache
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing\obj\Debug\netstandard2.0\Auto Besturing.AssemblyInfo.cs
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing\bin\Debug\netstandard2.0\Auto Besturing.pdb
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing\obj\Debug\netstandard2.0\Auto Besturing.dll
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing\obj\Debug\netstandard2.0\Auto Besturing.pdb
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing\obj\Debug\netstandard2.0\XamlC.stamp
