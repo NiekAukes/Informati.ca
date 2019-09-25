@@ -25,16 +25,24 @@ namespace Auto_Besturing
         public bool Up = false;
         public bool Down = false;
         //When a value is between -50 & -25 or 25 & 50, the value is locked.
-        int[] MotorData = { 0, 0, 0, 0 }; // {LeftUp, LeftDown, RightUp, RightDown}
+        public int[] MotorData = { 0, 0, 0, 0 }; // {LeftUp, LeftDown, RightUp, RightDown}
         //BTConnection BtConnection = new BTConnection("40:A3:CC:03:E1:29");
         BTConnection BtConnection;
         public MainPage()
         {
+            //Bluetooth Initialization
             InitializeComponent();
             BtConnection = new BTConnection();
             Android.Util.Log.Info("friendly", "BBuildit"+ 527);
             Thread UpdateThread = new Thread(new ThreadStart(WhileActive));
             UpdateThread.Start();
+
+            //Page Initialization
+            DevicePick.Items.Add("None");
+            foreach (string s in BtConnection.GetDeviceNames())
+            {
+                DevicePick.Items.Add(s);
+            }
         }
 
         public void WhileActive()
@@ -42,22 +50,26 @@ namespace Auto_Besturing
             int times = 0;
             while (true)
             {
-                //Android.Util.Log.Info("friendly", "MotorData: " + string.Join(", ", MotorData));
+                Android.Util.Log.Info("friendly", "MotorData: " + string.Join(", ", MotorData));
 
                 try
                 {
+                    if (!BtConnection.IsActive)
+                    {
+                        BtConnection = new BTConnection();
+                    }
                     times++;
                     MotorData = new int[4] { 0, 0, 0, 0 };
                     if (Left)
                     {
                         //lock Left Motors to 0
-                        MotorData[0] = 25;
+                        //MotorData[0] = 25;
                         MotorData[1] = 25;
                     }
                     if (Right)
                     {
                         //lock Right Motors to 0
-                        MotorData[2] = 25;
+                        //MotorData[2] = 25;
                         MotorData[3] = 25;
                     }
                     for (int i = 0; i < 4; i++)
@@ -88,7 +100,7 @@ namespace Auto_Besturing
                 }
                 catch (Exception e)
                 {
-                    throw e;
+                    throw new Exception(e.StackTrace);
                 }
             }
         }

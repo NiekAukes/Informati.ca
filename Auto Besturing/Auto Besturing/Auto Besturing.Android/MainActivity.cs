@@ -10,9 +10,11 @@ using Android.OS;
 
 namespace Auto_Besturing.Droid
 {
+
     [Activity(Label = "Auto_Besturing", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        public static Xamarin.Forms.Application appl;
         public static AlertDialog.Builder alert;
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -24,7 +26,9 @@ namespace Auto_Besturing.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             RequestPermissions(new string[] { Manifest.Permission.Bluetooth }, 1);
-            LoadApplication(application: new App());
+
+            appl = new App();
+            LoadApplication(application: appl);
             
 
             alert = new AlertDialog.Builder(this);
@@ -39,5 +43,20 @@ namespace Auto_Besturing.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
+        public static void CloseApplication()
+        {
+            System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
+        }
+        public static void CloseApplication(string title, string message, string cancel)
+        {
+            if (appl != null)
+            {
+                appl.MainPage.DisplayAlert(title, message, cancel);
+                System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
+            }
+        }
     }
+
+
 }

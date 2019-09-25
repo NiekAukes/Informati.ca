@@ -16,6 +16,11 @@
             <Button Text="Down" Pressed="DownPressHandler" Released="DownReleaseHandler" />
             <Button Text="Right" Pressed="RightPressHandler" Released="RightReleaseHandler" />
         </StackLayout>
-        </AbsoluteLayout>
+        <Picker x:Name="DevicePick" AbsoluteLayout.LayoutBounds="0.5,0.75,300,80" AbsoluteLayout.LayoutFlags="PositionProportional" Title="Pick Device" TitleColor="Black">
+            <Picker.Items>
+                <x:String>None</x:String>
+            </Picker.Items>
+        </Picker>
+    </AbsoluteLayout>
 
 </ContentPage>
