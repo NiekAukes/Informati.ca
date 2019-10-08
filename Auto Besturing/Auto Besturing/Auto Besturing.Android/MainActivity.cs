@@ -25,7 +25,8 @@ namespace Auto_Besturing.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            RequestPermissions(new string[] { Manifest.Permission.Bluetooth }, 1);
+            //RequestPermissions(new string[] { Manifest.Permission.Bluetooth, Manifest.Permission.BluetoothAdmin }, 1);
+
 
             appl = new App();
             LoadApplication(application: appl);
@@ -43,15 +44,16 @@ namespace Auto_Besturing.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-
         public static void CloseApplication()
         {
             System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
         }
-        public static void CloseApplication(string title, string message, string cancel)
+        public static void CloseApplication(string title, string message, string cancel, Android.Bluetooth.BluetoothAdapter adapter)
         {
             if (appl != null)
             {
+                if (adapter.IsDiscovering)
+                    adapter.CancelDiscovery();
                 appl.MainPage.DisplayAlert(title, message, cancel);
                 System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
             }

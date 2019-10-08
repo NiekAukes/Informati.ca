@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Auto_Besturing.Droid;
+using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
-using Android;
-using Android.App;
 using Xamarin.Forms;
-using Auto_Besturing.Droid;
 //using BTFrame;
 
 namespace Auto_Besturing
@@ -18,31 +12,57 @@ namespace Auto_Besturing
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
+        enum BTCodeOut
+        {
+            Null,
+            Faulty,
+            AutoSetup,
+            ManualSetup,
+            Stop,
+            Forward,
+            Backward,
+            Left,
+            Right,
+            AccelerationRange = 20, //To 120
+            TBD = 121
+        }
+        enum BTCodeIn
+        {
+            Null,
+            Faulty,
+            ServoAngleRange=2, // To 32
+            MeterValueRange=33, // To 232
+            TBD = 233
+        }
 
-        
+        public int selectedIndex = 0;
+        public float Speed = 0.0f;
         public bool Left = false;
         public bool Right = false;
         public bool Up = false;
         public bool Down = false;
-        //When a value is between -50 & -25 or 25 & 50, the value is locked.
-        public int[] MotorData = { 0, 0, 0, 0 }; // {LeftUp, LeftDown, RightUp, RightDown}
         //BTConnection BtConnection = new BTConnection("40:A3:CC:03:E1:29");
-        BTConnection BtConnection;
+        public static BTConnection BtConnection;
         public MainPage()
         {
             //Bluetooth Initialization
             InitializeComponent();
-            BtConnection = new BTConnection();
+            BtConnection = new BTConnection(this);
+
+            if (BtConnection.GetDeviceNames().Count > 0)
+                DevicePick.Items.Add(BtConnection.GetDeviceNames()[0]);
+            for (int i = 1; i < BtConnection.GetDeviceNames().Count; i++)
+            {
+                DevicePick.Items.Add(BtConnection.GetDeviceNames()[i]);
+            }
+
+            DisplayLog displayLog = new DisplayLog(500);
+            displayLog.LogEntry("test entry");
+
             Android.Util.Log.Info("friendly", "BBuildit"+ 527);
             Thread UpdateThread = new Thread(new ThreadStart(WhileActive));
             UpdateThread.Start();
 
-            //Page Initialization
-            DevicePick.Items.Add("None");
-            foreach (string s in BtConnection.GetDeviceNames())
-            {
-                DevicePick.Items.Add(s);
-            }
         }
 
         public void WhileActive()
@@ -50,52 +70,29 @@ namespace Auto_Besturing
             int times = 0;
             while (true)
             {
-                Android.Util.Log.Info("friendly", "MotorData: " + string.Join(", ", MotorData));
-
                 try
                 {
-                    if (!BtConnection.IsActive)
-                    {
-                        BtConnection = new BTConnection();
-                    }
                     times++;
-                    MotorData = new int[4] { 0, 0, 0, 0 };
-                    if (Left)
-                    {
-                        //lock Left Motors to 0
-                        //MotorData[0] = 25;
-                        MotorData[1] = 25;
-                    }
-                    if (Right)
-                    {
-                        //lock Right Motors to 0
-                        //MotorData[2] = 25;
-                        MotorData[3] = 25;
-                    }
-                    for (int i = 0; i < 4; i++)
-                    {
-                        if (MotorData[i] > -25 && MotorData[i] < 25 && (Up || Down)) // if forward or backward and not locked
-                        {
-                            MotorData[i] = 24;
-                        }
-                        else // if locked or not forward/backward
-                        {
-                            MotorData[i] = 0;
-                        } 
 
-                        MotorData[i] = Down ? -MotorData[i] : MotorData[i];
-                    }
-
+                    //Sends Data Corresponding to The Send Queue
                     if (BtConnection.SendData.Count < 40)
                     {
-                        //MotorData Send
-                        for (int i = 0; i < 4; i++)
-                        {
-                            BtConnection.SendData.Enqueue(MotorData[i] % 25 + 25 + 56 + 50 * i);
-                            //MotorData[i] % 25 (Get value between -24 and 24) + 24 (no negatives) + 56 (Async Offset for motors) + 50 * i (Individual Motor offset)
-                        }
+
+                        if (Up)
+                            BtConnection.SendData.Enqueue((int)BTCodeOut.Forward);
+                        else if (Down)
+                            BtConnection.SendData.Enqueue((int)BTCodeOut.Backward);
+                        else if (Left)
+                            BtConnection.SendData.Enqueue((int)BTCodeOut.Left);
+                        else if (Right)
+                            BtConnection.SendData.Enqueue((int)BTCodeOut.Right);
+                        else
+                            BtConnection.SendData.Enqueue((int)BTCodeOut.Stop);
+
+
                     }
-                    Thread.Sleep(10);
+
+                    Thread.Sleep(5);
 
                 }
                 catch (Exception e)
@@ -140,5 +137,53 @@ namespace Auto_Besturing
             Down = false;
         }
         #endregion PressHandlers
+
+        private void DevicePick_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedIndex = ((Picker)sender).SelectedIndex - 1;
+            Android.Util.Log.Debug("friendly", "New Bt Device: " + BtConnection.ConnectedDevice.Name);
+        }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            BtConnection = new BTConnection(this, selectedIndex);
+        }
+    }
+
+    class DisplayLog : Entry
+    {
+        string[] LogEntries = new string[500];
+        public DisplayLog(double height, bool isEnabled = true, bool isReadOnly = true)
+        {
+            IsEnabled = isEnabled;
+            IsReadOnly = isReadOnly;
+            HeightRequest = height;
+        }
+        public void ShowLog()
+        {
+            IsEnabled = false;
+        }
+        public void LogEntry(object entry, int sendcode = 0)
+        {
+            bool EnteredLog = false;
+            for (int i = 0;i < LogEntries.Length; i++)
+            {
+                if (LogEntries[i] == null)
+                {
+                    EnteredLog = true;
+                    LogEntries[i] = string.Format("", entry);
+                } 
+            }
+            if (!EnteredLog)
+            {
+                //Log list is full
+                for (int i = 0; i < LogEntries.Length - 1; i++)
+                {
+                    LogEntries[i] = LogEntries[i + 1];
+                }
+                LogEntries[500] = string.Format("", entry);
+            }
+            this.Text = string.Format("", LogEntries);
+        }
     }
 }

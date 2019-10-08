@@ -504,3 +504,4 @@ C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.An
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Plugin.Bluetooth.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\MainPage.xaml.g.cs
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\App.xaml.g.cs
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTConnection_mBroadcastReceiver1.java
