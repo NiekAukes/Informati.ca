@@ -25,7 +25,7 @@ namespace Auto_Besturing.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            //RequestPermissions(new string[] { Manifest.Permission.Bluetooth, Manifest.Permission.BluetoothAdmin }, 1);
+            RequestPermissions(new string[] { Manifest.Permission.Bluetooth, Manifest.Permission.BluetoothAdmin, Manifest.Permission.BluetoothPrivileged, Manifest.Permission.AccessCoarseLocation, Manifest.Permission.AccessFineLocation }, 1);
 
 
             appl = new App();

@@ -21,35 +21,43 @@ namespace Auto_Besturing.Droid
 {
     public class BTConnection
     {
+        [BroadcastReceiver(Enabled = true, Label = "receiver")]
         public class mBroadcastReceiver1 : BroadcastReceiver
         {
-            public BTConnection connection;
-            public mBroadcastReceiver1(BTConnection bTConnection)
+            public mBroadcastReceiver1()
             {
-                connection = bTConnection;
+                Log.Info("friendly", "Created Listener");
             }
             public override void OnReceive(Context context, Intent intent)
             {
-                if (BluetoothDevice.ActionFound.Equals(intent.Action))
+                if (BluetoothDevice.ActionFound == intent.Action)
                 {
                     //bluetoothdevice found
                     object device = intent.GetParcelableExtra(BluetoothDevice.ExtraDevice);
-                    connection.Actpage.DisplayAlert("tst", (string)device, "Ok");
-                    Log.Info("friendly", "Device: " + device + "tst name");
-                    connection.Devices.Add((BluetoothDevice)device);
+                    Log.Info("friendly", "Device: " + string.Format("",device));
+                    BTConnection.Devices.Add(BTConnection.bluetoothAdapter.GetRemoteDevice(string.Format("",device)));
                 }
-                connection.Actpage.DisplayAlert("found one", "Found one", "FO");
+                Log.Info("friendly", "Action Registered: " + intent.Action);
+            }
+        }
+
+        public class mScanFallback : Android.Bluetooth.LE.ScanCallback
+        {
+            public mScanFallback()
+            {
+
             }
         }
 
         public MainPage Actpage;
-        public static mBroadcastReceiver1 mbroadcastReceiver1;
+        public static BroadcastReceiver mbroadcastReceiver1;
+        public IntentFilter DeviceFoundFilter = new IntentFilter(BluetoothDevice.ActionFound);
         public bool IsActive { get; private set; }
         public Queue<int> SendData = new Queue<int>();
-        public BluetoothAdapter bluetoothAdapter;
+        public static BluetoothAdapter bluetoothAdapter;
         public BluetoothDevice ConnectedDevice;
         BluetoothSocket socket;
-        List<BluetoothDevice> Devices;
+        public static List<BluetoothDevice> Devices;
         public Stream OutStream;
         public BTConnection(MainPage page)
         {
@@ -59,20 +67,24 @@ namespace Auto_Besturing.Droid
             Devices = new List<BluetoothDevice>();
             //Devices = new List<BluetoothDevice>(bluetoothAdapter.BondedDevices);
 
+            //create broadcast receiver and register it
+            mbroadcastReceiver1 = new mBroadcastReceiver1();
+            Application.Context.RegisterReceiver(mbroadcastReceiver1, DeviceFoundFilter);
 
+            //start discovery if not already discovering
+            
 
-            //if (bluetoothAdapter.IsDiscovering)
-            //{
-             //   bluetoothAdapter.CancelDiscovery();
-            //}
-            bluetoothAdapter.StartDiscovery();
-
-            mbroadcastReceiver1 = new mBroadcastReceiver1(this);
-
-            Android.App.Application.Context.RegisterReceiver(mbroadcastReceiver1, new IntentFilter(BluetoothDevice.ActionFound));
+            //set placeholder for ConnectedDevice
             if (Devices != null && Devices.Count > 0)
                 ConnectedDevice = Devices[0];
 
+            if (bluetoothAdapter.IsDiscovering)
+            {
+                bluetoothAdapter.CancelDiscovery();
+            }
+            bluetoothAdapter.BluetoothLeScanner.StartScan(new mScanFallback());
+            if (bluetoothAdapter.StartDiscovery())
+                Log.Info("friendly", "Discovering: " + bluetoothAdapter.IsDiscovering);
         }
         public BTConnection(string MacAdress)
         {
