@@ -42,7 +42,6 @@ int DriveAcceleration = 40; //-100 t/m 100
 int SteerAcceleration = 0; //-100 t/m 100
 Servo UltraServo;
 
-
 enum States {
     Null,//0
     Faulty,//1
@@ -51,11 +50,14 @@ enum States {
     Stop,//4
     Forward,//5
     Backward,//6
-    Left,
-    Right,
-    Servo20deg,
-    Servo90deg,
-    Servo160deg,
+    Left,//7
+    Right,//8
+    Servo20deg,//9
+    Servo90deg,//10
+    Servo160deg,//11
+    BeginAccelerationRange = 12,
+    EndAccelerationRange = 111,
+    Test
   };
 
 States inBit = Null;
@@ -95,14 +97,19 @@ void carAccelerate(int DriveAcceleration, int SteerAcceleration){
         digitalWrite(IN4, HIGH);//right motors forward = true
       }
       else if(SteerAcceleration > 0){ //if the car needs to go right:
-        //go right
+        analogWrite(ENA, (int)(SteerAcceleration*2.55));
+        analogWrite(ENB, (int)(SteerAcceleration*2.55));
+        digitalWrite(IN1,HIGH);//left motors forward = true
+        digitalWrite(IN2,LOW);
+        digitalWrite(IN3,HIGH);//right motors backward = true
+        digitalWrite(IN4,LOW);
       }
     }
   else{
     //do nothing
     }
   }
-void fwd(int carSpeed){//movement
+/* fwd(int carSpeed){//movement
   analogWrite(ENA, carSpeed);
   analogWrite(ENB, carSpeed);
   digitalWrite(IN1, HIGH);
@@ -152,7 +159,7 @@ void motorTest(){
   bwd(carSpeed);
   delay(1000);
   stp();
-}
+}*/
 void getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manual/auto switch
   if (Serial.available()){ // als er bits beschikbaar zijn
     inBit = (States)Serial.read();
@@ -195,11 +202,14 @@ void getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manu
       UltraServo.write(160);
       inBit = Null;
     }
+    else if(inBit >= BeginAccelerationRange && inBit <= EndAccelerationRange){  //so the total acceleration range is 100 bits
+      DriveAcceleration = (inBit - BeginAccelerationRange); //Subtract inBit by begin of array, so the range is exactly an int ranging from 0 to 100. The conversion from 0-100 to 0-255 happens in the carAccelerate function.
+    }
   }
-  delay(20);
+  delay(20); //Insert delay so that the code won't run too fast, which isn't very useful
 }
 void setup() {
-  Serial.begin(9600); //or 9600 baud
+  Serial.begin(9600); //serial bit rate of 9600 baud
   UltraServo.attach(3);
   pinMode(IN1, OUTPUT); 
   pinMode(IN2, OUTPUT);
@@ -208,7 +218,7 @@ void setup() {
   pinMode(ENA, OUTPUT);
   pinMode(ENB, OUTPUT);
   //motorTest();
-  servoValue = 90;
+  servoValue = 90; //set the servo value to straight ahead (90 degrees)
   UltraServo.write(servoValue); 
    
 }
@@ -263,5 +273,4 @@ void loop() {
     UltraServo.write(90);
   }*/
    Serial.println("state is " + (char)(state));
-  }
-    
+  } 
