@@ -26,8 +26,24 @@
 //  HIGH        HIGH            LOW         Motor is on and turning backwards
 //  HIGH        HIGH            HIGH        Motor is stopped (brakes) 
 // carAccelerate(float DriveAcceleration, float SteerAcceleration){}
+
+
+
+            //=====================================================\\
+           //       60deg           90deg          120deg           \\
+          //           60deg        90deg        120deg              \\
+         //               60deg     90deg      120deg                 \\
+        //                   60deg           120deg                    \\
+       //    20deg       20deg     ▄__▄     160deg          160deg     \\
+      //                    /=====/SENSOR\====\                          \\
+     //                    /''''''\______/'''''\                          \\
+    //                    |'''''''''CAR''''''''|                           \\
+   //                     |'''''''''CAR''''''''|                            \\
+  //                     /''''''''''CAR'''''''''\                            \\
+ //                     |'''''''''''CAR''''''''''|                            \\
+//=============================================================================\\
 #include <SoftwareSerial.h>
-//#include <IRremote.h> 
+//#include <IRremote.h>
 #include <Servo.h>
 #define ENA 6
 #define ENB 5
@@ -38,36 +54,35 @@
 #define triggerPin A5
 #define echoPin A4
 #define readDistance = A4
+long duration,distance;
+int MaxDistance = 300; //IN CENTIMETRES
 Servo UltraServo;
 char tst = 0x00000000;
 int state = 0;
 int servoValue = 90;
 //Voor de afstandssensor:
-long duration;
-int distance;
 int DriveAcceleration = 0; //-100 t/m 100
 int SteerAcceleration = 0; //-100 t/m 100
 
 
 enum States {
-    Null,//0
-    Faulty,//1
-    Manual,//2
-    Auto,//3
-    Stop = 52,//4
-    Forward = 53,//5
-    Backward = 54,//6
-    Left = 55,//7
-    Right = 56,//8
-    Servo20deg = 57,//9
-    Servo60deg = 58,//:
-    Servo90deg = 59,//;
-    Servo120deg = 60,//<
-    Servo160deg = 61,//=
+    Null,//00 hex
+    Faulty,//01 hex
+    Manual,//02 hex
+    Auto,//03 hex
+    Stop,//04 hex
+    Forward,//05 hex
+    Backward,//06 hex
+    Left,//07 hex
+    Right,//08 hex
+    Servo20deg = 57,//9 symbol 
+    Servo60deg = 58,//: symbol
+    Servo90deg = 59,//; symbol
+    Servo120deg = 60,//< symbol
+    Servo160deg = 61,//= symbol
     BeginAccelerationRange = 12,
     EndAccelerationRange = 112
   };
-
 States inBit = Null;
 
 void carAccelerate(int carSpeed, int steerSpeed){ 
@@ -114,44 +129,48 @@ void carAccelerate(int carSpeed, int steerSpeed){
         digitalWrite(IN3,HIGH);//right motors backward = true
         digitalWrite(IN4,LOW);
       }
-    }
   else{
     //do nothing
     }
   }
-bool GetDistance(int *returnvalue){
-  digitalWrite(triggerPin, LOW);
+}
+bool GetDistance(int *returnvalue){ //sensor is triggered by HIGH pulse more or equal than 10 microseconds
+  digitalWrite(triggerPin, LOW); //to ensure clean high pulse
   delayMicroseconds(5);
 
   digitalWrite(triggerPin, HIGH);
   delayMicroseconds(10);
   digitalWrite(triggerPin, LOW);
+
   duration = pulseIn(echoPin, HIGH);
-  distance = duration*0.034/2;
-  *returnvalue = distance;
+  
+  distance =(duration/2) * 0.0343/*=speed of sound in cm/microsecond*/; //in centimetres
+  returnvalue = distance;
   Serial.print("Distance: ");
   Serial.print(distance);
   Serial.print(".");
   return true;
 }
-void SelfDrive(){ //set servo to x deg, read pins of distance sensor, make "decision" (which side to go)
-  int distance20;
-  int distance60;
-  int distance90;
-  int distance120;
+
+void SelfDrive(){
+  int distance20;   //                Wall       //                 //                 //                     //       Wall                   ETC.
+  int distance60;   //          Wall  |--|  Wall //    Wall Wall    //  Wall   Wall    //  Wall        Wall   //            Wall              ETC.
+  int distance90;   //                           //    |--| Wall    //  Wall   |--|    //  Wall  |--|  Wall   //     |--|   Wall              ETC.
+  int distance120;  // |--|=car    go backward   //   go left       //       go right  //     go forward      //go fwd with 30deg left turn   ETC.
   int distance160;
-  UltraServo.write(20);
+                                       
+  UltraServo.write(20);               
   GetDistance(&distance20);
   UltraServo.write(60);
   GetDistance(&distance60);
   UltraServo.write(90);
-  GetDistance(&distance190);
+  GetDistance(&distance160);
   UltraServo.write(120);
   GetDistance(&distance120);
   UltraServo.write(160);
   GetDistance(&distance160);
 
-  //if statements
+  
 }
 
 void getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manual/auto switch
@@ -225,7 +244,8 @@ void getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manu
   }
   delay(20); //Insert delay so that the code won't run too fast, which isn't very useful
 }
-void setup() {
+
+void setup(){
   Serial.begin(9600); //serial bit rate of 9600 baud
   UltraServo.attach(3);
   pinMode(IN1, OUTPUT); 
@@ -242,4 +262,4 @@ void setup() {
 
 void loop() {
   getBTdata();
-  } 
+}
