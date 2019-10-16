@@ -17,7 +17,7 @@
             <Button Text="Right" Pressed="RightPressHandler" Released="RightReleaseHandler" />
         </StackLayout>
         <Picker x:Name="DevicePick" AbsoluteLayout.LayoutBounds="0.5,0.75,300,80" AbsoluteLayout.LayoutFlags="PositionProportional" VerticalOptions = "LayoutOptions.CenterAndExpand"
-                Title="Pick Device" TitleColor="Black" SelectedIndexChanged="DevicePick_SelectedIndexChanged">
+                Title="Pick Device" TitleColor="Black" SelectedIndexChanged="DevicePick_SelectedIndexChanged" Focused="RefreshBTAvailable">
             <Picker.Items>
                 <x:String>None</x:String>
             </Picker.Items>

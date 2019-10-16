@@ -15,10 +15,11 @@ using Android.Widget;
 using Android.Bluetooth;
 using Android.Net;
 using Android.Util;
-
+using Android.Bluetooth.LE;
 
 namespace Auto_Besturing.Droid
 {
+    [Obsolete("Use BTService class to access bluetooth")]
     public class BTConnection
     {
         [BroadcastReceiver(Enabled = true, Label = "receiver")]
@@ -34,8 +35,9 @@ namespace Auto_Besturing.Droid
                 {
                     //bluetoothdevice found
                     object device = intent.GetParcelableExtra(BluetoothDevice.ExtraDevice);
-                    Log.Info("friendly", "Device: " + string.Format("",device));
-                    BTConnection.Devices.Add(BTConnection.bluetoothAdapter.GetRemoteDevice(string.Format("",device)));
+                    BluetoothDevice detectedDevice = BTConnection.bluetoothAdapter.GetRemoteDevice(device.ToString());
+                    BTConnection.Devices.Add(detectedDevice);
+                    Log.Info("friendly", "Device: " + detectedDevice.Name);
                 }
                 Log.Info("friendly", "Action Registered: " + intent.Action);
             }
@@ -43,9 +45,10 @@ namespace Auto_Besturing.Droid
 
         public class mScanFallback : Android.Bluetooth.LE.ScanCallback
         {
-            public mScanFallback()
+            public override void OnScanResult([GeneratedEnum] ScanCallbackType callbackType, ScanResult result)
             {
-
+                base.OnScanResult(callbackType, result);
+                Devices.Add(result.Device);
             }
         }
 
@@ -72,7 +75,7 @@ namespace Auto_Besturing.Droid
             Application.Context.RegisterReceiver(mbroadcastReceiver1, DeviceFoundFilter);
 
             //start discovery if not already discovering
-            
+            Android.Bluetooth.LE.BluetoothLeScanner bluetoothLeScanner = bluetoothAdapter.BluetoothLeScanner;
 
             //set placeholder for ConnectedDevice
             if (Devices != null && Devices.Count > 0)
@@ -100,26 +103,12 @@ namespace Auto_Besturing.Droid
             Actpage = page;
 
             bluetoothAdapter = BluetoothAdapter.DefaultAdapter;
-            Devices = new List<BluetoothDevice>(bluetoothAdapter.BondedDevices);
-            /*if (bluetoothAdapter.IsDiscovering)
-            {
-                bluetoothAdapter.CancelDiscovery();
-            }
-            bluetoothAdapter.StartDiscovery();
 
-            try
+            if (Devices != null && Devices.Count > 0 && Devices[Number] != null)
             {
-                IntentFilter DiscoverIntentFilter = new IntentFilter(BluetoothDevice.ActionFound);
-                Intent DiscoverIntent = new Intent(BluetoothDevice.ActionFound);
-                Devices.Add(DiscoverIntent.GetParcelableExtra(BluetoothDevice.ExtraDevice) as BluetoothDevice);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }*/
-            if (Devices != null && Devices.Count > 0)
                 ConnectedDevice = Devices[Number];
-
+                Log.Info("friendly", "Device check: " + Devices[Number].Name + "  //  " + Number);
+            }
             if (!Initiate())
             {
                 IsActive = false;
@@ -131,48 +120,70 @@ namespace Auto_Besturing.Droid
         {
             if (ConnectedDevice != null)
             {
-                IsActive = true;
-                try
+                if (true) //if already connected
                 {
-                    ParcelUuid[] list = ConnectedDevice.GetUuids(); //Get Device UUID
-                    socket = ConnectedDevice.CreateInsecureRfcommSocketToServiceRecord(Java.Util.UUID.FromString(list[0].ToString())); //Create Socket with UUID
-                    Log.Info("friendly", "Device: " + ConnectedDevice.Name + " // " + list[0].ToString());
-
-                }
-                catch (System.Exception e)
-                {
-                    Log.Error("friendly", "create() failed", e);
-                    Actpage.DisplayAlert("UUID retrieval failed", "Could not retrieve UUID from device", "Ok");
-                    return false;
-                }
-                
-
-                //Log.Info("friendly", "Device: " + ConnectedDevice + " // " + socket);
-
-               try
-                {
-                    // This is a blocking call and will only return on a
-                    // successful connection or an exception
-                    socket.Connect();
-                }
-                catch (Exception e)
-                {
-                    // Close the socket
+                    IsActive = true;
                     try
                     {
-                        socket.Close();
-                        Actpage.DisplayAlert("Connecting failed", "Could not establish connection between device", "Ok");
+                        ConnectedDevice.FetchUuidsWithSdp();
+                        ParcelUuid[] list = ConnectedDevice.GetUuids(); //Get Device UUID
+
+                        Java.Util.UUID uuid = Java.Util.UUID.FromString(list[0].ToString());
+                        socket = ConnectedDevice.CreateInsecureRfcommSocketToServiceRecord(uuid); //Create Socket with UUID
+                        Log.Info("friendly", "Device: " + ConnectedDevice.Name + " // " + list[0].ToString());
+
                     }
-                    catch (Exception e2)
+                    catch (System.Exception e)
                     {
-                        Log.Error("friendly", $"unable to close() {socket.ConnectionType} socket during connection failure.", e2);
-                        Actpage.DisplayAlert("Fatal Error", "A Fatal error occured while running an operation", "Ok");
+                        Log.Error("friendly", "create() failed", e);
+                        Actpage.DisplayAlert("UUID retrieval failed", "Could not retrieve UUID from device", "Ok");
+                        return false;
                     }
-                    return false; // Could Not Establish connection. Try again by invoking Initiate
-                }
+
+
+                    //Log.Info("friendly", "Device: " + ConnectedDevice + " // " + socket);
+
+                    try
+                    {
+                        // This is a blocking call and will only return on a
+                        // successful connection or an exception
+                        socket.Connect();
+                    }
+                    catch (Exception e)
+                    {
+                        // Close the socket
+                        try
+                        {
+                            socket.Close();
+                            Actpage.DisplayAlert("Connecting failed", "Could not establish connection between device", "Ok");
+                        }
+                        catch (Exception e2)
+                        {
+                            Log.Error("friendly", $"unable to close() {socket.ConnectionType} socket during connection failure.", e2);
+                            Actpage.DisplayAlert("Fatal Error", "A Fatal error occured while running an operation", "Ok");
+                        }
+                        return false; // Could Not Establish connection. Try again by invoking Initiate
+                    }
                     OutStream = socket.OutputStream;
-                Thread connectedThread = new Thread(new ThreadStart(RunThread));
-                connectedThread.Start();
+                    Thread connectedThread = new Thread(new ThreadStart(RunThread));
+                    connectedThread.Start();
+                }
+                else //if not connected
+                {
+                    //attempt to connect
+                    if (ConnectedDevice != null)
+                    {
+                        //string uuid = ConnectedDevice.GetUuids()[0].ToString();
+                        //BluetoothServerSocket bluetoothServerSocket = bluetoothAdapter.ListenUsingInsecureRfcommWithServiceRecord("MyService", Java.Util.UUID.FromString(uuid));
+                        //bluetoothServerSocket.Accept();
+                        //bluetoothServerSocket.Close();
+                    }
+                    else
+                    {
+                        Log.Error("friendly", "connecting failed");
+
+                    }
+                }
             }
             else
             {
@@ -186,7 +197,7 @@ namespace Auto_Besturing.Droid
         public Stream InStream;
         public void RunThread()
         {
-            if (MainPage.BtConnection == this)
+            if (this == this)
             {
                 InStream = socket.InputStream;
                 while (true)
@@ -219,6 +230,7 @@ namespace Auto_Besturing.Droid
             {
                 if (Devices[i] != null)
                 {
+                    if (Devices[i].Name != null)
                     str.Add(Devices[i].Name);
                 }
             }

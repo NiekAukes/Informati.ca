@@ -506,3 +506,11 @@ C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.An
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\App.xaml.g.cs
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTConnection_mBroadcastReceiver1.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTConnection_mScanFallback.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\mBroadcastReceiver1.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\mScanFallback.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mBroadcastReceiver1.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mScanFallback.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mGattCallback.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mGattBroadcastReceiver.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mAdvertiseCallback.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mGattServerCallback.java

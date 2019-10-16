@@ -14,6 +14,8 @@
   <uses-permission android:name="android.permission.INTERNET" />
   <application android:label="Auto_Besturing.Android" android:name="android.app.Application" android:allowBackup="true" android:icon="@mipmap/icon" android:debuggable="true">
     <receiver android:enabled="true" android:label="receiver" android:name="md57f38e162310d0303b0e3b85640668cc7.BTConnection_mBroadcastReceiver1" />
+    <receiver android:enabled="true" android:label="receiver" android:name="md57f38e162310d0303b0e3b85640668cc7.BTService_mBroadcastReceiver1" />
+    <receiver android:enabled="true" android:label="receiver" android:name="md57f38e162310d0303b0e3b85640668cc7.BTService_mGattBroadcastReceiver" />
     <activity android:configChanges="orientation|screenSize" android:icon="@mipmap/icon" android:label="Auto_Besturing" android:theme="@style/MainTheme" android:name="md57f38e162310d0303b0e3b85640668cc7.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />

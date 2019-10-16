@@ -31,7 +31,6 @@ namespace Auto_Besturing.Droid
             appl = new App();
             LoadApplication(application: appl);
             
-
             alert = new AlertDialog.Builder(this);
             alert.SetTitle("Specify Action");
             alert.SetMessage("Do you want to add or substract?");
