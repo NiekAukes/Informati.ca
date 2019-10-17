@@ -1,5 +1,6 @@
 ﻿using Auto_Besturing.Droid;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using Xamarin.Forms;
@@ -41,23 +42,18 @@ namespace Auto_Besturing
         public bool Right = false;
         public bool Up = false;
         public bool Down = false;
-        //BTConnection BtConnection = new BTConnection("40:A3:CC:03:E1:29");
-        public static BTConnection BtConnection;
+        BTService testService;
         public MainPage()
         {
             //Bluetooth Initialization
             InitializeComponent();
-            BtConnection = new BTConnection(this);
 
-            if (BtConnection.GetDeviceNames().Count > 0)
-                DevicePick.Items.Add(BtConnection.GetDeviceNames()[0]);
-            for (int i = 1; i < BtConnection.GetDeviceNames().Count; i++)
-            {
-                DevicePick.Items.Add(BtConnection.GetDeviceNames()[i]);
-            }
+            
 
-            DisplayLog displayLog = new DisplayLog(500);
-            displayLog.LogEntry("test entry");
+            testService = new BTService();
+            testService.StartLESearch();
+
+            
 
             Android.Util.Log.Info("friendly", "BBuildit"+ 527);
             Thread UpdateThread = new Thread(new ThreadStart(WhileActive));
@@ -70,29 +66,26 @@ namespace Auto_Besturing
             int times = 0;
             while (true)
             {
+                //Android.Util.Log.Debug("friendly", "Got here");
                 try
                 {
                     times++;
 
                     //Sends Data Corresponding to The Send Queue
-                    if (BtConnection.SendData.Count < 40)
+                    if (true)
                     {
 
                         if (Up)
-                            BtConnection.SendData.Enqueue((int)BTCodeOut.Forward);
-                        else if (Down)
-                            BtConnection.SendData.Enqueue((int)BTCodeOut.Backward);
-                        else if (Left)
-                            BtConnection.SendData.Enqueue((int)BTCodeOut.Left);
-                        else if (Right)
-                            BtConnection.SendData.Enqueue((int)BTCodeOut.Right);
-                        else
-                            BtConnection.SendData.Enqueue((int)BTCodeOut.Stop);
+                        { //BtConnection.SendData.Enqueue((int)BTCodeOut.Forward);
+                            testService.handler.DispatchMessage(new Android.OS.Message { Arg1 = 52 });
+                            Android.Util.Log.Debug("friendly", "Forward Sent");
+                        }
+                       
 
 
                     }
 
-                    Thread.Sleep(5);
+                    Thread.Sleep(50);
 
                 }
                 catch (Exception e)
@@ -100,7 +93,10 @@ namespace Auto_Besturing
                     throw new Exception(e.StackTrace);
                 }
             }
+
+
         }
+
 
         #region PressHandlers
         void LeftPressHandler(object sender, EventArgs e)
@@ -138,52 +134,47 @@ namespace Auto_Besturing
         }
         #endregion PressHandlers
 
+        List<string> devicenames = new List<string>();
+
+        private void RefreshBTAvailable(object sender, EventArgs e)
+        {
+            devicenames.Clear();
+            devicenames.Add("None");
+            foreach (Android.Bluetooth.BluetoothDevice bluetoothDevice in BTService.BLEDevices)
+            {
+                if (bluetoothDevice.Name != null)
+                {
+                    devicenames.Add(bluetoothDevice.Name);
+                    Android.Util.Log.Debug("friendly", "Device Refresh: " + bluetoothDevice.Name);
+                }
+                else
+                {
+                    devicenames.Add(bluetoothDevice.Address);
+                    Android.Util.Log.Debug("friendly", "Device Refresh: " + bluetoothDevice.Address);
+                }
+
+            }
+            ((Picker)sender).ItemsSource = devicenames;
+        }
+
         private void DevicePick_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedIndex = ((Picker)sender).SelectedIndex - 1;
-            Android.Util.Log.Debug("friendly", "New Bt Device: " + BtConnection.ConnectedDevice.Name);
+            Android.Util.Log.Debug("friendly", "New Bt Device: " + ((Picker)sender).Items[selectedIndex + 1]);
         }
 
         private void Button_Clicked(object sender, EventArgs e)
         {
-            BtConnection = new BTConnection(this, selectedIndex);
+            if (selectedIndex >= 0)
+            {
+                testService.ConnectGatt(BTService.BLEDevices[selectedIndex]);
+                //testService.StartLEServer();
+            } else
+            {
+                DisplayAlert("No device Selected", "No Device was selected, please select a valid device", "Ok");
+            }
+
         }
     }
 
-    class DisplayLog : Entry
-    {
-        string[] LogEntries = new string[500];
-        public DisplayLog(double height, bool isEnabled = true, bool isReadOnly = true)
-        {
-            IsEnabled = isEnabled;
-            IsReadOnly = isReadOnly;
-            HeightRequest = height;
-        }
-        public void ShowLog()
-        {
-            IsEnabled = false;
-        }
-        public void LogEntry(object entry, int sendcode = 0)
-        {
-            bool EnteredLog = false;
-            for (int i = 0;i < LogEntries.Length; i++)
-            {
-                if (LogEntries[i] == null)
-                {
-                    EnteredLog = true;
-                    LogEntries[i] = string.Format("", entry);
-                } 
-            }
-            if (!EnteredLog)
-            {
-                //Log list is full
-                for (int i = 0; i < LogEntries.Length - 1; i++)
-                {
-                    LogEntries[i] = LogEntries[i + 1];
-                }
-                LogEntries[500] = string.Format("", entry);
-            }
-            this.Text = string.Format("", LogEntries);
-        }
-    }
 }

@@ -72,6 +72,7 @@
     </Compile>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="BtConnection.cs" />
+    <Compile Include="BTService.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
