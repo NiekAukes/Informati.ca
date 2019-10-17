@@ -26,9 +26,6 @@
 //  HIGH        HIGH            LOW         Motor is on and turning backwards
 //  HIGH        HIGH            HIGH        Motor is stopped (brakes) 
 // carAccelerate(float DriveAcceleration, float SteerAcceleration){}
-
-
-
             //=====================================================\\
            //       60deg           90deg          120deg           \\
           //           60deg        90deg        120deg              \\
@@ -51,16 +48,15 @@
 #define IN2 8
 #define IN3 9
 #define IN4 11
+//Voor de afstandssensor:
 #define triggerPin A5
 #define echoPin A4
-#define readDistance = A4
 long duration,distance;
 int MaxDistance = 300; //IN CENTIMETRES
 Servo UltraServo;
 char tst = 0x00000000;
 int state = 0;
 int servoValue = 90;
-//Voor de afstandssensor:
 int DriveAcceleration = 0; //-100 t/m 100
 int SteerAcceleration = 0; //-100 t/m 100
 
@@ -75,13 +71,16 @@ enum States {
     Backward,//06 hex
     Left,//07 hex
     Right,//08 hex
+    CheckDistance, //for distance meter, hex 09
     Servo20deg = 57,//9 symbol 
     Servo60deg = 58,//: symbol
     Servo90deg = 59,//; symbol
     Servo120deg = 60,//< symbol
     Servo160deg = 61,//= symbol
-    BeginAccelerationRange = 12,
-    EndAccelerationRange = 112
+    BeginAccelerationRange = 20,
+    EndAccelerationRange = 120,
+    BeginSteeringRange = 130,
+    EndSteeringRange = 230
   };
 States inBit = Null;
 
@@ -159,7 +158,7 @@ void SelfDrive(){
   int distance120;  // |--|=car    go backward   //   go left       //       go right  //     go forward      //go fwd with 30deg left turn   ETC.
   int distance160;
                                        
-  UltraServo.write(20);               
+  UltraServo.write(20);//Afstandsmeter werkt eindelijk! YES. Nu nog met de apk testen van Niek of de app werkt.               
   GetDistance(&distance20);
   UltraServo.write(60);
   GetDistance(&distance60);
@@ -170,7 +169,7 @@ void SelfDrive(){
   UltraServo.write(160);
   GetDistance(&distance160);
 
-  
+
 }
 
 void getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manual/auto switch
@@ -239,7 +238,14 @@ void getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manu
       inBit = Null;
     }
     else if(inBit >= BeginAccelerationRange && inBit <= EndAccelerationRange){  //so the total acceleration range is 100 bits
-      DriveAcceleration = (inBit - BeginAccelerationRange); //Subtract inBit by begin of array, so the range is exactly an int ranging from 0 to 100. The conversion from 0-100 to 0-255 happens in the carAccelerate function.
+      //Subtract inBit by begin of array, so the range is exactly an int ranging from 0 to 100. Then subtract half of the width of array to make it range from -50 to 50 for example
+      DriveAcceleration = (inBit - BeginAccelerationRange)-((EndAccelerationRange-BeginAccelerationRange)/2)*2; //lastly, times two to make it exactly -100 to 100
+    }
+    else if(inBit == CheckDistance){
+      int ScannedDistance;
+      GetDistance(&ScannedDistance);
+      Serial.print(ScannedDistance);
+      Serial.print(" cm.");
     }
   }
   delay(20); //Insert delay so that the code won't run too fast, which isn't very useful
