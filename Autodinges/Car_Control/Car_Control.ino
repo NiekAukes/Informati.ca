@@ -52,10 +52,15 @@
 #define triggerPin A5
 #define echoPin A4
 long duration,distance;
+int distance20,distance60,distance90,distance120,distance160;
+int Distances[5] = {distance20,distance60,distance90,distance120,distance160};
+int BelowThreshold[5] = {false, false, false, false, false};
+int ServoWrites[5] = {20,60,90,120,160};
 int MaxDistance = 300; //IN CENTIMETRES
+int distanceThreshold = 10; //in centimetres
+char NextAction[] = "Null";
 Servo UltraServo;
 char tst = 0x00000000;
-int state = 0;
 int servoValue = 90;
 int DriveAcceleration = 0; //-100 t/m 100
 int SteerAcceleration = 0; //-100 t/m 100
@@ -136,13 +141,10 @@ void carAccelerate(int carSpeed, int steerSpeed){
 bool GetDistance(int *returnvalue){ //sensor is triggered by HIGH pulse more or equal than 10 microseconds
   digitalWrite(triggerPin, LOW); //to ensure clean high pulse
   delayMicroseconds(5);
-
   digitalWrite(triggerPin, HIGH);
   delayMicroseconds(10);
   digitalWrite(triggerPin, LOW);
-
   duration = pulseIn(echoPin, HIGH);
-  
   distance =(duration/2) * 0.0343/*=speed of sound in cm/microsecond*/; //in centimetres
   returnvalue = distance;
   Serial.print("Distance: ");
@@ -150,28 +152,52 @@ bool GetDistance(int *returnvalue){ //sensor is triggered by HIGH pulse more or 
   Serial.print(".");
   return true;
 }
-
-void SelfDrive(){
-  int distance20;   //                Wall       //                 //                 //                     //       Wall                   ETC.
-  int distance60;   //          Wall  |--|  Wall //    Wall Wall    //  Wall   Wall    //  Wall        Wall   //            Wall              ETC.
-  int distance90;   //                           //    |--| Wall    //  Wall   |--|    //  Wall  |--|  Wall   //     |--|   Wall              ETC.
-  int distance120;  // |--|=car    go backward   //   go left       //       go right  //     go forward      //go fwd with 30deg left turn   ETC.
-  int distance160;
-                                       
-  UltraServo.write(20);//Afstandsmeter werkt eindelijk! YES. Nu nog met de apk testen van Niek of de app werkt.               
-  GetDistance(&distance20);
-  UltraServo.write(60);
-  GetDistance(&distance60);
-  UltraServo.write(90);
-  GetDistance(&distance160);
-  UltraServo.write(120);
-  GetDistance(&distance120);
-  UltraServo.write(160);
-  GetDistance(&distance160);
-
-
+  //                Wall       //                 //                 //                     //       Wall                   ETC.
+  //          Wall        Wall //    Wall Wall    //  Wall   Wall    //  Wall        Wall   //            Wall              ETC.
+  //          Wall  |--|  Wall //    |--| Wall    //  Wall   |--|    //  Wall  |--|  Wall   //     |--|   Wall              ETC.
+  // |--|=car    go backward   //     go left     //       go right  //     go forward      //go fwd with 30deg left turn   ETC.
+int BackWardsBoolList[5] = {true, true, true, true, true};
+int ForwardsBoolList1[5] = {true, false, false, false, true};
+int ForwardsBoolList2[5] = {true, true, false, true, true};
+int LeftBoolList[5] = {false, true, true, true, true};
+int RightBoolList[5] = {true, true, true, true, false};
+int ForwardWithLeftTurnBoolList[5] = {false, false, true, true, true};
+int ForwardWithRightTurnBoolList[5] = {true, true, false, false, false};
+bool WhichDirection(char *NextAction){  //See SelfDrive
+  for(int i;i<5;i++){
+    UltraServo.write(ServoWrites[i]);
+    GetDistance(&Distances[i]);  
+    if(Distances[i] < distanceThreshold){
+      BelowThreshold[i] = true;
+    }
+    else{
+      BelowThreshold[i] = false;
+    }
+  }//if it detects that all potential walls are closer than in this case 30cm.
+  if (BelowThreshold == BackWardsBoolList){
+    NextAction = "Go Backwards"; 
+  }
+  else if (BelowThreshold ==  ForwardsBoolList1 && BelowThreshold == ForwardsBoolList2){
+    NextAction = "Go Forwards";
+  }
+  else if(BelowThreshold == LeftBoolList){
+    NextAction = "Turn Left";
+  }
+  else if(BelowThreshold == RightBoolList){
+    NextAction = "Turn Right";
+  }
+  else if(BelowThreshold == ForwardWithLeftTurnBoolList){
+    NextAction = "Go forward with turn to left";
+  }
+  else if(BelowThreshold == ForwardWithRightTurnBoolList){
+    NextAction = "Go forward with turn to right";
+  }
 }
-
+void SelfDrive(){
+    /*Distance meter werkt eindelijk! Nu nog de app checken of die werkt. De code was ook een beetje herhalend dus heb een for loopje erbij geplakt.
+    Heb ook de void WhichDirection gemaakt. Eerst had ik moeite met het handig invoeren van of een afstand onder een threshold was, dus ik heb nog een array gemaakt.*/
+  
+}
 void getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manual/auto switch
   if (Serial.available()){ // als er bits beschikbaar zijn
     inBit = (States)Serial.read();
