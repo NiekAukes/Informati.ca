@@ -72,7 +72,7 @@ namespace Auto_Besturing
                     times++;
 
                     //Sends Data Corresponding to The Send Queue
-                    if (true)
+                    if (testService.gatt != null)
                     {
 
                         if (Up)
@@ -81,7 +81,11 @@ namespace Auto_Besturing
                             Android.Util.Log.Debug("friendly", "Forward Sent");
                         }
                        
-
+                        if (testService.gatt.Services.Count > 0)
+                        {
+                            int getcontent = testService.gatt.Services[0].Characteristics[0].DescribeContents();
+                            Android.Util.Log.Debug("friendly", "Content: " + getcontent);
+                        }
 
                     }
 
@@ -135,9 +139,9 @@ namespace Auto_Besturing
         #endregion PressHandlers
 
         List<string> devicenames = new List<string>();
-
         private void RefreshBTAvailable(object sender, EventArgs e)
         {
+            testService.StartLESearch();
             devicenames.Clear();
             devicenames.Add("None");
             foreach (Android.Bluetooth.BluetoothDevice bluetoothDevice in BTService.BLEDevices)
@@ -154,7 +158,7 @@ namespace Auto_Besturing
                 }
 
             }
-            ((Picker)sender).ItemsSource = devicenames;
+            DevicePick.ItemsSource = devicenames;
         }
 
         private void DevicePick_SelectedIndexChanged(object sender, EventArgs e)

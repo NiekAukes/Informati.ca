@@ -116,6 +116,8 @@ namespace Auto_Besturing.Droid
                 {
                     case ProfileState.Connected:
                         Log.Debug("friendly", "Now Connected");
+
+                        MainActivity.appl.MainPage.DisplayAlert("Connected", "Connected to the Device", "Ok");
                         break;
                     case ProfileState.Connecting:
                         Log.Debug("friendly", "Now Connecting");
@@ -125,11 +127,12 @@ namespace Auto_Besturing.Droid
                         break;
                     case ProfileState.Disconnecting:
                         Log.Debug("friendly", "Now Disconnecting");
+
+                        MainActivity.appl.MainPage.DisplayAlert("Disconnected", "Remote Device Broke the connection", "Ok");
                         break;
                 }
 
 
-                //MainActivity.appl.MainPage.DisplayAlert("State Changed", "Connection State Changed", "Ok");
 
             }
             public override void OnServicesDiscovered(BluetoothGatt gatt, [GeneratedEnum] GattStatus status)
@@ -195,7 +198,7 @@ namespace Auto_Besturing.Droid
         }
         public void StartLESearch()
         {
-            BLEDevices.Clear();
+            //BLEDevices.Clear();
             Adapter.BluetoothLeScanner.StartScan(BLEReceiver);
         }
         public void StartClassicSearch()
@@ -207,10 +210,7 @@ namespace Auto_Besturing.Droid
         {
             mGattCallback bluetoothGattCallback = new mGattCallback();
             gatt = device.ConnectGatt(Application.Context, false, bluetoothGattCallback, BluetoothTransports.Le, ScanSettingsPhy.AllSupported, handler);
-            MainActivity.appl.MainPage.DisplayAlert("Connected", "Connected to the Device", "Ok");
             gatt.DiscoverServices();
-            
-            //gatt.Services[0].
         }
 
         public void StartLEServer()
