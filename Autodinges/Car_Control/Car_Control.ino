@@ -53,12 +53,11 @@
 #define echoPin A4
 long duration,distance;
 int distance20,distance60,distance90,distance120,distance160;
-int Distances[5] = {distance20,distance60,distance90,distance120,distance160};
+int Distances[5] = {};
 int BelowThreshold[5] = {false, false, false, false, false};
 int ServoWrites[5] = {20,60,90,120,160};
 int MaxDistance = 300; //IN CENTIMETRES
-int distanceThreshold = 10; //in centimetres
-char NextAction[] = "Null";
+char NextStep;
 Servo UltraServo;
 char tst = 0x00000000;
 int servoValue = 90;
@@ -138,7 +137,7 @@ void carAccelerate(int carSpeed, int steerSpeed){
     }
   }
 }
-bool GetDistance(int *returnvalue){ //sensor is triggered by HIGH pulse more or equal than 10 microseconds
+int GetDistance(){ //sensor is triggered by HIGH pulse more or equal than 10 microseconds
   digitalWrite(triggerPin, LOW); //to ensure clean high pulse
   delayMicroseconds(5);
   digitalWrite(triggerPin, HIGH);
@@ -146,57 +145,92 @@ bool GetDistance(int *returnvalue){ //sensor is triggered by HIGH pulse more or 
   digitalWrite(triggerPin, LOW);
   duration = pulseIn(echoPin, HIGH);
   distance =(duration/2) * 0.0343/*=speed of sound in cm/microsecond*/; //in centimetres
-  returnvalue = distance;
+  int returnvalue = distance;
   Serial.print("Distance: ");
   Serial.print(distance);
-  Serial.print(".");
-  return true;
+  Serial.println(".");
+  return returnvalue;
 }
   //                Wall       //                 //                 //                     //       Wall                   ETC.
   //          Wall        Wall //    Wall Wall    //  Wall   Wall    //  Wall        Wall   //            Wall              ETC.
   //          Wall  |--|  Wall //    |--| Wall    //  Wall   |--|    //  Wall  |--|  Wall   //     |--|   Wall              ETC.
   // |--|=car    go backward   //     go left     //       go right  //     go forward      //go fwd with 30deg left turn   ETC.
-int BackWardsBoolList[5] = {true, true, true, true, true};
-int ForwardsBoolList1[5] = {true, false, false, false, true};
-int ForwardsBoolList2[5] = {true, true, false, true, true};
-int LeftBoolList[5] = {false, true, true, true, true};
-int RightBoolList[5] = {true, true, true, true, false};
-int ForwardWithLeftTurnBoolList[5] = {false, false, true, true, true};
-int ForwardWithRightTurnBoolList[5] = {true, true, false, false, false};
-bool WhichDirection(char *NextAction){  //See SelfDrive
+int BackWardsThresholdList1[5] =          {1,1,1,1,1}; //Deze lijsten zijn voor de whichdirection om in te vullen. Hij neemt de lijst van Distances (zie GetDistance),
+int BackWardsThresholdList2[5] =          {0,1,1,1,0}; //en voert ze in een BelowThreshold lijst in. Vervolgens matcht de rest van de WhichDirection
+int BackWardsThresholdList3[5] =          {1,1,0,1,1}; //welke kant hij op moet op basis van de basislijsten (links, rechts, etc.)
+int ForwardsThresholdList1[5] =           {1,0,0,0,1};
+int ForwardsThresholdList2[5] =           {0,0,0,0,0};
+int LeftThresholdList1[5] =               {0,1,1,1,0};
+int LeftThresholdList2[5] =               {0,0,1,1,1};
+int RightThresholdList1[5] =              {1,1,1,1,0};
+int RightThresholdList2[5] =              {1,1,1,1,0};
+int ForwardWithLeftTurnThresholdList[5] = {0,0,1,1,1};
+int ForwardWithRightTurnThresholdList[5]= {1,1,0,0,0};
+
+char WhichDirection(){  //See SelfDrive
   for(int i;i<5;i++){
     UltraServo.write(ServoWrites[i]);
-    GetDistance(&Distances[i]);  
-    if(Distances[i] < distanceThreshold){
-      BelowThreshold[i] = true;
+    delay(600);
+    int DistanceScanned = GetDistance();
+    Serial.println(DistanceScanned);
+    Distances[i] = DistanceScanned;
+    Serial.println(Distances[i]);
+    if(Distances[i] < 22){
+      BelowThreshold[i] = 1;
     }
     else{
-      BelowThreshold[i] = false;
+      BelowThreshold[i] = 0; 
     }
-  }//if it detects that all potential walls are closer than in this case 30cm.
-  if (BelowThreshold == BackWardsBoolList){
-    NextAction = "Go Backwards"; 
   }
-  else if (BelowThreshold ==  ForwardsBoolList1 && BelowThreshold == ForwardsBoolList2){
-    NextAction = "Go Forwards";
+  UltraServo.write(90);
+  int sizeofarray = sizeof(BelowThreshold);
+  for(int i;i<sizeofarray;i++){
+      Serial.print("BelowThreshold array number ");
+      Serial.print(i);
+      Serial.print(" is: ");
+      Serial.println(BelowThreshold[i]);
+    }
+  int WallList[5] = {};
+  for(int i;i<5;i++){
+    WallList[i] = BelowThreshold[i];
+    Serial.print("Correct Size Wall list is: ");
+    Serial.println(WallList[i]);
   }
-  else if(BelowThreshold == LeftBoolList){
-    NextAction = "Turn Left";
+  
+  if (WallList == BackWardsThresholdList1 || WallList == BackWardsThresholdList2 || WallList == BackWardsThresholdList3){
+    char NextAction[] = "BACKWARD";
+    
   }
-  else if(BelowThreshold == RightBoolList){
-    NextAction = "Turn Right";
+  else if (WallList ==  ForwardsThresholdList1 || WallList == ForwardsThresholdList2){
+    char NextAction[] = "FORWARDS";
+    
   }
-  else if(BelowThreshold == ForwardWithLeftTurnBoolList){
-    NextAction = "Go forward with turn to left";
+  else if(WallList == LeftThresholdList1 || WallList == LeftThresholdList2){
+    char NextAction[] = "TURNLEFT";
+    
   }
-  else if(BelowThreshold == ForwardWithRightTurnBoolList){
-    NextAction = "Go forward with turn to right";
+  else if(WallList == RightThresholdList1 || WallList == RightThresholdList2){
+    char NextAction[] = "TURNRIGHT";
+    
+    
   }
+  else if(WallList == ForwardWithLeftTurnThresholdList){
+    char NextAction[] = "FORWARD_LEFT";
+    
+  }
+  else if(WallList == ForwardWithRightTurnThresholdList){
+    char NextAction[] = "FORWARD_RIGHT";
+    
+  }
+  return true;
 }
 void SelfDrive(){
-    /*Distance meter werkt eindelijk! Nu nog de app checken of die werkt. De code was ook een beetje herhalend dus heb een for loopje erbij geplakt.
-    Heb ook de void WhichDirection gemaakt. Eerst had ik moeite met het handig invoeren van of een afstand onder een threshold was, dus ik heb nog een array gemaakt.*/
-  
+    /*Distance meter werkt eindelijk! Nu nog de app checken of die werkt. De WhichDirection code was ook een beetje herhalend dus heb een for loopje erbij geplakt.
+    Heb ook de void WhichDirection gemaakt. Eerst had ik moeite met het handig invoeren van of een afstand onder een threshold was, dus ik heb nog wat arrays gemaakt.*/
+    char WhereToGo = WhichDirection();
+    Serial.println("Next step is: ");
+    Serial.print(WhereToGo);
+    return true;
 }
 void getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manual/auto switch
   if (Serial.available()){ // als er bits beschikbaar zijn
@@ -207,18 +241,20 @@ void getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manu
     else if(inBit == Faulty){
       Serial.println("Error code 1: Fault with app");
       carAccelerate(0,0);//driveAcceleration = 0 en steerAcceleration = 0 dus stop car
-      inBit == Null;
+    }
+    else if(inBit == Auto){
+      Serial.println("Going into automatic mode...");
+      SelfDrive();
+      inBit = Null;
     }
     else if(inBit == Stop){
       Serial.println("stopping");
-      carAccelerate(0, 0); //carSpeed is in het begin gedefined + 0 is de turnSpeed, dus niks
-      inBit == Null;
+      carAccelerate(0, 0); //0 acceleratie + 0 is de turnSpeed, dus niks
     }
     else if(inBit == Forward){
       Serial.println("Going forward");
       DriveAcceleration = 100;
       carAccelerate(DriveAcceleration, 0); //carSpeed is in het begin gedefined + 0 is de turnSpeed, dus niks
-      inBit == Null;
       }
     else if(inBit == Backward){
       Serial.println("Going backward");
@@ -230,13 +266,11 @@ void getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manu
       Serial.println("Going left");
       SteerAcceleration = 100;
       carAccelerate(0,-SteerAcceleration); 
-      inBit == Null;
     }
     else if(inBit == Right){
       Serial.println("Going right");
       SteerAcceleration = 100;
       carAccelerate(0, SteerAcceleration);
-      inBit == Null;
     }
     else if(inBit == Servo20deg){
       Serial.println("Servo going to 20deg");
@@ -268,8 +302,7 @@ void getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manu
       DriveAcceleration = (inBit - BeginAccelerationRange)-((EndAccelerationRange-BeginAccelerationRange)/2)*2; //lastly, times two to make it exactly -100 to 100
     }
     else if(inBit == CheckDistance){
-      int ScannedDistance;
-      GetDistance(&ScannedDistance);
+      int ScannedDistance = GetDistance();
       Serial.print(ScannedDistance);
       Serial.print(" cm.");
     }
@@ -288,8 +321,8 @@ void setup(){
   pinMode(ENB, OUTPUT);
   pinMode(triggerPin, OUTPUT);
   pinMode(echoPin, INPUT);
-  servoValue = 90; //set the servo value to straight ahead (90 degrees)
-  UltraServo.write(servoValue);   
+  //SelfDrive();
+  UltraServo.write(90);
 }
 
 void loop() {
