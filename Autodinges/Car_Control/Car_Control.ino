@@ -59,11 +59,12 @@ int ServoWrites[5] = {20,60,90,120,160};
 int MaxDistance = 300; //IN CENTIMETRES
 char NextStep;
 Servo UltraServo;
-char tst = 0x00000000;
 int servoValue = 90;
 int DriveAcceleration = 0; //-100 t/m 100
 int SteerAcceleration = 0; //-100 t/m 100
 
+int AutoModeDriveAcc = 0;
+int AutoModeSteerAcc = 0;
 
 enum States {
     Null,//00 hex
@@ -167,6 +168,13 @@ int RightThresholdList2[5] =              {1,1,1,1,0};
 int ForwardWithLeftTurnThresholdList[5] = {0,0,1,1,1};
 int ForwardWithRightTurnThresholdList[5]= {1,1,0,0,0};
 
+
+void AssignCharArray(char copy[], char original[]){
+  int lengthofarray = sizeof(original);
+  for(int i; i<lengthofarray;i++){
+    copy[i] = original[i];
+  }
+}
 char WhichDirection(){  //See SelfDrive
   for(int i;i<5;i++){
     UltraServo.write(ServoWrites[i]);
@@ -196,43 +204,94 @@ char WhichDirection(){  //See SelfDrive
     Serial.print("Correct Size Wall list is: ");
     Serial.println(WallList[i]);
   }
-  
+  char returnAction[11];
   if (WallList == BackWardsThresholdList1 || WallList == BackWardsThresholdList2 || WallList == BackWardsThresholdList3){
-    char NextAction[] = "BACKWARD";
+    char NextAction[11] = "BACKWARD     ";
+    AssignCharArray(returnAction,NextAction); 
     
   }
   else if (WallList ==  ForwardsThresholdList1 || WallList == ForwardsThresholdList2){
-    char NextAction[] = "FORWARDS";
-    
+    char NextAction[11] = "FORWARDS   ";
+    AssignCharArray(returnAction,NextAction); 
   }
   else if(WallList == LeftThresholdList1 || WallList == LeftThresholdList2){
-    char NextAction[] = "TURNLEFT";
-    
-  }
+    char NextAction[11] = "TURN_LEFT  ";
+    AssignCharArray(returnAction,NextAction);
+    }
   else if(WallList == RightThresholdList1 || WallList == RightThresholdList2){
-    char NextAction[] = "TURNRIGHT";
-    
-    
+    char NextAction[11] = "TURN_RIGHT";
+    AssignCharArray(returnAction,NextAction); 
   }
   else if(WallList == ForwardWithLeftTurnThresholdList){
-    char NextAction[] = "FORWARD_LEFT";
-    
+    char NextAction[11] = "FORWARDLEFT ";
+    AssignCharArray(returnAction,NextAction); 
   }
   else if(WallList == ForwardWithRightTurnThresholdList){
-    char NextAction[] = "FORWARD_RIGHT";
-    
+    char NextAction[11] = "FORWARDRIGHT";
+    AssignCharArray(returnAction,NextAction);   
   }
-  return true;
+  Serial.println((char)(returnAction));
+  return returnAction;
 }
 void SelfDrive(){
     /*Distance meter werkt eindelijk! Nu nog de app checken of die werkt. De WhichDirection code was ook een beetje herhalend dus heb een for loopje erbij geplakt.
-    Heb ook de void WhichDirection gemaakt. Eerst had ik moeite met het handig invoeren van of een afstand onder een threshold was, dus ik heb nog wat arrays gemaakt.*/
-    char WhereToGo = WhichDirection();
+    Heb ook de void WhichDirection gemaakt. Eerst had ik moeite met het handig invoeren van of een afstand onder een threshold was, dus ik heb nog wat arrays gemaakt.
+    Had een heleboel errors met chars en strings, heb uiteindelijk maar gekozen voor een fixt length char van 11, om verdere errors te voorkomen. Jammer van de spaties
+    in de woorden maarja.*/
+    char WhereToGo = WhichDirection(); //automatic mode drive acceleration = AutoModeDriveAcc and steering acc = AutoModeSteerAcc
     Serial.println("Next step is: ");
     Serial.print(WhereToGo);
-    return true;
+    if (WhereToGo == "BACKWARD     "){
+      AutoModeDriveAcc = -60;
+      AutoModeSteerAcc = 0;
+      carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);
+      delay(300);
+      carAccelerate(0,0);
+    }
+    else if(WhereToGo == "FORWARDS   "){
+      AutoModeDriveAcc = 60;
+      AutoModeSteerAcc = 0;
+      carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);
+      delay(300);
+      carAccelerate(0,0);
+    }
+    else if(WhereToGo == "TURN_LEFT  "){
+      AutoModeDriveAcc = 0;
+      AutoModeSteerAcc = -75;
+      carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);
+      delay(500);
+      carAccelerate(0,0);
+    }
+    else if(WhereToGo == "TURN_RIGHT"){
+      AutoModeDriveAcc = 0;
+      AutoModeSteerAcc = 75;
+      carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);
+      delay(500);
+      carAccelerate(0,0);
+    }
+    else if(WhereToGo == "FORWARDLEFT "){
+      AutoModeDriveAcc = 60;
+      AutoModeSteerAcc = 75;
+      carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);
+      delay(500);
+      carAccelerate(0,0);
+    }
+    else if(WhereToGo == "TURN_RIGHT"){
+      AutoModeDriveAcc = 0;
+      AutoModeSteerAcc = 75;
+      carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);
+      delay(500);
+      carAccelerate(0,0);
+    }
+    char BTData = getBTdata();
+    if(inBit == Auto){
+      SelfDrive();
+    }
+    else{
+      return true;
+    }
 }
-void getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manual/auto switch
+char getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manual/auto switch
   if (Serial.available()){ // als er bits beschikbaar zijn
     inBit = (States)Serial.read();
     if (inBit == Null){
@@ -306,6 +365,7 @@ void getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manu
       Serial.print(ScannedDistance);
       Serial.print(" cm.");
     }
+    return inBit;
   }
   delay(20); //Insert delay so that the code won't run too fast, which isn't very useful
 }
