@@ -111,8 +111,39 @@ void carAccelerate(int carSpeed, int steerSpeed){
       digitalWrite(IN4, LOW);
     }//als de ingekomen bits tussen de gegeven parameters zijn:
   else if(carSpeed >= -100 && carSpeed <= 100 && steerSpeed >= -100 && steerSpeed <= 100){  //drive the car according to the driveacceleration and steeracceleration
-    steerSpeed = carSpeed - steerSpeed;
-      if(carSpeed < 0){ //if the software wants the car to go backward:
+      if(steerSpeed > 0 && carSpeed > 0){
+        analogWrite(ENA, (int)((carSpeed+steerSpeed) * 2.55));
+        analogWrite(ENB, (int)((0.5 * carSpeed) * 2.55));
+        digitalWrite(IN1, HIGH); //left motors forward = true
+        digitalWrite(IN2, LOW); //left motors backward = false
+        digitalWrite(IN3, LOW); //rightmotors backward = false
+        digitalWrite(IN4, HIGH); //rightmotors forward = true
+      }
+      else if(steerSpeed < 0 && carSpeed > 0){
+        analogWrite(ENA, (int)((0.5*carSpeed)));
+        analogWrite(ENB, (int)((carSpeed-steerSpeed) * 2.55));
+        digitalWrite(IN1, HIGH); //left motors forward = true
+        digitalWrite(IN2, LOW); //left motors backward = false
+        digitalWrite(IN3, LOW); //rightmotors backward = false
+        digitalWrite(IN4, HIGH); //rightmotors forward = true
+      }
+      if(steerSpeed > 0 && carSpeed < 0){
+        analogWrite(ENA, (int)((-0.70*(carSpeed-steerSpeed)) * 2.55));
+        analogWrite(ENB, (int)((-0.5* carSpeed) * 2.55));
+        digitalWrite(IN1, HIGH); //left motors forward = true
+        digitalWrite(IN2, LOW); //left motors backward = false
+        digitalWrite(IN3, LOW); //rightmotors backward = false
+        digitalWrite(IN4, HIGH); //rightmotors forward = true
+      }
+      else if(steerSpeed < 0 && carSpeed < 0){
+        analogWrite(ENA, (int)((0.5*carSpeed)));
+        analogWrite(ENB, (int)((-(carSpeed-steerSpeed)) * 2.55));
+        digitalWrite(IN1, HIGH); //left motors forward = true
+        digitalWrite(IN2, LOW); //left motors backward = false
+        digitalWrite(IN3, LOW); //rightmotors backward = false
+        digitalWrite(IN4, HIGH); //rightmotors forward = true
+      }
+      else if(carSpeed < 0){ //if the software wants the car to go backward:
         analogWrite(ENA, (int)(-carSpeed * 2.55));//motoren aan op de snelheid van 0 tot 100 (wordt geconvert naar 0 tot 255 voor de motoren)
         analogWrite(ENB, (int)(-carSpeed * 2.55));//idem
         digitalWrite(IN1, LOW); //left motors forward = false
@@ -128,40 +159,25 @@ void carAccelerate(int carSpeed, int steerSpeed){
         digitalWrite(IN3, LOW);
         digitalWrite(IN4, HIGH); //right motors forward = true
       }
-      else if(steerSpeed < 0 && carSpeed > 0){ //if the car needs to go forward and left:
-        analogWrite(ENA, (int)(carSpeed));
-        analogWrite(ENB, (int)((-steerSpeed*2.55)-(0.5*carSpeed)));
+      else if (steerSpeed < 0){ //if the car needs to go to left:
+        analogWrite(ENA, (int)(steerSpeed*-2.55));
+        analogWrite(ENB, (int)(steerSpeed*-2.55));
         digitalWrite(IN1, LOW);
-        digitalWrite(IN2, HIGH);//left motors backward = true
+        digitalWrite(IN2, HIGH);//left motors backward
         digitalWrite(IN3, LOW);
-        digitalWrite(IN4, HIGH);//right motors forward = true
+        digitalWrite(IN4, HIGH); //right motors forward = true
       }
-      else if(steerSpeed > 0 && carSpeed > 0){ //if the car needs to go forward and right:
-        analogWrite(ENA, (int)(steerSpeed*2.55 -(0.5*carSpeed)));// -carSpeed voorkomt gerotzooi met maximale snelheid en dat de auto ook echt draait.
-        analogWrite(ENB, (int)(carSpeed));
-        digitalWrite(IN1,HIGH);//left motors forward = true
-        digitalWrite(IN2,LOW);
-        digitalWrite(IN3,HIGH);//right motors backward = true
-        digitalWrite(IN4,LOW);
+      else if (steerSpeed > 0){ //if the car needs to go to right:
+        analogWrite(ENA, (int)(steerSpeed*2.55));
+        analogWrite(ENB, (int)(steerSpeed*2.55));
+        digitalWrite(IN1, HIGH);//left motors fwd = true
+        digitalWrite(IN2, LOW);
+        digitalWrite(IN3, HIGH);//right motors backward = true
+        digitalWrite(IN4, LOW); 
       }
-      else if(steerSpeed < 0){ //if the car needs to go left:
-        analogWrite(ENA, (int)(0));
-        analogWrite(ENB, (int)((-steerSpeed*2.55)-(0.5*carSpeed)));
-        digitalWrite(IN1, LOW);
-        digitalWrite(IN2, HIGH);//left motors backward = true
-        digitalWrite(IN3, LOW);
-        digitalWrite(IN4, HIGH);//right motors forward = true
-      }
-      else if(steerSpeed > 0){ //if the car needs to go right:
-        analogWrite(ENA, (int)(steerSpeed*2.55 -(0.5*carSpeed)));// -carSpeed voorkomt gerotzooi met maximale snelheid en dat de auto ook echt draait.
-        analogWrite(ENB, (int)(0));
-        digitalWrite(IN1,HIGH);//left motors forward = true
-        digitalWrite(IN2,LOW);
-        digitalWrite(IN3,HIGH);//right motors backward = true
-        digitalWrite(IN4,LOW);
-      }
+      
   else{
-    //do nothing
+    Serial.print("CarAccelerate() function parameters not met.");
     }
   }
 }
@@ -181,6 +197,7 @@ int GetDistance(){ //sensor is triggered by HIGH pulse more or equal than 10 mic
   return returnvalue;
   inBit = Null;
 }
+
   //                Wall       //                 //                 //                     //       Wall                   ETC.
   //          Wall        Wall //    Wall Wall    //  Wall   Wall    //  Wall        Wall   //            Wall              ETC.
   //          Wall  |--|  Wall //    |--| Wall    //  Wall   |--|    //  Wall  |--|  Wall   //     |--|   Wall              ETC.
@@ -192,8 +209,11 @@ void AssignCharArray(char copy[], char original[]){ //weet niet of nog gebruikt 
   }
 }
 bool arraysMatch(int array1[],int array2[]){ //handig stukje om arrays in één regel te vergelijken. Bespaart verderop ong. 75 lijntjes code :D
+  if (sizeof(array1) != sizeof(array2)){    //DENK EROM: ALLEEN ARRAYS MET SIZE 5. SIZEOF() functie doet niet wat ik will
+    return false;
+  }
   bool doTheyMatch = true;
-  for(int i;i<sizeof(array1);i++){
+  for(int i;i<5;i++){
     if(array1[i] != array2[i]){
       return false;
       break;
@@ -203,10 +223,12 @@ bool arraysMatch(int array1[],int array2[]){ //handig stukje om arrays in één 
 }
 int BackWardsThresholdList1[5] =          {1,1,1,1,1}; //Deze lijsten zijn voor de whichdirection om in te vullen. Hij neemt de lijst van Distances
 int BackWardsThresholdList2[5] =          {0,1,1,1,0}; //(zie GetDistance), en voert ze in een BelowThreshold lijst in. 
-int BackWardsThresholdList3[5] =          {1,1,0,1,1}; //Vervolgens matcht de rest van de WhichDirection welke kant hij op moet 
+int BackWardsThresholdList3[5] =          {1,1,0,1,1}; //Vervolgens matcht de rest van de WhichDirection welke kant hij op moet
+int BackWardsThresholdList4[5] =          {0,0,1,0,0};
+int BackWardsThresholdList5[5] =          {0,1,1,1,0};
 int ForwardsThresholdList1[5] =           {1,0,0,0,1}; //op basis van deze basislijsten (links, rechts, etc.)
 int ForwardsThresholdList2[5] =           {0,0,0,0,0};
-int LeftThresholdList1[5] =               {0,1,1,1,0};
+int LeftThresholdList1[5] =               {0,1,1,0,0};
 int LeftThresholdList2[5] =               {0,0,1,1,1}; //er staat een nul als er geen muur moet zijn, een een als een muur binnen de threshold moet zijn.
 int RightThresholdList1[5] =              {1,1,1,0,0}; //zo werkt de code voor het bepalen van muren ook.
 int RightThresholdList2[5] =              {1,1,1,1,0};
@@ -217,9 +239,8 @@ int FWD_RightThresholdList[5]=            {1,1,0,0,0};
 char WhichDirection(){  //Zie SelfDrive(). Zet de servo naar vijf vooringestelde  standen (20,60,90,120,160 graden) en meet afstand.
   for(int i;i<5;i++){
     UltraServo.write(ServoWrites[i]);
-    delay(500);
+    delay(350);
     int DistanceScanned = GetDistance();
-    Serial.println(DistanceScanned);
     Distances[i] = DistanceScanned;
     Serial.println(Distances[i]);
     if(Distances[i] < 22){
@@ -235,16 +256,18 @@ char WhichDirection(){  //Zie SelfDrive(). Zet de servo naar vijf vooringestelde
     WallList[i] = BelowThreshold[i];
     Serial.print("Wall list is: ");
     Serial.println(WallList[i]);
-    UltraServo.write(90); //...en voor de zekerheid zetten we m nog maar 'n keer recht.
   }
+  UltraServo.write(90); //...en voor de zekerheid zetten we m nog maar 'n keer recht.
   /*Dit zijn alle true/false parameters van de SelfDrive() code. Voor elk scenario wordt een boolean aangemaakt. De lijsten boven de WhichDirection() functie
   zijn hiermee geïntegreerd. Als de lijst van een scenario (bijv. BakcwardsThreshold1) NIET overeenkomt met de gemeten afstanden, wordt de boolean voor
   de lijst false. Als de lijst wél overeenkomt met het gemeten scenario, dan is de boolean true, en wordt een gegeven karakter gereturned.*/
-  bool Matches_BackwardsList1,Matches_BackwardsList2,Matches_BackwardsList3,Matches_ForwardsList1,Matches_ForwardsList2,Matches_LeftList1,
-       Matches_LeftList2,Matches_RightList1,Matches_RightList2,Matches_RightList3,Matches_FWD_LeftList,Matches_FWD_RightList = true;
+  bool Matches_BackwardsList1 = true,Matches_BackwardsList2=true,Matches_BackwardsList3=true,Matches_BackwardsList4=true,Matches_ForwardsList1=true,
+       Matches_ForwardsList2=true,Matches_LeftList1=true,Matches_LeftList2=true,Matches_RightList1=true,Matches_RightList2=true,Matches_RightList3=true,
+       Matches_FWD_LeftList=true,Matches_FWD_RightList=true;
   Matches_BackwardsList1 =  arraysMatch(WallList,BackWardsThresholdList1);//checken of alle lijsten misschien de gemeten afstanden matchen...
   Matches_BackwardsList2 =  arraysMatch(WallList,BackWardsThresholdList2);
   Matches_BackwardsList3 =  arraysMatch(WallList,BackWardsThresholdList3);
+  Matches_BackwardsList4 =  arraysMatch(WallList,BackWardsThresholdList4);
   Matches_ForwardsList1  =  arraysMatch(WallList,ForwardsThresholdList1);
   Matches_ForwardsList2  =  arraysMatch(WallList,ForwardsThresholdList2);
   Matches_LeftList1      =  arraysMatch(WallList,LeftThresholdList1);
@@ -254,12 +277,27 @@ char WhichDirection(){  //Zie SelfDrive(). Zet de servo naar vijf vooringestelde
   Matches_RightList3     =  arraysMatch(WallList,RightThresholdList3);
   Matches_FWD_LeftList   =  arraysMatch(WallList,FWD_LeftThresholdList);
   Matches_FWD_RightList  =  arraysMatch(WallList,FWD_RightThresholdList);//als een scenario voorkomt, bijvoorbeeld backward, dan output de functie een 'B'.
-  if(Matches_BackwardsList1 || Matches_BackwardsList2 || Matches_BackwardsList3){return 'B';Serial.println("Matches bwd list");}
-  if(Matches_ForwardsList1 || Matches_ForwardsList2)                            {return 'F';Serial.println("Matches fwd list");}
-  if(Matches_LeftList1 || Matches_LeftList2)                                    {return 'L';Serial.println("Matches left list");}
-  if(Matches_RightList1 || Matches_RightList2 || Matches_RightList3)            {return 'R';Serial.println("Matches right list");}
-  if(Matches_FWD_LeftList)                                                      {return 'X';Serial.println("Matches fwd left list");}
-  if(Matches_FWD_RightList)                                                     {return 'Y';Serial.println("Matches fwd right list");}
+  Serial.println(Matches_BackwardsList1);
+  Serial.println(Matches_BackwardsList2);
+  Serial.println(Matches_BackwardsList3);
+  Serial.println(Matches_BackwardsList4);
+  Serial.println(Matches_ForwardsList1);
+  Serial.println(Matches_ForwardsList2);
+  Serial.println(Matches_LeftList1);
+  Serial.println(Matches_LeftList2);
+  Serial.println(Matches_RightList1);
+  Serial.println(Matches_RightList2);
+  Serial.println(Matches_RightList3);
+  Serial.println(Matches_FWD_LeftList);
+  Serial.println(Matches_FWD_RightList);
+  
+  if(Matches_BackwardsList1||Matches_BackwardsList2||Matches_BackwardsList3||Matches_BackwardsList4)
+                                                                                {Serial.println("Matches bwd list");return 'B';}
+  if(Matches_ForwardsList1 || Matches_ForwardsList2)                            {Serial.println("Matches fwd list");return 'F';}
+  if(Matches_LeftList1 || Matches_LeftList2)                                    {Serial.println("Matches left list");return 'L';}
+  if(Matches_RightList1 || Matches_RightList2 || Matches_RightList3)            {Serial.println("Matches right list");return 'R';}
+  if(Matches_FWD_LeftList)                                                      {Serial.println("Matches fwd left list");return 'X';}
+  if(Matches_FWD_RightList)                                                     {Serial.println("Matches fwd right list");return 'Y';}
 }
 void SelfDrive(){
     char WhereToGo = '∅'; //zet de WhereToGo char naar het karakter-equivalent van Null ('∅'), dit is om te voorkomen dat de auto één richting 
@@ -271,9 +309,15 @@ void SelfDrive(){
     Serial.println(WhereToGo);
     /*Een heleboel if statements, voor elk gegeven scenario (naar voren, achteren, links, rechts, en ook naar voren terwijl de auto links/rechts draait.*/
     if     (WhereToGo == 'B'){
-      AutoModeDriveAcc = -80;
+        analogWrite(ENA, (int)(100*2.55));
+        analogWrite(ENB, (int)(70*2.55));
+        digitalWrite(IN1, HIGH); //left motors forward = true
+        digitalWrite(IN2, LOW); //left motors backward = false
+        digitalWrite(IN3, LOW); //rightmotors backward = false
+        digitalWrite(IN4, HIGH); //rightmotors forward = true
+      /*AutoModeDriveAcc = -80;
       AutoModeSteerAcc = 60;
-      carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);
+      carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);*/
     }
     else if(WhereToGo == 'F'){
       AutoModeDriveAcc = 60;
@@ -301,7 +345,7 @@ void SelfDrive(){
       carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);
     }
     else{
-      Serial.print("Character not valid."); //als er per ongelijk een verkeerde karakter wordt ingevoerd, laat de code dat aan de telefoon weten.
+      Serial.print("Character not valid in SelfDrive function."); //als er per ongelijk een verkeerde karakter wordt ingevoerd, laat de code dat aan de telefoon weten.
       }
     delay(700); //om ervoor te zorgen dat de auto ook een tijdje die richting op gaat en niet direct stopt.
     //carAccelerate(0,0); //stopt de auto, voor de zekerheid.
@@ -312,7 +356,7 @@ void SelfDrive(){
       return true;
     }
     else{
-      Serial.println("Car Self Drive loop succesfull");
+      Serial.println("Car Self Drive loop succesfull! Starting again...");
       WhereToGo = '∅';
       delay(100);
       SelfDrive();
@@ -354,8 +398,7 @@ char getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manu
     }
     else if(inBit == Left){
       Serial.println("Going left");
-      SteerAcceleration = 100;
-      carAccelerate(0,-SteerAcceleration); 
+      carAccelerate(0,-80); 
     }
     else if(inBit == Right){
       Serial.println("Going right");
@@ -364,11 +407,11 @@ char getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manu
     }
     else if(inBit == ForwardLeft){
       Serial.println("Going forward with left turn");
-      carAccelerate(80,-50);
+      carAccelerate(75,-50);
     }
     else if(inBit == ForwardRight){
       Serial.println("Going forward with right turn");
-      carAccelerate(80,50);
+      carAccelerate(75,50);
     }
     else if(inBit == Servo20deg){
       Serial.println("Servo going to 20deg");
@@ -436,6 +479,8 @@ void setup(){
   pinMode(echoPin, INPUT);
   //SelfDrive();
   UltraServo.write(90);
+  delay(4000);
+  Serial.println("Setup is done. Ready to recieve information.");
 }
 
 void loop() {
