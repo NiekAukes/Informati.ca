@@ -46,10 +46,13 @@
     in de woorden maarja.
     Ook tyfus veel rotzooi gehad met arrays en chars, heb in de WhichDirection code maar de brute manier gekozen van elke karakter van elke lijst vergelijken met
     die ene WallList. Het zij zo.       OEH ik heb een nieuwe functie gemaakt waarmee je in één lijntje twee arrays kan vergelijken! Dit scheelt 7 lijntjes code
-    ten opzichte van de brute force for(int i;etc.) manier bij elke lijst. Totale gescheelde lijntjes code: 75*/
+    ten opzichte van de brute force for(int i;etc.) manier bij elke lijst. Totale gescheelde lijntjes code: 75
+    De batterijen van de arduino waren leeg dus we konden een dag bijna niks doen, behalve proberen het via de usb serial te regelen.
+    We hebben nu een lader en twee extra batterijen voor de zekerheid. Ik probeer nu (23-10) ook de arduino te laten multitasken, zodat we niet de hele tijd stilstaan
+    als we willen meten.*/
 
+#include <Metro.h> //voor multitasking, zie https://www.youtube.com/watch?v=zhWV_D_9OCY
 #include <SoftwareSerial.h>
-//#include <IRremote.h>
 #include <Servo.h>
 #define ENA 6
 #define ENB 5
@@ -71,6 +74,8 @@ Servo UltraServo;
 int servoValue = 90;
 int DriveAcceleration = 0; //-100 t/m 100
 int SteerAcceleration = 0; //-100 t/m 100
+
+Metro AutoModeCheckAllAngles = Metro(1000);
 
 int AutoModeDriveAcc = 0;
 int AutoModeSteerAcc = 0;
@@ -221,6 +226,8 @@ bool arraysMatch(int array1[],int array2[]){ //handig stukje om arrays in één 
   }
   return doTheyMatch;
 }
+
+
 int BackWardsThresholdList1[5] =          {1,1,1,1,1}; //Deze lijsten zijn voor de whichdirection om in te vullen. Hij neemt de lijst van Distances
 int BackWardsThresholdList2[5] =          {0,1,1,1,0}; //(zie GetDistance), en voert ze in een BelowThreshold lijst in. 
 int BackWardsThresholdList3[5] =          {1,1,0,1,1}; //Vervolgens matcht de rest van de WhichDirection welke kant hij op moet
@@ -235,6 +242,7 @@ int RightThresholdList2[5] =              {1,1,1,1,0};
 int RightThresholdList3[5] =              {1,1,1,1,0};
 int FWD_LeftThresholdList[5] =            {0,0,1,1,1};
 int FWD_RightThresholdList[5]=            {1,1,0,0,0};
+
 
 char WhichDirection(){  //Zie SelfDrive(). Zet de servo naar vijf vooringestelde  standen (20,60,90,120,160 graden) en meet afstand.
   for(int i;i<5;i++){
@@ -301,14 +309,15 @@ char WhichDirection(){  //Zie SelfDrive(). Zet de servo naar vijf vooringestelde
 }
 void SelfDrive(){
     char WhereToGo = '∅'; //zet de WhereToGo char naar het karakter-equivalent van Null ('∅'), dit is om te voorkomen dat de auto één richting 
-    carAccelerate(0,0);   //uit blijft gaan na de eerste keer te hebben gemeten.
+                          //uit blijft gaan na de eerste keer te hebben gemeten.
     UltraServo.write(90);
-    
-    WhereToGo = WhichDirection(); //stored de char die WhichDirection output (zie de uitleg van WhichDirection voor verdere clarificatie)
+    if (AutoModeCheckAllAngles.check()){
+      WhereToGo = WhichDirection(); //stored het karakter dat WhichDirection output (zie de uitleg van WhichDirection voor verdere clarificatie)
     Serial.print("Next step is to go: "); //print naar de telefoon welke kant hij op zal gaan
     Serial.println(WhereToGo);
+    }
     /*Een heleboel if statements, voor elk gegeven scenario (naar voren, achteren, links, rechts, en ook naar voren terwijl de auto links/rechts draait.*/
-    if     (WhereToGo == 'B'){
+    if(WhereToGo == 'B'){
         analogWrite(ENA, (int)(100*2.55));
         analogWrite(ENB, (int)(70*2.55));
         digitalWrite(IN1, HIGH); //left motors forward = true
@@ -347,7 +356,7 @@ void SelfDrive(){
     else{
       Serial.print("Character not valid in SelfDrive function."); //als er per ongelijk een verkeerde karakter wordt ingevoerd, laat de code dat aan de telefoon weten.
       }
-    delay(700); //om ervoor te zorgen dat de auto ook een tijdje die richting op gaat en niet direct stopt.
+    //om ervoor te zorgen dat de auto ook een tijdje die richting op gaat en niet direct stopt.
     //carAccelerate(0,0); //stopt de auto, voor de zekerheid.
     char BTData = getBTdata();
     if(inBit == Manual){
@@ -358,7 +367,6 @@ void SelfDrive(){
     else{
       Serial.println("Car Self Drive loop succesfull! Starting again...");
       WhereToGo = '∅';
-      delay(100);
       SelfDrive();
     }
 }
