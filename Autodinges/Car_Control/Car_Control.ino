@@ -75,13 +75,14 @@ int SteerAcceleration = 0; //-100 t/m 100
 int AutoModeDriveAcc = 0;
 int AutoModeSteerAcc = 0;
 
+
 enum States {
     Null,//00 hex
     Faulty,//01 hex
     Manual,//02 hex
     Auto,//03 hex
-    Stop,//04 hex
-    Forward,//05 hex
+    Stop = 33,//04 hex
+    Forward = 35,//05 hex
     Backward,//06 hex
     Left,//07 hex
     Right,//08 hex
@@ -309,7 +310,7 @@ void SelfDrive(){
     if(inBit == Manual){
       carAccelerate(0,0);
       Serial.print("inBit is not <Auto> anymore");
-      return true;
+      return;
     }
     else{
       Serial.println("Car Self Drive loop succesfull");
@@ -340,11 +341,13 @@ char getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manu
     else if(inBit == Stop){
       Serial.println("stopping");
       carAccelerate(0, 0); //0 acceleratie + 0 is de turnSpeed, dus niks
+      UltraServo.write(120);
     }
     else if(inBit == Forward){
       Serial.println("Going forward");
       DriveAcceleration = 100;
       carAccelerate(DriveAcceleration, 0); //carSpeed is in het begin gedefined + 0 is de turnSpeed, dus niks
+      UltraServo.write(20);
       }
     else if(inBit == Backward){
       Serial.println("Going backward");
@@ -419,8 +422,9 @@ char getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manu
       Serial.println(inBit);
       inBit = Null; 
     }
+    Serial.println(inBit);
   }
-  delay(50); //Insert delay so that the code won't run too fast, which isn't very useful
+  //delay(50); //Insert delay so that the code won't run too fast, which isn't very useful
 }
 
 void setup(){
@@ -436,8 +440,11 @@ void setup(){
   pinMode(echoPin, INPUT);
   //SelfDrive();
   UltraServo.write(90);
+  Serial.print("everything ready ");
 }
 
 void loop() {
   getBTdata();
+  //Serial.print((int)inBit);
+  //Serial.println((int)inBit);
 }

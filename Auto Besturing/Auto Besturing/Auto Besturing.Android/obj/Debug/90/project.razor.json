@@ -1,0 +1,14 @@
+{
+  "ProjectFilePath": "d:\\Users\\Niek Aukes\\Documents\\Informati.ca\\Auto Besturing\\Auto Besturing\\Auto Besturing.Android\\Auto Besturing.Android.csproj",
+  "TargetFramework": "v9.0",
+  "TagHelpers": [],
+  "Configuration": {
+    "ConfigurationName": "UnsupportedRazor",
+    "LanguageVersion": "1.0",
+    "Extensions": [
+      {
+        "ExtensionName": "UnsupportedRazorExtension"
+      }
+    ]
+  }
+}
