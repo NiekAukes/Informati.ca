@@ -252,10 +252,9 @@ int FWD_RightThresholdList[5]=            {1,1,0,0,0};
 //previous_Time_CheckAngles,previous_Time_CheckDistance houden beide de tijd vast wanneer de vorige keer de code was gerund (elke zoveel milliseconden, de intervals)
 
 char WhichDirection(){  //Zie SelfDrive(). Zet de servo naar vijf vooringestelde  standen (20,60,90,120,160 graden) en meet afstand.
-  int x = 0;
   previous_Time_CheckAngles = currentTime;
   previous_Time_CheckDistance = currentTime + 350; //zodat de checkdistance altijd 350 milliseconden na de servo.write komt
-  
+  int x = 0;
   for(;x < 5;){
     if(currentTime - previous_Time_CheckAngles >= CheckAnglesInterval){ //als de tijd CheckAnglesInterval milliseconden vooruit is gegaan...
       UltraServo.write(ServoWrites[x]);
