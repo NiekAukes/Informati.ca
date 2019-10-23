@@ -51,7 +51,7 @@
     We hebben nu een lader en twee extra batterijen voor de zekerheid. Ik probeer nu (23-10) ook de arduino te laten multitasken, zodat we niet de hele tijd stilstaan
     als we willen meten.*/
 
-#include <Metro.h> //voor multitasking, zie https://www.youtube.com/watch?v=zhWV_D_9OCY
+//voor multitasking, zie https://www.youtube.com/watch?v=zhWV_D_9OCY
 #include <SoftwareSerial.h>
 #include <Servo.h>
 #define ENA 6
@@ -63,10 +63,13 @@
 //Voor de afstandssensor:
 #define triggerPin A5
 #define echoPin A4
+
+
 long duration,distance;
 int distance20,distance60,distance90,distance120,distance160;
 int Distances[5] = {};
 int BelowThreshold[5] = {false, false, false, false, false};
+int WallList[5] = {};
 int ServoWrites[5] = {20,60,90,120,160};
 int MaxDistance = 300; //IN CENTIMETRES
 char NextStep;
@@ -74,8 +77,6 @@ Servo UltraServo;
 int servoValue = 90;
 int DriveAcceleration = 0; //-100 t/m 100
 int SteerAcceleration = 0; //-100 t/m 100
-
-Metro AutoModeCheckAllAngles = Metro(1000);
 
 int AutoModeDriveAcc = 0;
 int AutoModeSteerAcc = 0;
@@ -245,27 +246,27 @@ int FWD_RightThresholdList[5]=            {1,1,0,0,0};
 
 
 char WhichDirection(){  //Zie SelfDrive(). Zet de servo naar vijf vooringestelde  standen (20,60,90,120,160 graden) en meet afstand.
-  for(int i;i<5;i++){
-    UltraServo.write(ServoWrites[i]);
-    delay(350);
-    int DistanceScanned = GetDistance();
-    Distances[i] = DistanceScanned;
-    Serial.println(Distances[i]);
-    if(Distances[i] < 22){
-      BelowThreshold[i] = 1; //als de afstand van een bepaald aantal graden onder de threshold zit komt er een één te staand ("Hier staat een muur!")
-    }
-    else{
-      BelowThreshold[i] = 0; //anders komt er een nul in de array ("Geen muur dichtbij!")
+    for(int i;i<5;i++){
+        UltraServo.write(ServoWrites[i]);
+          int DistanceScanned = GetDistance();
+          Distances[i] = DistanceScanned;
+          Serial.println(Distances[i]);
+          if(Distances[i] < 22){
+            BelowThreshold[i] = 1; //als de afstand van een bepaald aantal graden onder de threshold zit komt er een één te staand ("Hier staat een muur!")
+          }
+          else{
+            BelowThreshold[i] = 0; //anders komt er een nul in de array ("Geen muur dichtbij!")
+          } 
+    if(i == 4){
+      //int WallList[5] = {}; staat bovenaan
+      for(int i;i<5;i++){
+        WallList[i] = BelowThreshold[i];
+        Serial.print("Wall list is: ");
+        Serial.println(WallList[i]);
+      }
     }
   }
   UltraServo.write(90); //zet de servo weer naar 90graden om het mogelijk te maken snel weer dezelfde functie te activeren (en het ziet er stom uit als dat ding scheef staat)
-  int WallList[5] = {};
-  for(int i;i<5;i++){
-    WallList[i] = BelowThreshold[i];
-    Serial.print("Wall list is: ");
-    Serial.println(WallList[i]);
-  }
-  UltraServo.write(90); //...en voor de zekerheid zetten we m nog maar 'n keer recht.
   /*Dit zijn alle true/false parameters van de SelfDrive() code. Voor elk scenario wordt een boolean aangemaakt. De lijsten boven de WhichDirection() functie
   zijn hiermee geïntegreerd. Als de lijst van een scenario (bijv. BakcwardsThreshold1) NIET overeenkomt met de gemeten afstanden, wordt de boolean voor
   de lijst false. Als de lijst wél overeenkomt met het gemeten scenario, dan is de boolean true, en wordt een gegeven karakter gereturned.*/
@@ -311,11 +312,10 @@ void SelfDrive(){
     char WhereToGo = '∅'; //zet de WhereToGo char naar het karakter-equivalent van Null ('∅'), dit is om te voorkomen dat de auto één richting 
                           //uit blijft gaan na de eerste keer te hebben gemeten.
     UltraServo.write(90);
-    if (AutoModeCheckAllAngles.check()){
-      WhereToGo = WhichDirection(); //stored het karakter dat WhichDirection output (zie de uitleg van WhichDirection voor verdere clarificatie)
+    WhereToGo = WhichDirection(); //stored het karakter dat WhichDirection output (zie de uitleg van WhichDirection voor verdere clarificatie)
     Serial.print("Next step is to go: "); //print naar de telefoon welke kant hij op zal gaan
     Serial.println(WhereToGo);
-    }
+    
     /*Een heleboel if statements, voor elk gegeven scenario (naar voren, achteren, links, rechts, en ook naar voren terwijl de auto links/rechts draait.*/
     if(WhereToGo == 'B'){
         analogWrite(ENA, (int)(100*2.55));
@@ -324,12 +324,12 @@ void SelfDrive(){
         digitalWrite(IN2, LOW); //left motors backward = false
         digitalWrite(IN3, LOW); //rightmotors backward = false
         digitalWrite(IN4, HIGH); //rightmotors forward = true
-      /*AutoModeDriveAcc = -80;
+      /*AutoModeDriveAcc = -80; 
       AutoModeSteerAcc = 60;
       carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);*/
     }
     else if(WhereToGo == 'F'){
-      AutoModeDriveAcc = 60;
+      AutoModeDriveAcc = 40;
       AutoModeSteerAcc = 0;
       carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);
     }
@@ -359,9 +359,10 @@ void SelfDrive(){
     //om ervoor te zorgen dat de auto ook een tijdje die richting op gaat en niet direct stopt.
     //carAccelerate(0,0); //stopt de auto, voor de zekerheid.
     char BTData = getBTdata();
-    if(inBit == Manual){
+    if(BTData == Manual){
       carAccelerate(0,0);
       Serial.print("inBit is not <Auto> anymore");
+      inBit = Null;
       return true;
     }
     else{
