@@ -64,6 +64,9 @@
 #define triggerPin A5
 #define echoPin A4
 
+int CheckAnglesInterval = 350, CheckDistanceInterval = 350;
+unsigned long previous_Time_CheckAngles,previous_Time_CheckDistance;
+unsigned long currentTime;
 
 long duration,distance;
 int distance20,distance60,distance90,distance120,distance160;
@@ -208,6 +211,7 @@ int GetDistance(){ //sensor is triggered by HIGH pulse more or equal than 10 mic
   //          Wall        Wall //    Wall Wall    //  Wall   Wall    //  Wall        Wall   //            Wall              ETC.
   //          Wall  |--|  Wall //    |--| Wall    //  Wall   |--|    //  Wall  |--|  Wall   //     |--|   Wall              ETC.
   // |--|=car    go backward   //     go left     //       go right  //     go forward      //go fwd with 30deg left turn   ETC.
+
 void AssignCharArray(char copy[], char original[]){ //weet niet of nog gebruikt wordt. Werd gebruikt om chars over te kopiëren.
   int lengthofarray = sizeof(original);
   for(int i; i<lengthofarray;i++){
@@ -244,21 +248,36 @@ int RightThresholdList3[5] =              {1,1,1,1,0};
 int FWD_LeftThresholdList[5] =            {0,0,1,1,1};
 int FWD_RightThresholdList[5]=            {1,1,0,0,0};
 
+//CheckAnglesInterval, CheckDistanceInterval zijn beide 350 milliseconden
+//previous_Time_CheckAngles,previous_Time_CheckDistance houden beide de tijd vast wanneer de vorige keer de code was gerund (elke zoveel milliseconden, de intervals)
 
 char WhichDirection(){  //Zie SelfDrive(). Zet de servo naar vijf vooringestelde  standen (20,60,90,120,160 graden) en meet afstand.
-    for(int i;i<5;i++){
-        UltraServo.write(ServoWrites[i]);
-          int DistanceScanned = GetDistance();
-          Distances[i] = DistanceScanned;
-          Serial.println(Distances[i]);
-          if(Distances[i] < 22){
-            BelowThreshold[i] = 1; //als de afstand van een bepaald aantal graden onder de threshold zit komt er een één te staand ("Hier staat een muur!")
-          }
-          else{
-            BelowThreshold[i] = 0; //anders komt er een nul in de array ("Geen muur dichtbij!")
-          } 
-    if(i == 4){
-      //int WallList[5] = {}; staat bovenaan
+  int x = 0;
+  previous_Time_CheckAngles = currentTime;
+  previous_Time_CheckDistance = currentTime + 350; //zodat de checkdistance altijd 350 milliseconden na de servo.write komt
+  
+  for(;x < 5;){
+    if(currentTime - previous_Time_CheckAngles >= CheckAnglesInterval){ //als de tijd CheckAnglesInterval milliseconden vooruit is gegaan...
+      UltraServo.write(ServoWrites[x]);
+      
+      previous_Time_CheckAngles = currentTime;    
+    }    
+    if(currentTime - previous_Time_CheckDistance >= CheckDistanceInterval){
+      int DistanceScanned = GetDistance();
+      Distances[x] = DistanceScanned;
+      Serial.println(Distances[x]);
+      
+      if(Distances[x] < 22){
+        BelowThreshold[x] = 1; //als de afstand van een bepaald aantal graden onder de threshold zit komt er een één te staand ("Hier staat een muur!")
+      }
+      else{
+        BelowThreshold[x] = 0; //anders komt er een nul in de array ("Geen muur dichtbij!")
+      }
+      
+      previous_Time_CheckDistance = currentTime + 350; //zodat de checkdistance altijd 350 milliseconden na de servo.write komt
+      x++;
+    }
+    if(x == 4){ //int WallList[5] = {}; staat bovenaan
       for(int i;i<5;i++){
         WallList[i] = BelowThreshold[i];
         Serial.print("Wall list is: ");
@@ -451,7 +470,6 @@ char getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manu
       Serial.println("Checking All Angles");
       WhichDirection();
       inBit = Null;
-      UltraServo.write(90);
     }
     
     else if(inBit >= BeginAccelerationRange && inBit <= EndAccelerationRange){  //so the total acceleration range is 100 bits
@@ -493,5 +511,6 @@ void setup(){
 }
 
 void loop() {
+  currentTime = millis();
   getBTdata();
 }
