@@ -260,23 +260,23 @@ char WhichDirection(){  //Zie SelfDrive(). Zet de servo naar vijf vooringestelde
     if(currentTime - previous_Time_CheckAngles >= CheckAnglesInterval){ //als de tijd CheckAnglesInterval milliseconden vooruit is gegaan...
       UltraServo.write(ServoWrites[x]);
       previous_Time_CheckAngles = currentTime;    
-    }    
-    if(currentTime - previous_Time_CheckDistance >= CheckDistanceInterval){
-      int DistanceScanned = GetDistance();
-      Distances[x] = DistanceScanned;
-      Serial.println(Distances[x]);
-
-      if(Distances[x] < 22){
-        BelowThreshold[x] = 1; //als de afstand van een bepaald aantal graden onder de threshold zit komt er een één te staand ("Hier staat een muur!")
-      }
-      else{
-        BelowThreshold[x] = 0; //anders komt er een nul in de array ("Geen muur dichtbij!")
-      }
       
+      if(currentTime - previous_Time_CheckDistance >= CheckDistanceInterval){
+        int DistanceScanned = GetDistance();
+        Distances[x] = DistanceScanned;
+        Serial.println(Distances[x]);
+        if(Distances[x] < 22){
+          BelowThreshold[x] = 1; //als de afstand van een bepaald aantal graden onder de threshold zit komt er een één te staand ("Hier staat een muur!")
+        }
+        else{
+          BelowThreshold[x] = 0; //anders komt er een nul in de array ("Geen muur dichtbij!")
+        }
+        x++;
+      }
+    }
       previous_Time_CheckDistance = currentTime + 350; //zodat de checkdistance altijd 350 milliseconden na de servo.write komt
       currentTime = millis();
-      x++;
-    }
+      
     if(x == 4){ //int WallList[5] = {}; staat bovenaan
       for(int i;i<5;i++){
         WallList[i] = BelowThreshold[i];
