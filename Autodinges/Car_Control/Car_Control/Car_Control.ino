@@ -49,9 +49,34 @@
     ten opzichte van de brute force for(int i;etc.) manier bij elke lijst. Totale gescheelde lijntjes code: 75
     De batterijen van de arduino waren leeg dus we konden een dag bijna niks doen, behalve proberen het via de usb serial te regelen.
     We hebben nu een lader en twee extra batterijen voor de zekerheid. Ik probeer nu (23-10) ook de arduino te laten multitasken, zodat we niet de hele tijd stilstaan
-    als we willen meten.*/
+    als we willen meten.
+    
+    Met pijn in mijn hart heb ik 50 regels checkArrays weg moeten halen. We gebruiken nu een timer library van Niek. Dit maakt de code veel compacter en we kunnen hierdoor gewoon
+    door blijven rijden terwijl we de servo meten. We hebben bijna een werkende selfDrive functie! 
+    (P.S. Niek en ik hebben in dit autootje en de app al ongeveer beide 30 uur in gestoken)*/
 
 //voor multitasking, zie https://www.youtube.com/watch?v=zhWV_D_9OCY
+
+/*MultiTasker is een door Niek gecreëerde lokale library die zorgt voor het timen van acties, zoals het setten van een servo en het meten van een afstand.
+  Commands:
+    Multitasker [tasker];
+      Initialiseer een instance van class MultiTasker (een klein plannertje). Hiermee kun je de functies activeren die hieronder beschreven zijn.
+      DENK EROM! De tasker kan maximaal 10 tasks aan. Je kunt de limiet handmatig veranderen in de library. (bij for loop aan het begin)
+      
+    [tasker].RegisterTask(&function, interval);
+      Registreerd een getimede functie bij de bepaalde planner.
+        function = de functie die moet worden geactiveerd. 
+        DENK EROM! Voor de functie moet een '&' (die wijst naar de functie zodat de planner een pointer terugkrijgt.)
+
+        interval = interval in UL (unsigned long). Dit is het interval waarmee de actie moet gebeuren.
+        DENK EROM! Na de interval (in milliseconden) moet *altijd* 'UL'. Dit staat namelijk voor unsigned long, een extra grote integer
+        Anders kom je in de problemen met de returns, errors, en al die rotzooi.
+        
+    [tasker].Distribute();
+      Geeft een opdracht aan de planner om de tijd te checken.
+      Als er de hoeveelheid tijd is verstreken die ingesteld is in de RegisterTask functie, wordt de aangewezen functie geactiveerd.*/
+#include <MultiTaskCar.h>
+
 #include <SoftwareSerial.h>
 #include <Servo.h>
 #define ENA 6
@@ -64,15 +89,12 @@
 #define triggerPin A5
 #define echoPin A4
 
-int CheckAnglesInterval = 350, CheckDistanceInterval = 350;
-unsigned long previous_Time_CheckAngles,previous_Time_CheckDistance;
-unsigned long currentTime;
+MultiTasker tasker; //maakt instance van een class voor multitasken
 
 long duration,distance;
 int distance20,distance60,distance90,distance120,distance160;
-int Distances[5] = {};
+int Distances[3] = {};
 int BelowThreshold[5] = {false, false, false, false, false};
-int WallList[5] = {};
 int ServoWrites[5] = {20,60,90,120,160};
 int MaxDistance = 300; //IN CENTIMETRES
 char NextStep;
@@ -80,6 +102,8 @@ Servo UltraServo;
 int servoValue = 90;
 int DriveAcceleration = 0; //-100 t/m 100
 int SteerAcceleration = 0; //-100 t/m 100
+
+int LatestDistanceMeasured;
 
 int AutoModeDriveAcc = 0;
 int AutoModeSteerAcc = 0;
@@ -191,7 +215,7 @@ void carAccelerate(int carSpeed, int steerSpeed){
   }
 }
 
-int GetDistance(){ //sensor is triggered by HIGH pulse more or equal than 10 microseconds
+void GetDistance(){ //sensor is triggered by HIGH pulse more or equal than 10 microseconds
   digitalWrite(triggerPin, LOW); //to ensure clean high pulse
   delayMicroseconds(5);
   digitalWrite(triggerPin, HIGH);
@@ -199,11 +223,10 @@ int GetDistance(){ //sensor is triggered by HIGH pulse more or equal than 10 mic
   digitalWrite(triggerPin, LOW);
   duration = pulseIn(echoPin, HIGH);
   distance =(duration/2) * 0.0343/*=speed of sound in cm/microsecond*/; //in centimetres
-  int returnvalue = distance;
+  LatestDistanceMeasured = distance;
   Serial.print("Distance: ");
   Serial.print(distance);
   Serial.println(".");
-  return returnvalue;
   inBit = Null;
 }
 
@@ -233,105 +256,61 @@ bool arraysMatch(int array1[],int array2[]){ //handig stukje om arrays in één 
 }
 
 
-int BackWardsThresholdList1[5] =          {1,1,1,1,1}; //Deze lijsten zijn voor de whichdirection om in te vullen. Hij neemt de lijst van Distances
-int BackWardsThresholdList2[5] =          {0,1,1,1,0}; //(zie GetDistance), en voert ze in een BelowThreshold lijst in. 
-int BackWardsThresholdList3[5] =          {1,1,0,1,1}; //Vervolgens matcht de rest van de WhichDirection welke kant hij op moet
-int BackWardsThresholdList4[5] =          {0,0,1,0,0};
-int BackWardsThresholdList5[5] =          {0,1,1,1,0};
-int ForwardsThresholdList1[5] =           {1,0,0,0,1}; //op basis van deze basislijsten (links, rechts, etc.)
-int ForwardsThresholdList2[5] =           {0,0,0,0,0};
-int LeftThresholdList1[5] =               {0,1,1,0,0};
-int LeftThresholdList2[5] =               {0,0,1,1,1}; //er staat een nul als er geen muur moet zijn, een een als een muur binnen de threshold moet zijn.
-int RightThresholdList1[5] =              {1,1,1,0,0}; //zo werkt de code voor het bepalen van muren ook.
-int RightThresholdList2[5] =              {1,1,1,1,0};
-int RightThresholdList3[5] =              {1,1,1,1,0};
-int FWD_LeftThresholdList[5] =            {0,0,1,1,1};
-int FWD_RightThresholdList[5]=            {1,1,0,0,0};
+//allemaal aparte functies omdat de scheduler geen argumenten aankan. fuck.
+void SetServo60() {UltraServo.write(60); }
+void SetServo90() {UltraServo.write(90); }
+void SetServo120(){UltraServo.write(120);}
 
-//CheckAnglesInterval, CheckDistanceInterval zijn beide 350 milliseconden
-//previous_Time_CheckAngles,previous_Time_CheckDistance houden beide de tijd vast wanneer de vorige keer de code was gerund (elke zoveel milliseconden, de intervals)
+void SaveDistanceInPlace0(){Distances[0] = LatestDistanceMeasured;}
+void SaveDistanceInPlace1(){Distances[1] = LatestDistanceMeasured;}
+void SaveDistanceInPlace2(){Distances[2] = LatestDistanceMeasured;}
+
+void PrintDistances(){
+  for(int i;i<3;i++){
+    Serial.println("Distance " + (String)(i+1) + " is: " + (String)(Distances[i]));
+  }
+}
+
+void GetDistancesOfAngles(){
+  //Registratie van de automatische besturing (zie SelfDrive();)
+  //in volgorde: Servo naar 60 graden, afstand meten, afstand storen, servo naar 90 graden, afstand meten, afstand storen, servo naar 120 graden, afstand meten, afstand storen, done.
+  // servo naar 60deg = 0UL, servo 90deg = 250UL, servo 120deg = 500UL. Dan nog servo90deg aan het einde met 750UL.
+
+  tasker.RegisterTask(&SetServo60, 1UL);
+  tasker.RegisterTask(&SetServo90, 300UL);
+  tasker.RegisterTask(&SetServo120,600UL);
+  tasker.RegisterTask(&SetServo90, 900UL);
+  for (int i = 1;i<4;i++){ //dus drie keer:
+    tasker.RegisterTask(&GetDistance, i * 300UL - 20); //moet callen net voordat de servo angles switcht, dus 230, 480, 730 UL
+  }
+  tasker.RegisterTask(&SaveDistanceInPlace0, 299UL); //store distance int at GetDistance's 1st time + about 20ms
+  tasker.RegisterTask(&SaveDistanceInPlace1, 599UL);//store distance int at GetDistance's 2nd time of measuring + about 20ms (again)
+  tasker.RegisterTask(&SaveDistanceInPlace2, 899UL);//store distance int at GetDistance's 3rd time of measuring + about 20ms (again)
+
+  tasker.RegisterTask(&PrintDistances,1100UL);
+}
 
 char WhichDirection(){  //Zie SelfDrive(). Zet de servo naar vijf vooringestelde  standen (20,60,90,120,160 graden) en meet afstand.
-  previous_Time_CheckAngles = currentTime;
-  previous_Time_CheckDistance = currentTime + 350; //zodat de checkdistance altijd 350 milliseconden na de servo.write komt 
-  int x = 0;
-  while(x < 5){
-    currentTime = millis();
-    if(currentTime - previous_Time_CheckAngles >= CheckAnglesInterval){ //als de tijd CheckAnglesInterval milliseconden vooruit is gegaan...
-      UltraServo.write(ServoWrites[x]);
-      previous_Time_CheckAngles = currentTime;    
-      
-      if(currentTime - previous_Time_CheckDistance >= CheckDistanceInterval){
-        int DistanceScanned = GetDistance();
-        Distances[x] = DistanceScanned;
-        Serial.println(Distances[x]);
-        if(Distances[x] < 22){
-          BelowThreshold[x] = 1; //als de afstand van een bepaald aantal graden onder de threshold zit komt er een één te staand ("Hier staat een muur!")
-        }
-        else{
-          BelowThreshold[x] = 0; //anders komt er een nul in de array ("Geen muur dichtbij!")
-        }
-        x++;
-      }
-    }
-      previous_Time_CheckDistance = currentTime + 350; //zodat de checkdistance altijd 350 milliseconden na de servo.write komt
-      currentTime = millis();
-      
-    if(x == 4){ //int WallList[5] = {}; staat bovenaan
-      for(int i;i<5;i++){
-        WallList[i] = BelowThreshold[i];
-        Serial.print("Wall list is: ");
-        Serial.println(WallList[i]);
-      }
-    }
+  GetDistancesOfAngles();
+  if(Distances[0] < 40){
+    return 'R';
   }
-  UltraServo.write(90); //zet de servo weer naar 90graden om het mogelijk te maken snel weer dezelfde functie te activeren (en het ziet er stom uit als dat ding scheef staat)
-  /*Dit zijn alle true/false parameters van de SelfDrive() code. Voor elk scenario wordt een boolean aangemaakt. De lijsten boven de WhichDirection() functie
-  zijn hiermee geïntegreerd. Als de lijst van een scenario (bijv. BakcwardsThreshold1) NIET overeenkomt met de gemeten afstanden, wordt de boolean voor
-  de lijst false. Als de lijst wél overeenkomt met het gemeten scenario, dan is de boolean true, en wordt een gegeven karakter gereturned.*/
-  bool Matches_BackwardsList1 = true,Matches_BackwardsList2=true,Matches_BackwardsList3=true,Matches_BackwardsList4=true,Matches_ForwardsList1=true,
-       Matches_ForwardsList2=true,Matches_LeftList1=true,Matches_LeftList2=true,Matches_RightList1=true,Matches_RightList2=true,Matches_RightList3=true,
-       Matches_FWD_LeftList=true,Matches_FWD_RightList=true;
-  Matches_BackwardsList1 =  arraysMatch(WallList,BackWardsThresholdList1);//checken of alle lijsten misschien de gemeten afstanden matchen...
-  Matches_BackwardsList2 =  arraysMatch(WallList,BackWardsThresholdList2);
-  Matches_BackwardsList3 =  arraysMatch(WallList,BackWardsThresholdList3);
-  Matches_BackwardsList4 =  arraysMatch(WallList,BackWardsThresholdList4);
-  Matches_ForwardsList1  =  arraysMatch(WallList,ForwardsThresholdList1);
-  Matches_ForwardsList2  =  arraysMatch(WallList,ForwardsThresholdList2);
-  Matches_LeftList1      =  arraysMatch(WallList,LeftThresholdList1);
-  Matches_LeftList2      =  arraysMatch(WallList,LeftThresholdList2);
-  Matches_RightList1     =  arraysMatch(WallList,RightThresholdList1);
-  Matches_RightList2     =  arraysMatch(WallList,RightThresholdList2);
-  Matches_RightList3     =  arraysMatch(WallList,RightThresholdList3);
-  Matches_FWD_LeftList   =  arraysMatch(WallList,FWD_LeftThresholdList);
-  Matches_FWD_RightList  =  arraysMatch(WallList,FWD_RightThresholdList);//als een scenario voorkomt, bijvoorbeeld backward, dan output de functie een 'B'.
-  Serial.println(Matches_BackwardsList1);
-  Serial.println(Matches_BackwardsList2);
-  Serial.println(Matches_BackwardsList3);
-  Serial.println(Matches_BackwardsList4);
-  Serial.println(Matches_ForwardsList1);
-  Serial.println(Matches_ForwardsList2);
-  Serial.println(Matches_LeftList1);
-  Serial.println(Matches_LeftList2);
-  Serial.println(Matches_RightList1);
-  Serial.println(Matches_RightList2);
-  Serial.println(Matches_RightList3);
-  Serial.println(Matches_FWD_LeftList);
-  Serial.println(Matches_FWD_RightList);
-  
-  if(Matches_BackwardsList1||Matches_BackwardsList2||Matches_BackwardsList3||Matches_BackwardsList4)
-                                                                                {Serial.println("Matches bwd list");return 'B';}
-  if(Matches_ForwardsList1 || Matches_ForwardsList2)                            {Serial.println("Matches fwd list");return 'F';}
-  if(Matches_LeftList1 || Matches_LeftList2)                                    {Serial.println("Matches left list");return 'L';}
-  if(Matches_RightList1 || Matches_RightList2 || Matches_RightList3)            {Serial.println("Matches right list");return 'R';}
-  if(Matches_FWD_LeftList)                                                      {Serial.println("Matches fwd left list");return 'X';}
-  if(Matches_FWD_RightList)                                                     {Serial.println("Matches fwd right list");return 'Y';}
+  if(Distances[1] < 40){
+    return 'B';
+  }
+  if(Distances[2] < 40){
+    return 'L';
+  }
+  else{
+    return 'F';
+  }
+  //Zegmaar recursion maar dan getimed
+  if ((States)Serial.read() == Auto){
+    tasker.RegisterTask(&GetDistancesOfAngles, 1750UL);
+  }
 }
 void SelfDrive(){
-    char WhereToGo = '∅'; //zet de WhereToGo char naar het karakter-equivalent van Null ('∅'), dit is om te voorkomen dat de auto één richting 
-                          //uit blijft gaan na de eerste keer te hebben gemeten.
-    UltraServo.write(90);
-    WhereToGo = WhichDirection(); //stored het karakter dat WhichDirection output (zie de uitleg van WhichDirection voor verdere clarificatie)
+    char WhereToGo = WhichDirection();
     Serial.print("Next step is to go: "); //print naar de telefoon welke kant hij op zal gaan
     Serial.println(WhereToGo);
     
@@ -377,15 +356,12 @@ void SelfDrive(){
       }
     //om ervoor te zorgen dat de auto ook een tijdje die richting op gaat en niet direct stopt.
     //carAccelerate(0,0); //stopt de auto, voor de zekerheid.
-    char BTData = getBTdata();
-    if(BTData == Manual){
+    if((States)Serial.read() == Manual || (States)Serial.read() == Stop){
       carAccelerate(0,0);
       Serial.print("inBit is not <Auto> anymore");
-      inBit = Null;
-      return true;
     }
-    else{
-      Serial.println("Car Self Drive loop succesfull! Starting again...");
+    else if((States)Serial.read() == Auto){
+      Serial.println("Self drive succes!");
       WhereToGo = '∅';
       SelfDrive();
     }
@@ -474,11 +450,11 @@ char getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manu
     
     else if(inBit >= BeginAccelerationRange && inBit <= EndAccelerationRange){  //so the total acceleration range is 100 bits
       //Subtract inBit by begin of array, so the range is exactly an int ranging from 0 to 100. Then subtract half of the width of array to make it range from -50 to 50 for example
-      DriveAcceleration = (inBit - BeginAccelerationRange)-((EndAccelerationRange-BeginAccelerationRange)/2)*2; //lastly, times two to make it exactly -100 to 100
+      DriveAcceleration = ((inBit - BeginAccelerationRange)-((EndAccelerationRange-BeginAccelerationRange)/2)*2); //lastly, times two to make it exactly -100 to 100
     }
     else if(inBit == CheckDistance){
-      int ScannedDistance = GetDistance();
-      Serial.print(ScannedDistance);
+      GetDistance();
+      Serial.print(LatestDistanceMeasured);
       Serial.print(" cm.");
     }
     else if(inBit == 10 || inBit == 13){
@@ -490,7 +466,6 @@ char getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manu
       inBit = Null; 
     }
   }
-  delay(50); //Insert delay so that the code won't run too fast, which isn't very useful
 }
 
 void setup(){
@@ -504,13 +479,13 @@ void setup(){
   pinMode(ENB, OUTPUT);
   pinMode(triggerPin, OUTPUT);
   pinMode(echoPin, INPUT);
-  //SelfDrive();
   UltraServo.write(90);
-  delay(4000);
-  Serial.println("Setup is done. Ready to recieve information.");
+  Serial.println("Setup is done.");
+  GetDistancesOfAngles();
+  
 }
 
 void loop() {
-  currentTime = millis();
   getBTdata();
+  tasker.Distribute(); //check timers if there are any pending tasks, if so, activate those functions.
 }
