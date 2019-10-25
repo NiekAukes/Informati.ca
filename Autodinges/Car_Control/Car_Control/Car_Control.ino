@@ -277,17 +277,21 @@ void GetDistancesOfAngles(){
   // servo naar 60deg = 0UL, servo 90deg = 250UL, servo 120deg = 500UL. Dan nog servo90deg aan het einde met 750UL.
 
   tasker.RegisterTask(&SetServo60, 1UL);
-  tasker.RegisterTask(&SetServo90, 300UL);
-  tasker.RegisterTask(&SetServo120,600UL);
-  tasker.RegisterTask(&SetServo90, 900UL);
+  tasker.RegisterTask(&SetServo90, 250UL);
+  tasker.RegisterTask(&SetServo120,500UL);
+  tasker.RegisterTask(&SetServo90, 750UL);
   for (int i = 1;i<4;i++){ //dus drie keer:
-    tasker.RegisterTask(&GetDistance, i * 300UL - 20); //moet callen net voordat de servo angles switcht, dus 230, 480, 730 UL
+    tasker.RegisterTask(&GetDistance, i * 250UL - 20); //moet callen net voordat de servo angles switcht, dus 230, 480, 730 UL
   }
-  tasker.RegisterTask(&SaveDistanceInPlace0, 299UL); //store distance int at GetDistance's 1st time + about 20ms
-  tasker.RegisterTask(&SaveDistanceInPlace1, 599UL);//store distance int at GetDistance's 2nd time of measuring + about 20ms (again)
-  tasker.RegisterTask(&SaveDistanceInPlace2, 899UL);//store distance int at GetDistance's 3rd time of measuring + about 20ms (again)
+  tasker.RegisterTask(&SaveDistanceInPlace0, 249UL); //store distance int at GetDistance's 1st time + about 20ms
+  tasker.RegisterTask(&SaveDistanceInPlace1, 499UL);//store distance int at GetDistance's 2nd time of measuring + about 20ms (again)
+  tasker.RegisterTask(&SaveDistanceInPlace2, 749UL);//store distance int at GetDistance's 3rd time of measuring + about 20ms (again)
 
   tasker.RegisterTask(&PrintDistances,1100UL);
+
+  if((States)Serial.read() == Auto){
+    GetDistancesOfAngles(); 
+  }
 }
 
 char WhichDirection(){  //Zie SelfDrive(). Zet de servo naar vijf vooringestelde  standen (20,60,90,120,160 graden) en meet afstand.
