@@ -5,8 +5,11 @@
 #define IN3 9
 #define IN4 11
 
+
+#include <MultiTaskCar.h>
 unsigned long previousMillis = 0;        // will store last time LED was updated
 unsigned long interval = 1000;           // interval at which to blink (milliseconds)
+MultiTasker tasker;
 
 bool goingBW = false;
 void bw(){
@@ -32,23 +35,15 @@ void setup() {
   pinMode(IN4, OUTPUT);
   pinMode(ENA, OUTPUT);
   pinMode(ENB, OUTPUT);
+  delay(1000);
   bw();
   delay(1000);
   stopcar();
+
+  tasker.RegisterTask(&bw, 500UL);
+  tasker.RegisterTask(&stopcar, 1000UL);
 }
 
 void loop() {
-  if (millis() - previousMillis > interval){
-    // save the last time you blinked the LED
-    previousMillis += interval; 
-
-    // if the LED is off turn it on and vice-versa:
-    goingBW != goingBW;
-    if(goingBW){
-        bw();
-      }
-    else{
-       stopcar();
-       }
-  }
+  tasker.Distribute();
 }

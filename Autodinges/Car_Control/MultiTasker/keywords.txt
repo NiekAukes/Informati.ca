@@ -6,14 +6,14 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-Metro	KEYWORD1
+MultiTasker	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
-check	KEYWORD2
-interval	KEYWORD2
+RegisterTask	KEYWORD2
+Distribute	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)
