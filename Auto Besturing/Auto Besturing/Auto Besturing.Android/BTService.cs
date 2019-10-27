@@ -16,6 +16,7 @@ using Android.Bluetooth;
 using Android.Net;
 using Android.Util;
 using Android.Bluetooth.LE;
+using System.Threading.Tasks;
 
 namespace Auto_Besturing.Droid
 {
@@ -93,6 +94,7 @@ namespace Auto_Besturing.Droid
                 if (addDevice)
                 {
                     BLEDevices.Add(result.Device);
+                    MainPage.ActivePage.RefreshBT();
                 }
 
                 //MainActivity.appl.MainPage.DisplayAlert("Found", "Found a Device", "Ok");
@@ -108,6 +110,34 @@ namespace Auto_Besturing.Droid
             {
 
             }
+            public override void OnDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, [GeneratedEnum] GattStatus status)
+            {
+                base.OnDescriptorRead(gatt, descriptor, status);
+                MainPage.LogEntry(descriptor.DescribeContents().ToString());
+            }
+            public override void OnCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic)
+            {
+                base.OnCharacteristicChanged(gatt, characteristic);
+                Log.Debug("friendly","Got a new Value: " + characteristic.GetStringValue(0));
+            }
+            public override void OnCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, [GeneratedEnum] GattStatus status)
+            {
+                base.OnCharacteristicRead(gatt, characteristic, status);
+                if (characteristic.GetStringValue(0) != null)
+                {
+                    MainPage.LogEntry("Got a new read Value: " + characteristic.GetStringValue(0));
+                }
+            }
+            public override void OnCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, [GeneratedEnum] GattStatus status)
+            {
+                base.OnCharacteristicWrite(gatt, characteristic, status);
+                MainPage.LogEntry("Write Value: " + characteristic.GetIntValue(GattFormat.Sint16, 0).ToString());
+            }
+            public override void OnReliableWriteCompleted(BluetoothGatt gatt, [GeneratedEnum] GattStatus status)
+            {
+                base.OnReliableWriteCompleted(gatt, status);
+                MainPage.LogEntry("Reliable Write Completed");
+            }
             public override void OnConnectionStateChange(BluetoothGatt gatt, [GeneratedEnum] GattStatus status, [GeneratedEnum] ProfileState newState)
             {
                 base.OnConnectionStateChange(gatt, status, newState);
@@ -115,20 +145,19 @@ namespace Auto_Besturing.Droid
                 switch (newState)
                 {
                     case ProfileState.Connected:
-                        Log.Debug("friendly", "Now Connected");
-
+                        MainPage.LogEntry("Now Connected");
+                        gatt.DiscoverServices();
                         MainActivity.appl.MainPage.DisplayAlert("Connected", "Connected to the Device", "Ok");
                         break;
                     case ProfileState.Connecting:
-                        Log.Debug("friendly", "Now Connecting");
+                        MainPage.LogEntry("Now Connecting");
                         break;
                     case ProfileState.Disconnected:
-                        Log.Debug("friendly", "Now Disconnected");
+                        MainPage.LogEntry("Now Disconnected");
+                        MainActivity.appl.MainPage.DisplayAlert("Disconnected", "Remote Device Broke the connection", "Ok");
                         break;
                     case ProfileState.Disconnecting:
-                        Log.Debug("friendly", "Now Disconnecting");
-
-                        MainActivity.appl.MainPage.DisplayAlert("Disconnected", "Remote Device Broke the connection", "Ok");
+                        MainPage.LogEntry("Now Disconnecting");
                         break;
                 }
 
@@ -138,6 +167,9 @@ namespace Auto_Besturing.Droid
             public override void OnServicesDiscovered(BluetoothGatt gatt, [GeneratedEnum] GattStatus status)
             {
                 base.OnServicesDiscovered(gatt, status);
+                MainPage.LogEntry("Discovered Services");
+                activeService.servicepeek = new List<BluetoothGattService>(gatt.Services);
+
             }
         }
 
@@ -172,9 +204,16 @@ namespace Auto_Besturing.Droid
 
         public BluetoothGattServer gattServer;
         public BluetoothGatt gatt;
+        public BluetoothGattService GattService;
+        public BluetoothGattCharacteristic characteristicWrite;
+        public BluetoothGattCharacteristic characteristicRead;
         public Handler handler = new Handler();
+        public static Java.Util.UUID ServiceUUID = Java.Util.UUID.FromString("0000ffe0-0000-1000-8000-00805f9b34fb");
+        public static Java.Util.UUID CharacteristicUUIDWrite = Java.Util.UUID.FromString("0000ffe1-0000-1000-8000-00805f9b34fb");
+        public static Java.Util.UUID CharacteristicUUIDRead = Java.Util.UUID.FromString("0000ffe1-0000-1000-8000-00805f9b34fb");
 
         public bool GattServerActive = false;
+        List<BluetoothGattService> servicepeek;
 
         public byte[] ServiceBytes;
         public BTService()
@@ -184,16 +223,20 @@ namespace Auto_Besturing.Droid
             Adapter = BluetoothAdapter.DefaultAdapter;
             if (Adapter == null) //no BT support
             {
-                throw new Exception("Bluetooth not available on this device");
+                return;
+                //throw new Exception("Bluetooth not available on this device");
             }
             if (!Adapter.IsEnabled)
             {
                 //if bluetooth is not enabled, ask for enable
                 Application.Context.SendBroadcast(new Intent(BluetoothAdapter.ActionRequestEnable));
+                MainPage.LogEntry("Bluetooth not enabled");
             }
 
             IntentFilter BTFilterFound = new IntentFilter(BluetoothDevice.ActionFound);
             Application.Context.RegisterReceiver(BTReceiver, BTFilterFound);
+
+            StartLESearch();
             
         }
         public void StartLESearch()
@@ -206,11 +249,26 @@ namespace Auto_Besturing.Droid
             throw new NotImplementedException();
         }
 
-        public void ConnectGatt(BluetoothDevice device)
+        public bool ConnectGatt(BluetoothDevice device)
         {
             mGattCallback bluetoothGattCallback = new mGattCallback();
-            gatt = device.ConnectGatt(Application.Context, false, bluetoothGattCallback, BluetoothTransports.Le, ScanSettingsPhy.AllSupported, handler);
-            gatt.DiscoverServices();
+            MainPage.LogEntry(device.CreateBond().ToString());
+            gatt = device.ConnectGatt(Application.Context, false, bluetoothGattCallback, BluetoothTransports.Auto, ScanSettingsPhy.AllSupported, handler);
+            if (gatt != null)
+            {
+                gatt.DiscoverServices();
+                GattService = gatt.GetService(ServiceUUID);
+                return true;
+            }
+            return false;
+
+            //GattService = new BluetoothGattService(ServiceUUID, GattServiceType.Primary);
+            
+            //characteristicWrite = new BluetoothGattCharacteristic(CharacteristicUUIDWrite, GattProperty.Notify, GattPermission.Read);
+            //GattService.AddCharacteristic(characteristicWrite);
+            //characteristicRead = new BluetoothGattCharacteristic(CharacteristicUUIDWrite, GattProperty.Notify, GattPermission.Write);
+            //GattService.AddCharacteristic(characteristicRead);
+            //gatt.BeginReliableWrite();
         }
 
         public void StartLEServer()
@@ -231,6 +289,39 @@ namespace Auto_Besturing.Droid
 
             Adapter.BluetoothLeAdvertiser.StartAdvertising(advertiseSettingsBuilder.Build(), advertiseDataBuilder.Build(), advertiseCallback);
         }
+        public bool WriteGattCharacteristic(int value)
+        {
+            /*
+             * Write Edge Cases:
+             * 
+             */
+
+            if (gatt == null) //no gatt connection was active, human error
+            {
+                new ErrorHandler("Characteristic cannot be null", MainActivity.appl.MainPage);
+                return false;
+            }
+            GattService = gatt.GetService(ServiceUUID);
+            if (GattService == null)
+            {
+                new ErrorHandler("Could not Send to the service", MainActivity.appl.MainPage);
+                return false;
+            }
+            BluetoothGattCharacteristic gattCharacteristic = GattService.GetCharacteristic(CharacteristicUUIDWrite);
+            if (gattCharacteristic == null)
+            {
+                new ErrorHandler("Could not Send to the characteristic", MainActivity.appl.MainPage);
+                return false;
+            }
+            gattCharacteristic.SetValue(BitConverter.GetBytes(value));
+            bool f = gatt.WriteCharacteristic(GattService.GetCharacteristic(CharacteristicUUIDWrite));
+            
+
+
+            //gatt.ReadCharacteristic(GattService.GetCharacteristic(CharacteristicUUIDRead));
+            return f; //operation succesfully completed
+        }
+        
 
         private void StopAdvertising()
         {
@@ -251,6 +342,8 @@ namespace Auto_Besturing.Droid
                 throw new NullReferenceException("Could not Create Server");
             }
         }
+
+        //private Task StartServerAsync
 
         public void ConnectRFCOMM()
         {

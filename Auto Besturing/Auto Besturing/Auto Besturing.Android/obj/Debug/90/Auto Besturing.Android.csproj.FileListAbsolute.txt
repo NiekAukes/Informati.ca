@@ -1,35 +1,53 @@
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\MonoAndroid,Version=v9.0.AssemblyAttributes.cs
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\build.props
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\adb.props
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\Auto Besturing.Android.csprojAssemblyReference.cache
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\stamp\_BuildLibraryImportsCache.stamp
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\resourcepaths.cache
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\res.flag
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\5bc7d60ce9d5f6245c4fd4d648065dc207b6323e.stamp
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\5bc7d60ce9d5f6245c4fd4d648065dc207b6323e.flata
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\compiled.flata
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\R.txt
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\R.cs.flag
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\Auto Besturing.Android.csproj.CoreCompileInputs.cache
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\bin\Debug\Auto Besturing.Android.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\bin\Debug\Auto Besturing.Android.pdb
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\bin\Debug\com.companyname.auto_besturing.apk
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\bin\Debug\com.companyname.auto_besturing-Signed.apk
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\bin\Debug\Auto Besturing.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\bin\Debug\Auto Besturing.pdb
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\MonoAndroid,Version=v9.0.AssemblyAttributes.cs
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\build.props
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\adb.props
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\Auto Besturing.Android.csprojAssemblyReference.cache
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\_VerifyXamarinAndroidSupportVersions.stamp
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\stamp\_BuildLibraryImportsCache.stamp
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\resourcepaths.cache
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\res.flag
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\c345237e5b421f1800624cf64abdb09788a36350.stamp
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\02e39f7b9bc1f6cb577eaab322cd980d7e665f16.stamp
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\baa01a8444b6f0b829fa988c19e1e4d66e5ab2cf.stamp
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\4f6e420818b34526a5dfba9ab030f83a0a616f31.stamp
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\008d449a979c4a4b2988f5c7e7a97cbe0bc8e474.stamp
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\413e2a048378c52c0c44d19a075aded480284f3f.stamp
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\5bc7d60ce9d5f6245c4fd4d648065dc207b6323e.stamp
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\0a32e0ea485ae547f76c569cc1d2d844e1356854.stamp
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\12699bdf0072c9e1c3e62cf4265cec55635275cc.stamp
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\982cf782465ae5c2cda18eaed34a17a07ec950ef.stamp
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\e8405ec9f96c963253269749aea6d15ef807e2f0.stamp
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\7e45b2d6efe264cbde15a10632ac53eda5e38ea7.stamp
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\c345237e5b421f1800624cf64abdb09788a36350.flata
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\02e39f7b9bc1f6cb577eaab322cd980d7e665f16.flata
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\baa01a8444b6f0b829fa988c19e1e4d66e5ab2cf.flata
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\4f6e420818b34526a5dfba9ab030f83a0a616f31.flata
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\008d449a979c4a4b2988f5c7e7a97cbe0bc8e474.flata
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\413e2a048378c52c0c44d19a075aded480284f3f.flata
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\5bc7d60ce9d5f6245c4fd4d648065dc207b6323e.flata
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\0a32e0ea485ae547f76c569cc1d2d844e1356854.flata
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\12699bdf0072c9e1c3e62cf4265cec55635275cc.flata
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\982cf782465ae5c2cda18eaed34a17a07ec950ef.flata
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\e8405ec9f96c963253269749aea6d15ef807e2f0.flata
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\7e45b2d6efe264cbde15a10632ac53eda5e38ea7.flata
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\compiled.flata
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\R.txt
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\R.cs.flag
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\MainPage.xaml.g.cs
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\App.xaml.g.cs
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\Auto Besturing.Android.csproj.CoreCompileInputs.cache
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\XamlC.stamp
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\Auto Besturing.Android.csproj.CopyComplete
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\Auto Besturing.Android.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\Auto Besturing.Android.pdb
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\bin\com.companyname.auto_besturing.apk
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\res\layout\tabbar.xml
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\res\layout\toolbar.xml
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\res\values\styles.xml
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\res\values\colors.xml
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\res\mipmap-anydpi-v26\icon.xml
@@ -44,14 +62,17 @@ C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.An
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\res\mipmap-xxhdpi\launcher_foreground.png
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\res\mipmap-xxxhdpi\icon.png
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\res\mipmap-xxxhdpi\launcher_foreground.png
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\res\layout\toolbar.xml
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\uploadflags.txt
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\resolvedassemblies.hash
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\Auto Besturing.Android.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\Auto Besturing.dll
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\Base2Base.Abstractions.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\FormsViewGroup.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\Java.Interop.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\Mono.Android.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\mscorlib.dll
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\Plugin.Bluetooth.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\System.Core.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\System.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\System.IO.Ports.dll
@@ -119,16 +140,17 @@ C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.An
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\Auto Besturing.Android.pdb
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\FormsViewGroup.pdb
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\Mono.Android.pdb
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\Xamarin.Essentials.pdb
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\Xamarin.Forms.Core.pdb
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\Xamarin.Forms.Platform.Android.pdb
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\Xamarin.Forms.Xaml.pdb
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\Auto Besturing.dll.mdb
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\Xamarin.Essentials.dll.mdb
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\link.flag
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Auto Besturing.Android.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Auto Besturing.Android.pdb
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Auto Besturing.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Auto Besturing.dll.mdb
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Base2Base.Abstractions.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\FormsViewGroup.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\FormsViewGroup.pdb
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Java.Interop.dll
@@ -137,6 +159,7 @@ C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.An
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Mono.Security.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\mscorlib.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\netstandard.dll
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Plugin.Bluetooth.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\System.ComponentModel.Composition.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\System.Core.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\System.Data.dll
@@ -195,7 +218,7 @@ C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.An
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.VersionedParcelable.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.ViewPager.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Xamarin.Essentials.dll
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Xamarin.Essentials.dll.mdb
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Xamarin.Essentials.pdb
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Xamarin.Forms.Core.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Xamarin.Forms.Core.pdb
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Xamarin.Forms.Platform.Android.dll
@@ -208,7 +231,6 @@ C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.An
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\bin\mono.android.jar
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\static.flag
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\buildid.txt
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\xamarin\essentials\fileProvider.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\v7\widget\ActionMenuView_OnMenuItemClickListenerImplementor.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\v7\widget\ContentFrameLayout_OnAttachListenerImplementor.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\v7\widget\FitWindowsViewGroup_OnFitSystemWindowsListenerImplementor.java
@@ -252,14 +274,9 @@ C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.An
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\v4\app\FragmentManager_OnBackStackChangedListenerImplementor.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\v4\app\SharedElementCallback_OnSharedElementsReadyListenerImplementor.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\v13\view\inputmethod\InputConnectionCompat_OnCommitContentListenerImplementor.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5423e3a95c357eb7d6aad61b4f54abbd4\RecyclerViewScrollListener.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\v13\view\DragStartHelper_OnDragStartListenerImplementor.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\transition\Transition_TransitionListenerImplementor.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\design\widget\AppBarLayout_OnOffsetChangedListenerImplementor.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\design\widget\BottomNavigationView_OnNavigationItemReselectedListenerImplementor.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\design\widget\BottomNavigationView_OnNavigationItemSelectedListenerImplementor.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\design\widget\NavigationView_OnNavigationItemSelectedListenerImplementor.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\design\widget\SwipeDismissBehavior_OnDismissListenerImplementor.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\design\widget\TabLayout_BaseOnTabSelectedListenerImplementor.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\v7\widget\Toolbar_NavigationOnClickEventDispatcher.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\ActionSheetRenderer.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\ActivityIndicatorRenderer.java
@@ -294,7 +311,6 @@ C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.An
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\EditorRenderer.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\EditorRendererBase_1.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\EmptyViewAdapter.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\EmptyViewAdapter_EmptyViewHolder.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\EndSingleSnapHelper.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\EndSnapHelper.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\EntryAccessibilityDelegate.java
@@ -320,6 +336,7 @@ C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.An
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\GenericAnimatorListener.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\GenericMenuClickListener.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\GestureManager_TapAndPanGestureDetector.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\GridLayoutSpanSizeLookup.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\GroupedListViewAdapter.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\ImageButtonRenderer.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\ImageCache_CacheEntry.java
@@ -356,6 +373,7 @@ C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.An
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\PositionalSmoothScroller.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\PowerSaveModeBroadcastReceiver.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\ProgressBarRenderer.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\ScrollHelper.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\ScrollViewContainer.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\ScrollViewRenderer.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\SearchBarRenderer.java
@@ -363,7 +381,6 @@ C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.An
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\SelectableItemsViewRenderer.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\SelectableViewHolder.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\ShellContentFragment.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\ShellFlyoutContentRenderer.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\ShellFlyoutRecyclerAdapter.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\ShellFlyoutRecyclerAdapter_ElementViewHolder.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\ShellFlyoutRecyclerAdapter_LinearLayoutWithFocus.java
@@ -383,6 +400,7 @@ C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.An
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\ShellSectionRenderer.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\ShellToolbarTracker.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\ShellToolbarTracker_FlyoutIconDrawerDrawable.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\SimpleViewHolder.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\SingleSnapHelper.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\SizedItemContentView.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\SliderRenderer.java
@@ -409,20 +427,39 @@ C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.An
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\VisualElementTracker_AttachTracker.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\WebViewRenderer.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md51558244f76c53b6aeda52c8a337f2c37\WebViewRenderer_JavascriptResult.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\design\chip\ChipGroup_OnCheckedChangeListenerImplementor.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\v7\recyclerview\R.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\design\widget\AppBarLayout_OnOffsetChangedListenerImplementor.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\design\widget\BottomNavigationView_OnNavigationItemReselectedListenerImplementor.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\design\widget\BottomNavigationView_OnNavigationItemSelectedListenerImplementor.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\design\widget\NavigationView_OnNavigationItemSelectedListenerImplementor.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\design\widget\SwipeDismissBehavior_OnDismissListenerImplementor.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\design\widget\TabLayout_BaseOnTabSelectedListenerImplementor.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\v7\mediarouter\R.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\support\design\chip\ChipGroup_OnCheckedChangeListenerImplementor.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\v7\cardview\R.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\app\ApplicationRegistration.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\v7\appcompat\R.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\MonoPackageManager_Resources.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\v7\app\AlertDialog_IDialogInterfaceOnCancelListenerImplementor.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\v7\app\AlertDialog_IDialogInterfaceOnClickListenerImplementor.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\v7\app\AlertDialog_IDialogInterfaceOnMultiChoiceClickListenerImplementor.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5f92e0daf340890c9667469657ee2ece8\ButtonRenderer.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5f92e0daf340890c9667469657ee2ece8\FrameRenderer.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5f92e0daf340890c9667469657ee2ece8\ImageRenderer.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5f92e0daf340890c9667469657ee2ece8\LabelRenderer.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\xamarin\essentials\fileProvider.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\android\app\ApplicationRegistration.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\transition\R.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\AccelerometerListener.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\ActivityLifecycleContextListener.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\BarometerListener.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\BatteryBroadcastReceiver.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\ConnectivityBroadcastReceiver.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\EnergySaverBroadcastReceiver.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\GyroscopeListener.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\Listener.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\MagnetometerListener.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\OrientationSensorListener.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\SensorListener.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\SingleLocationListener.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\TextToSpeechImplementation.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\mediacompat\R.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\mono\MonoPackageManager_Resources.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\design\widget\Snackbar_SnackbarActionClickImplementor.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md58432a647068b097f9637064b8985a5e0\ButtonRenderer.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md58432a647068b097f9637064b8985a5e0\CarouselPageRenderer.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md58432a647068b097f9637064b8985a5e0\FormsFragmentPagerAdapter_1.java
@@ -442,29 +479,25 @@ C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.An
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md58432a647068b097f9637064b8985a5e0\SwitchRenderer.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md58432a647068b097f9637064b8985a5e0\TabbedPageRenderer.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md58432a647068b097f9637064b8985a5e0\ViewRenderer_2.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5dcb6eccdc824e0677ffae8ccdde42930\CustomTabsServiceConnectionImpl.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5dcb6eccdc824e0677ffae8ccdde42930\KeepAliveService.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\MainActivity.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\transition\R.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\AccelerometerListener.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\ActivityLifecycleContextListener.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\BarometerListener.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\BatteryBroadcastReceiver.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\ConnectivityBroadcastReceiver.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\EnergySaverBroadcastReceiver.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\GyroscopeListener.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\Listener.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\MagnetometerListener.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\OrientationSensorListener.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\SensorListener.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\SingleLocationListener.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5d630c3d3bfb5f5558520331566132d97\TextToSpeechImplementation.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\mediacompat\R.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\design\widget\Snackbar_SnackbarActionClickImplementor.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\design\R.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5f92e0daf340890c9667469657ee2ece8\ButtonRenderer.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5f92e0daf340890c9667469657ee2ece8\FrameRenderer.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5f92e0daf340890c9667469657ee2ece8\ImageRenderer.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5f92e0daf340890c9667469657ee2ece8\LabelRenderer.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\customtabs\CustomTabsClient_CustomTabsCallbackImpl.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\customtabs\R.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\coordinatorlayout\R.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5dcb6eccdc824e0677ffae8ccdde42930\CustomTabsServiceConnectionImpl.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md5dcb6eccdc824e0677ffae8ccdde42930\KeepAliveService.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTConnection_mBroadcastReceiver1.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTConnection_mScanFallback.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mAdvertiseCallback.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mBroadcastReceiver1.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mGattBroadcastReceiver.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mGattCallback.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mGattServerCallback.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mScanFallback.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\MainActivity.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\android\support\compat\R.java
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\bin\packaged_resources
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\com\companyname\auto_besturing\R.java
@@ -482,35 +515,9 @@ C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.An
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\stamp\_GeneratePackageManagerJava.stamp
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\stamp\_ResolveLibraryProjectImports.stamp
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\bin\Debug\Auto Besturing.dll.mdb
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\baa01a8444b6f0b829fa988c19e1e4d66e5ab2cf.stamp
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\413e2a048378c52c0c44d19a075aded480284f3f.stamp
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\e8405ec9f96c963253269749aea6d15ef807e2f0.stamp
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\baa01a8444b6f0b829fa988c19e1e4d66e5ab2cf.flata
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\413e2a048378c52c0c44d19a075aded480284f3f.flata
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\e8405ec9f96c963253269749aea6d15ef807e2f0.flata
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\c345237e5b421f1800624cf64abdb09788a36350.stamp
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\02e39f7b9bc1f6cb577eaab322cd980d7e665f16.stamp
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\008d449a979c4a4b2988f5c7e7a97cbe0bc8e474.stamp
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\0a32e0ea485ae547f76c569cc1d2d844e1356854.stamp
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\7e45b2d6efe264cbde15a10632ac53eda5e38ea7.stamp
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\c345237e5b421f1800624cf64abdb09788a36350.flata
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\02e39f7b9bc1f6cb577eaab322cd980d7e665f16.flata
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\008d449a979c4a4b2988f5c7e7a97cbe0bc8e474.flata
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\0a32e0ea485ae547f76c569cc1d2d844e1356854.flata
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\flata\7e45b2d6efe264cbde15a10632ac53eda5e38ea7.flata
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\Base2Base.Abstractions.dll
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\linksrc\Plugin.Bluetooth.dll
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Base2Base.Abstractions.dll
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\assets\Plugin.Bluetooth.dll
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\MainPage.xaml.g.cs
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\App.xaml.g.cs
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTConnection_mBroadcastReceiver1.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTConnection_mScanFallback.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\mBroadcastReceiver1.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\mScanFallback.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mBroadcastReceiver1.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mScanFallback.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mGattCallback.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mGattBroadcastReceiver.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mAdvertiseCallback.java
-C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\android\src\md57f38e162310d0303b0e3b85640668cc7\BTService_mGattServerCallback.java
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\res\drawable-xxhdpi\geariconwhite.png
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\res\drawable-xxhdpi\playbutton.png
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\res\drawable-xxhdpi\settings.png
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\res\drawable-xxhdpi\spritebgxamarinappcar.png
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\res\drawable-xxhdpi\arrowbuttonicon.png
+C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing.Android\obj\Debug\90\res\drawable-xxhdpi\taco.png

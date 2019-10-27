@@ -1,32 +1,117 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- All in this project Code Was made by Niek Aukes. -->
+<!-- Distribution of the files in this project is prohibited unless permission is given. -->
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="Auto_Besturing.MainPage">
-    
-        <AbsoluteLayout >
-        <Button Text="Up" Pressed="UpPressHandler" Released="UpReleaseHandler" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
-                AbsoluteLayout.LayoutBounds="0.5, 0.35, 100, 120" AbsoluteLayout.LayoutFlags="PositionProportional" x:Name="tmp"/>
-        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
-                     AbsoluteLayout.LayoutBounds="0.5,0.5,300,120" AbsoluteLayout.LayoutFlags="PositionProportional">
-            <!-- Place new controls here -->
-            <Button Text="Left" Pressed="LeftPressHandler" Released="LeftReleaseHandler" />
-            <Button Text="Down" Pressed="DownPressHandler" Released="DownReleaseHandler" />
-            <Button Text="Right" Pressed="RightPressHandler" Released="RightReleaseHandler" />
-        </StackLayout>
-        <Picker x:Name="DevicePick" AbsoluteLayout.LayoutBounds="0.5,0.75,300,80" AbsoluteLayout.LayoutFlags="PositionProportional" VerticalOptions = "LayoutOptions.CenterAndExpand"
-                Title="Pick Device" TitleColor="Black" SelectedIndexChanged="DevicePick_SelectedIndexChanged">
-            <Picker.Items>
-                <x:String>None</x:String>
-            </Picker.Items>
-        </Picker>
-        <Button Text="Refresh"
+
+    <AbsoluteLayout x:Name="HeadLayout">
+        <!--The actual controls-->
+        <Label
+                Text="{Binding Source={x:Reference AccelerationSlider}, Path=Value, StringFormat='{0:f0}%'}"
+                AbsoluteLayout.LayoutFlags="All"
+                AbsoluteLayout.LayoutBounds="0.117,0.5,0.2,0.8"/>
+        <Slider AbsoluteLayout.LayoutFlags="All"
+                AbsoluteLayout.LayoutBounds="0,0.5,0.2,0.2"
+                MinimumTrackColor="ForestGreen"
+                MaximumTrackColor="Gray"
+                ThumbColor="ForestGreen"
+                Rotation="-90"
+                Scale="2"
+                Maximum="100"
+                Value="100"
+                x:Name="AccelerationSlider"
+                DragCompleted="AccelerationSlider_DragCompleted"
+                />
+        <ImageButton x:Name="UpButton" Source="ArrowButtonIcon.png" Padding="10,10,10,10"
+                         AbsoluteLayout.LayoutFlags="All"
+                         AbsoluteLayout.LayoutBounds="0.7,0.5,0.11,0.2"
+                         Pressed="UpPressHandler"
+                         Released="UpReleaseHandler"
+                         Rotation="90"
+                         BackgroundColor="Transparent"/>
+        <ImageButton x:Name="DownButton" Source="ArrowButtonIcon.png" Padding="10,10,10,10"
+                         AbsoluteLayout.LayoutFlags="All"
+                         AbsoluteLayout.LayoutBounds="0.7,0.8,0.11,0.2"
+                         Pressed="DownPressHandler"
+                         Released="DownReleaseHandler"
+                         Rotation="-90"
+                     BackgroundColor="Transparent"/>
+        <ImageButton x:Name="LeftButton" Source="ArrowButtonIcon.png" Padding="10,10,10,10"
+                         AbsoluteLayout.LayoutFlags="All"
+                         AbsoluteLayout.LayoutBounds="0.55,0.8,0.11,0.2"
+                         Pressed="LeftPressHandler"
+                         Released="LeftReleaseHandler"
+                     BackgroundColor="Transparent"
+                         />
+        <ImageButton x:Name="RigtButton" Source="ArrowButtonIcon.png" Padding="10,10,10,10"
+                         AbsoluteLayout.LayoutFlags="All"
+                         AbsoluteLayout.LayoutBounds="0.85,0.8,0.11,0.2"
+                         Pressed="RightPressHandler"
+                         Released="RightReleaseHandler"
+                         Rotation="180"
+                     BackgroundColor="Transparent"/>
+        <Button x:Name="ManualButton" Text="Manual" Padding="10,10,10,10"
+                         AbsoluteLayout.LayoutFlags="All"
+                         AbsoluteLayout.LayoutBounds="0.5,0.5,0.11,0.2"
+                Clicked="ManualButton_Clicked"
+                         />
+        <Button x:Name="AutoButton" Text="Auto" Padding="10,10,10,10"
+                         AbsoluteLayout.LayoutFlags="All"
+                         AbsoluteLayout.LayoutBounds="0.5,0.25,0.11,0.2"
+                Clicked="AutoButton_Clicked"/>
+        <ImageButton x:Name="TacoButton" Source="taco.png" Padding="10,10,10,10"
+                         AbsoluteLayout.LayoutFlags="All"
+                         AbsoluteLayout.LayoutBounds="0.3,0.8,0.11,0.2"
+                     Clicked="TacoButton_Clicked"
+                         />
+
+        <!--For the Options menu-->
+        <AbsoluteLayout AbsoluteLayout.LayoutFlags="All"
+                     AbsoluteLayout.LayoutBounds="1.85,0,.5,1"
+                        x:Name="SettingTab"
+                        BackgroundColor="Transparent">
+            <Image Source="SpriteBgXamarinAppCar"
+                   AbsoluteLayout.LayoutFlags="All"
+                     AbsoluteLayout.LayoutBounds="0,0.4,0.8,0.8"
+                   ScaleY="1.9"/>
+            <ImageButton x:Name="playButton" Source="GearIconWhite.png" Padding="10,10,10,10"
+                         AbsoluteLayout.LayoutFlags="All"
+                         AbsoluteLayout.LayoutBounds="0,0,0.15,0.15"
+                         Clicked="PlayButton_Clicked"
+                         BackgroundColor="Transparent"
+                         />
+            <StackLayout Orientation="Vertical" 
+                         AbsoluteLayout.LayoutFlags="All"
+                         AbsoluteLayout.LayoutBounds="1,0,0.85,0.85"
+                         BackgroundColor="#4B4B4B">
+                <Picker x:Name="DevicePick" AbsoluteLayout.LayoutBounds="0.5,0.75,300,80" 
+                        AbsoluteLayout.LayoutFlags="PositionProportional" 
+                        VerticalOptions = "LayoutOptions.CenterAndExpand"
+                        Title="Pick Device" TitleColor="White" 
+                        SelectedIndexChanged="DevicePick_SelectedIndexChanged">
+                    <Picker.Items>
+                        <x:String>None</x:String>
+                    </Picker.Items>
+                </Picker>
+                <Button Text="Refresh"
                 Clicked="RefreshBTAvailable"
-                AbsoluteLayout.LayoutBounds="0.5,0.60,100,50" 
-                AbsoluteLayout.LayoutFlags="PositionProportional"/>
-        <Button Text="Connect" Clicked="Button_Clicked" AbsoluteLayout.LayoutBounds="0.5,0.9,300,80" AbsoluteLayout.LayoutFlags="PositionProportional" VerticalOptions = "LayoutOptions.CenterAndExpand"/>
+                AbsoluteLayout.LayoutBounds="0.5,0.60,0.6,0.2" 
+                AbsoluteLayout.LayoutFlags="All"/>
+                <Button Text="Connect" Clicked="Button_Clicked" 
+                        AbsoluteLayout.LayoutBounds="0.5,0.9,0.6,0.2" 
+                        AbsoluteLayout.LayoutFlags="All" 
+                        VerticalOptions = "LayoutOptions.CenterAndExpand"/>
+                
+                <Editor Placeholder="" AutoSize="Disabled" 
+                        HeightRequest="200" x:Name="EntryLog"
+                        BackgroundColor="#4b4b4b"
+                        TextColor="White" IsReadOnly="True"/>
+            </StackLayout>
+        </AbsoluteLayout>
     </AbsoluteLayout>
 
 </ContentPage>

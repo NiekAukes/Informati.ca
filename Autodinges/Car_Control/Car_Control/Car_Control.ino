@@ -75,7 +75,7 @@
     [tasker].Distribute();
       Geeft een opdracht aan de planner om de tijd te checken.
       Als er de hoeveelheid tijd is verstreken die ingesteld is in de RegisterTask functie, wordt de aangewezen functie geactiveerd.*/
-#include <MultiTaskCar.h>
+#include <MultiTasker.h>
 
 #include <SoftwareSerial.h>
 #include <Servo.h>
@@ -98,6 +98,7 @@ int BelowThreshold[5] = {false, false, false, false, false};
 int ServoWrites[5] = {20,60,90,120,160};
 int MaxDistance = 300; //IN CENTIMETRES
 char NextStep;
+char WhereToGo = 0x00;
 Servo UltraServo;
 int servoValue = 90;
 int DriveAcceleration = 0; //-100 t/m 100
@@ -135,6 +136,9 @@ enum States {
 States inBit = Null;
 
 void carAccelerate(int carSpeed, int steerSpeed){ 
+  Serial.print(carSpeed);
+  Serial.print(" + ");
+  Serial.println(steerSpeed);
   if(carSpeed == 0 && steerSpeed == 0){ //stop the car
       digitalWrite(ENA, HIGH);
       digitalWrite(ENB, HIGH);
@@ -142,25 +146,29 @@ void carAccelerate(int carSpeed, int steerSpeed){
       digitalWrite(IN2, LOW);
       digitalWrite(IN3, LOW);
       digitalWrite(IN4, LOW);
+      return;
     }//als de ingekomen bits tussen de gegeven parameters zijn:
   else if(carSpeed >= -100 && carSpeed <= 100 && steerSpeed >= -100 && steerSpeed <= 100){  //drive the car according to the driveacceleration and steeracceleration
       if(steerSpeed > 0 && carSpeed > 0){
-        analogWrite(ENA, (int)((carSpeed+steerSpeed) * 2.55));
-        analogWrite(ENB, (int)((0.5 * carSpeed) * 2.55));
-        digitalWrite(IN1, HIGH); //left motors forward = true
-        digitalWrite(IN2, LOW); //left motors backward = false
+        Serial.println("Going RF");
+        analogWrite(ENA, (int)(carSpeed * 0.2 * 2.55));
+        analogWrite(ENB, (int)(carSpeed * 2.55));
+        digitalWrite(IN1, LOW); //left motors forward = true
+        digitalWrite(IN2, HIGH); //left motors backward = false
         digitalWrite(IN3, LOW); //rightmotors backward = false
         digitalWrite(IN4, HIGH); //rightmotors forward = true
       }
       else if(steerSpeed < 0 && carSpeed > 0){
-        analogWrite(ENA, (int)((0.5*carSpeed)));
-        analogWrite(ENB, (int)((carSpeed-steerSpeed) * 2.55));
+        
+        Serial.println("Going LF");
+        analogWrite(ENA, (int)(carSpeed)* 2.55);
+        analogWrite(ENB, (int)(0.2*carSpeed*2.55));
         digitalWrite(IN1, HIGH); //left motors forward = true
         digitalWrite(IN2, LOW); //left motors backward = false
-        digitalWrite(IN3, LOW); //rightmotors backward = false
-        digitalWrite(IN4, HIGH); //rightmotors forward = true
+        digitalWrite(IN3, HIGH); //rightmotors backward = false
+        digitalWrite(IN4, LOW); //rightmotors forward = true
       }
-      if(steerSpeed > 0 && carSpeed < 0){
+      else if(steerSpeed > 0 && carSpeed < 0){
         analogWrite(ENA, (int)((-0.70*(carSpeed-steerSpeed)) * 2.55));
         analogWrite(ENB, (int)((-0.5* carSpeed) * 2.55));
         digitalWrite(IN1, HIGH); //left motors forward = true
@@ -214,7 +222,6 @@ void carAccelerate(int carSpeed, int steerSpeed){
     }
   }
 }
-
 void GetDistance(){ //sensor is triggered by HIGH pulse more or equal than 10 microseconds
   digitalWrite(triggerPin, LOW); //to ensure clean high pulse
   delayMicroseconds(5);
@@ -224,9 +231,6 @@ void GetDistance(){ //sensor is triggered by HIGH pulse more or equal than 10 mi
   duration = pulseIn(echoPin, HIGH);
   distance =(duration/2) * 0.0343/*=speed of sound in cm/microsecond*/; //in centimetres
   LatestDistanceMeasured = distance;
-  Serial.print("Distance: ");
-  Serial.print(distance);
-  Serial.println(".");
   inBit = Null;
 }
 
@@ -257,9 +261,9 @@ bool arraysMatch(int array1[],int array2[]){ //handig stukje om arrays in één 
 
 
 //allemaal aparte functies omdat de scheduler geen argumenten aankan. fuck.
-void SetServo60() {UltraServo.write(60); }
+void SetServo60() {UltraServo.write(45); }
 void SetServo90() {UltraServo.write(90); }
-void SetServo120(){UltraServo.write(120);}
+void SetServo120(){UltraServo.write(135);}
 
 void SaveDistanceInPlace0(){Distances[0] = LatestDistanceMeasured;}
 void SaveDistanceInPlace1(){Distances[1] = LatestDistanceMeasured;}
@@ -275,7 +279,10 @@ void GetDistancesOfAngles(){
   //Registratie van de automatische besturing (zie SelfDrive();)
   //in volgorde: Servo naar 60 graden, afstand meten, afstand storen, servo naar 90 graden, afstand meten, afstand storen, servo naar 120 graden, afstand meten, afstand storen, done.
   // servo naar 60deg = 0UL, servo 90deg = 250UL, servo 120deg = 500UL. Dan nog servo90deg aan het einde met 750UL.
-
+  tasker.RegisterTask(&SaveDistanceInPlace0, 249UL); //store distance int at GetDistance's 1st time + about 20ms
+  tasker.RegisterTask(&SaveDistanceInPlace1, 499UL);//store distance int at GetDistance's 2nd time of measuring + about 20ms (again)
+  tasker.RegisterTask(&SaveDistanceInPlace2, 749UL);//store distance int at GetDistance's 3rd time of measuring + about 20ms (again)
+  
   tasker.RegisterTask(&SetServo60, 1UL);
   tasker.RegisterTask(&SetServo90, 250UL);
   tasker.RegisterTask(&SetServo120,500UL);
@@ -283,11 +290,9 @@ void GetDistancesOfAngles(){
   for (int i = 1;i<4;i++){ //dus drie keer:
     tasker.RegisterTask(&GetDistance, i * 250UL - 20); //moet callen net voordat de servo angles switcht, dus 230, 480, 730 UL
   }
-  tasker.RegisterTask(&SaveDistanceInPlace0, 249UL); //store distance int at GetDistance's 1st time + about 20ms
-  tasker.RegisterTask(&SaveDistanceInPlace1, 499UL);//store distance int at GetDistance's 2nd time of measuring + about 20ms (again)
-  tasker.RegisterTask(&SaveDistanceInPlace2, 749UL);//store distance int at GetDistance's 3rd time of measuring + about 20ms (again)
 
-  tasker.RegisterTask(&PrintDistances,1100UL);
+
+  //tasker.RegisterTask(&PrintDistances,1100UL);
 
   if((States)Serial.read() == Auto){
     GetDistancesOfAngles(); 
@@ -295,40 +300,75 @@ void GetDistancesOfAngles(){
 }
 
 char WhichDirection(){  //Zie SelfDrive(). Zet de servo naar vijf vooringestelde  standen (20,60,90,120,160 graden) en meet afstand.
-  GetDistancesOfAngles();
+  PrintDistances();
+  bool CanRight = true;
+  bool CanForward = true;
+  bool CanForwardFast = true;
+  bool CanLeft = true;
   if(Distances[0] < 40){
-    return 'R';
+    CanRight = false;
   }
   if(Distances[1] < 40){
-    return 'B';
+    CanForward = false;
   }
   if(Distances[2] < 40){
+    CanLeft = false;
+  }
+  if (Distances[1] < 120) {
+    CanForwardFast = false;
+  }
+  
+  if (!CanRight && !CanForward && !CanLeft) {
+    return 'B';
+  }
+  if (CanForwardFast) {
+    return 'U';
+  }
+  if (!CanForward && !CanRight) {
     return 'L';
   }
-  else{
+  if (!CanForward && !CanLeft) {
+    return 'R';
+  } 
+  if (CanForward && CanRight) {
+    return 'X';
+  }
+  if (CanForward && CanLeft) {
+    return 'Y';
+  }
+  if (CanForward) {
     return 'F';
+  }
+  if (!CanForward) {
+    return 'L';
   }
   //Zegmaar recursion maar dan getimed
   if ((States)Serial.read() == Auto){
     tasker.RegisterTask(&GetDistancesOfAngles, 1750UL);
   }
 }
+void StopCar() {
+  carAccelerate(0,0);
+}
+bool SelfDriveActive = true;
 void SelfDrive(){
-    char WhereToGo = WhichDirection();
+  
+    WhereToGo = WhichDirection();
     Serial.print("Next step is to go: "); //print naar de telefoon welke kant hij op zal gaan
     Serial.println(WhereToGo);
     
     /*Een heleboel if statements, voor elk gegeven scenario (naar voren, achteren, links, rechts, en ook naar voren terwijl de auto links/rechts draait.*/
     if(WhereToGo == 'B'){
-        analogWrite(ENA, (int)(100*2.55));
+      /*  analogWrite(ENA, (int)(100*2.55));
         analogWrite(ENB, (int)(70*2.55));
         digitalWrite(IN1, HIGH); //left motors forward = true
         digitalWrite(IN2, LOW); //left motors backward = false
         digitalWrite(IN3, LOW); //rightmotors backward = false
-        digitalWrite(IN4, HIGH); //rightmotors forward = true
-      /*AutoModeDriveAcc = -80; 
-      AutoModeSteerAcc = 60;
-      carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);*/
+        digitalWrite(IN4, HIGH); //rightmotors forward = true*/
+      AutoModeDriveAcc = 0; 
+      AutoModeSteerAcc = -80;
+      carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);
+      tasker.RegisterTask(&StopCar, 500UL);
     }
     else if(WhereToGo == 'F'){
       AutoModeDriveAcc = 40;
@@ -339,20 +379,27 @@ void SelfDrive(){
       AutoModeDriveAcc = 0;
       AutoModeSteerAcc = -75;
       carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);
+      tasker.RegisterTask(&StopCar, 500UL);
     }
     else if(WhereToGo == 'R'){
       AutoModeDriveAcc = 0;
       AutoModeSteerAcc = 75;
       carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);
+      tasker.RegisterTask(&StopCar, 700UL);
+    }
+    else if(WhereToGo == 'U'){
+      AutoModeDriveAcc = 80;
+      AutoModeSteerAcc = 0;
+      carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);
     }
     else if(WhereToGo == 'X'){
-      AutoModeDriveAcc = 60;
-      AutoModeSteerAcc = -75;
+      AutoModeDriveAcc = 100;
+      AutoModeSteerAcc = -50;
       carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);
     }
     else if(WhereToGo == 'Y'){
-      AutoModeDriveAcc = 60;
-      AutoModeSteerAcc = 75;
+      AutoModeDriveAcc = 100;
+      AutoModeSteerAcc = 50;
       carAccelerate(AutoModeDriveAcc,AutoModeSteerAcc);
     }
     else{
@@ -363,12 +410,24 @@ void SelfDrive(){
     if((States)Serial.read() == Manual || (States)Serial.read() == Stop){
       carAccelerate(0,0);
       Serial.print("inBit is not <Auto> anymore");
+      SelfDriveActive = false;
     }
     else if((States)Serial.read() == Auto){
       Serial.println("Self drive succes!");
       WhereToGo = '∅';
-      SelfDrive();
+      SelfDriveActive = true;
     }
+    if (SelfDriveActive) {
+      Serial.println(tasker.RegisterTask(&SelfDrive, (WhereToGo == 'R' || WhereToGo == 'L') ? 1500UL : 1000UL));
+      if (!(WhereToGo == 'R' || WhereToGo == 'L')) {
+        GetDistancesOfAngles();
+      }
+      else {
+      tasker.RegisterTask(&GetDistancesOfAngles, 500UL, &WhichDirection);
+      }
+    }
+    
+    
 }
 char getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manual/auto switch
   if (Serial.available()){ // als er bits beschikbaar zijn
@@ -384,9 +443,11 @@ char getBTdata(){   //0 = Null 1 = Faulty (fault in app or bluetooth) 2/3 = Manu
       Serial.println("Switching to manual...");
       carAccelerate(0,0);
       UltraServo.write(90);
+      SelfDriveActive = false;
     }
     else if(inBit == Auto){
       Serial.println("Going into automatic mode...");
+      SelfDriveActive = true;
       SelfDrive();
     }
     else if(inBit == Stop){
