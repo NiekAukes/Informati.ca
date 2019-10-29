@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Niek Aukes\\source\\repos\\Auto Besturing\\Auto Besturing\\Auto Besturing.Android\\Auto Besturing.Android.csproj": {}
+    "D:\\Users\\Niek Aukes\\Documents\\Informati.ca\\Auto Besturing\\Auto Besturing\\Auto Besturing.Android\\Auto Besturing.Android.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Niek Aukes\\source\\repos\\Auto Besturing\\Auto Besturing\\Auto Besturing.Android\\Auto Besturing.Android.csproj": {
+    "D:\\Users\\Niek Aukes\\Documents\\Informati.ca\\Auto Besturing\\Auto Besturing\\Auto Besturing.Android\\Auto Besturing.Android.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Niek Aukes\\source\\repos\\Auto Besturing\\Auto Besturing\\Auto Besturing.Android\\Auto Besturing.Android.csproj",
+        "projectUniqueName": "D:\\Users\\Niek Aukes\\Documents\\Informati.ca\\Auto Besturing\\Auto Besturing\\Auto Besturing.Android\\Auto Besturing.Android.csproj",
         "projectName": "Auto Besturing.Android",
-        "projectPath": "C:\\Users\\Niek Aukes\\source\\repos\\Auto Besturing\\Auto Besturing\\Auto Besturing.Android\\Auto Besturing.Android.csproj",
+        "projectPath": "D:\\Users\\Niek Aukes\\Documents\\Informati.ca\\Auto Besturing\\Auto Besturing\\Auto Besturing.Android\\Auto Besturing.Android.csproj",
         "packagesPath": "C:\\Users\\Niek Aukes\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Niek Aukes\\source\\repos\\Auto Besturing\\Auto Besturing\\Auto Besturing.Android\\obj\\",
+        "outputPath": "D:\\Users\\Niek Aukes\\Documents\\Informati.ca\\Auto Besturing\\Auto Besturing\\Auto Besturing.Android\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
@@ -32,8 +32,8 @@
         "frameworks": {
           "monoandroid90": {
             "projectReferences": {
-              "C:\\Users\\Niek Aukes\\source\\repos\\Auto Besturing\\Auto Besturing\\Auto Besturing\\Auto Besturing.csproj": {
-                "projectPath": "C:\\Users\\Niek Aukes\\source\\repos\\Auto Besturing\\Auto Besturing\\Auto Besturing\\Auto Besturing.csproj"
+              "D:\\Users\\Niek Aukes\\Documents\\Informati.ca\\Auto Besturing\\Auto Besturing\\Auto Besturing\\Auto Besturing.csproj": {
+                "projectPath": "D:\\Users\\Niek Aukes\\Documents\\Informati.ca\\Auto Besturing\\Auto Besturing\\Auto Besturing\\Auto Besturing.csproj"
               }
             }
           }
@@ -86,14 +86,14 @@
         }
       }
     },
-    "C:\\Users\\Niek Aukes\\source\\repos\\Auto Besturing\\Auto Besturing\\Auto Besturing\\Auto Besturing.csproj": {
+    "D:\\Users\\Niek Aukes\\Documents\\Informati.ca\\Auto Besturing\\Auto Besturing\\Auto Besturing\\Auto Besturing.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Niek Aukes\\source\\repos\\Auto Besturing\\Auto Besturing\\Auto Besturing\\Auto Besturing.csproj",
+        "projectUniqueName": "D:\\Users\\Niek Aukes\\Documents\\Informati.ca\\Auto Besturing\\Auto Besturing\\Auto Besturing\\Auto Besturing.csproj",
         "projectName": "Auto Besturing",
-        "projectPath": "C:\\Users\\Niek Aukes\\source\\repos\\Auto Besturing\\Auto Besturing\\Auto Besturing\\Auto Besturing.csproj",
+        "projectPath": "D:\\Users\\Niek Aukes\\Documents\\Informati.ca\\Auto Besturing\\Auto Besturing\\Auto Besturing\\Auto Besturing.csproj",
         "packagesPath": "C:\\Users\\Niek Aukes\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Niek Aukes\\source\\repos\\Auto Besturing\\Auto Besturing\\Auto Besturing\\obj\\",
+        "outputPath": "D:\\Users\\Niek Aukes\\Documents\\Informati.ca\\Auto Besturing\\Auto Besturing\\Auto Besturing\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Microsoft\\Xamarin\\NuGet\\",

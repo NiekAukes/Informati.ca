@@ -6454,7 +6454,7 @@ namespace Auto_Besturing.Droid
 			public const int SpriteBgXamarinAppCar = 2131165501;
 			
 			// aapt resource value: 0x7F07013E
-			public const int Taco = 2131165502;
+			public const int taco = 2131165502;
 			
 			// aapt resource value: 0x7F07013F
 			public const int tooltip_frame_dark = 2131165503;
