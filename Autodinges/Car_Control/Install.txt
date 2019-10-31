@@ -1,1 +1,1 @@
-doe de MultiTasker folder in Documents/arduino/libraries
+doe alles in de Lib folder in Documents/arduino/libraries

@@ -6,7 +6,6 @@ using System.Threading;
 using Xamarin.Forms;
 using AudioPlayEx.Droid;
 using System.Threading.Tasks;
-//using BTFrame;
 
 
 
@@ -330,12 +329,27 @@ namespace Auto_Besturing
 
         private void AutoButton_Clicked(object sender, EventArgs e)
         {
+            ErrorHandler errorHandler = new ErrorHandler("jf");
+            if (testService != null)
+            {
+                if (testService.gatt != null)
+                {
+                    testService.WriteGattCharacteristic((int)BTCodeOut.Auto);
+                }
 
+            }
         }
 
         private void ManualButton_Clicked(object sender, EventArgs e)
         {
+            if (testService != null)
+            {
+                if (testService.gatt != null)
+                {
+                    testService.WriteGattCharacteristic((int)BTCodeOut.Manual);
+                }
 
+            }
         }
 
         private void AccelerationSlider_DragCompleted(object sender, EventArgs e)

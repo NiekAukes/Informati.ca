@@ -1,0 +1,23 @@
+#######################################
+# Syntax Coloring Map For Scheduler
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+AutoProfile	KEYWORD1	AutoProfile
+FirstProfile	KEYWORD1	FirstProfile
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+PrintDistances	KEYWORD2
+SelfDrive	KEYWORD2
+EvalSelfDrive	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+

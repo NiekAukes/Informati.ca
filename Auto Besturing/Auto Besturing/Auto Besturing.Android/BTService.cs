@@ -93,8 +93,12 @@ namespace Auto_Besturing.Droid
                 }
                 if (addDevice)
                 {
-                    BLEDevices.Add(result.Device);
-                    MainPage.ActivePage.RefreshBT();
+                    if (BLEDevices.Count < 11)
+                    {
+                        BLEDevices.Add(result.Device);
+                        MainPage.ActivePage.RefreshBT();
+                    }
+                    else Adapter.BluetoothLeScanner.StopScan(callback: null);
                 }
 
                 //MainActivity.appl.MainPage.DisplayAlert("Found", "Found a Device", "Ok");

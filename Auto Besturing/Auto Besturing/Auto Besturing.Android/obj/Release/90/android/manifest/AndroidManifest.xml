@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.auto_besturing" android:installLocation="internalOnly">
+  <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="27" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.BLUETOOTH" />
+  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+  <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+  <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+  <uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
+  <application android:label="Auto_Besturing.Android" android:name="android.app.Application" android:allowBackup="true" android:icon="@mipmap/icon">
+    <receiver android:enabled="true" android:label="receiver" android:name="md57f38e162310d0303b0e3b85640668cc7.BTConnection_mBroadcastReceiver1" />
+    <receiver android:enabled="true" android:label="receiver" android:name="md57f38e162310d0303b0e3b85640668cc7.BTService_mBroadcastReceiver1" />
+    <receiver android:enabled="true" android:label="receiver" android:name="md57f38e162310d0303b0e3b85640668cc7.BTService_mGattBroadcastReceiver" />
+    <activity android:configChanges="orientation|screenSize" android:icon="@mipmap/icon" android:label="Auto_Besturing" android:screenOrientation="landscape" android:theme="@style/MainTheme" android:name="md57f38e162310d0303b0e3b85640668cc7.MainActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+    <receiver android:enabled="true" android:exported="false" android:name="md51558244f76c53b6aeda52c8a337f2c37.PowerSaveModeBroadcastReceiver" />
+    <provider android:name="mono.MonoRuntimeProvider" android:exported="false" android:initOrder="1999999999" android:authorities="com.companyname.auto_besturing.mono.MonoRuntimeProvider.__mono_init__" />
+  </application>
+</manifest>

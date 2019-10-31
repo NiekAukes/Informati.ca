@@ -62,11 +62,11 @@
         <Button x:Name="AutoButton" Text="Auto" Padding="10,10,10,10"
                          AbsoluteLayout.LayoutFlags="All"
                          AbsoluteLayout.LayoutBounds="0.5,0.25,0.11,0.2"
-                Clicked="AutoButton_Clicked"/>
+                         Clicked="AutoButton_Clicked"/>
         <ImageButton x:Name="TacoButton" Source="taco.png" Padding="10,10,10,10"
                          AbsoluteLayout.LayoutFlags="All"
                          AbsoluteLayout.LayoutBounds="0.3,0.8,0.11,0.2"
-                     Clicked="TacoButton_Clicked"
+                         Clicked="TacoButton_Clicked"
                          />
 
         <!--For the Options menu-->

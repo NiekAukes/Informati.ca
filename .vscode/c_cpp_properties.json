@@ -1,10 +1,22 @@
 {
     "configurations": [
         {
-            "name": "Win32",
+            "name": "Arduino",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceRoot}",
+                "D:/Program Files (x86)/Arduino/hardware",
+                "D:/Program Files (x86)/Arduino/libraries",
+                "D:/Users/Niek Aukes/Documents/Arduino/libraries",
+                "D:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include",
+                "D:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard"
             ],
+            "browse": {
+                "path": [
+                    "${workspaceRoot}"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
             "defines": [
                 "_DEBUG",
                 "UNICODE",
@@ -13,7 +25,10 @@
             "compilerPath": "\"C:\\Program Files\\LLVM\\bin\\clang.exe\"",
             "cStandard": "c11",
             "cppStandard": "c++17",
-            "intelliSenseMode": "${default}"
+            "intelliSenseMode": "${default}",
+            "forcedInclude": [
+                "D:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino\\Arduino.h"
+            ]
         }
     ],
     "version": 4

@@ -19,6 +19,7 @@ namespace Auto_Besturing.Droid
         ImageButton image;
         Random random = new Random();
         AbsoluteLayout layout;
+        bool TacoFrenzyActive = true;
         public Taco(AbsoluteLayout lay)
         {
             layout = lay;
@@ -32,7 +33,7 @@ namespace Auto_Besturing.Droid
             Xamarin.Forms.AbsoluteLayout.SetLayoutFlags(image, AbsoluteLayoutFlags.PositionProportional);
             Xamarin.Forms.AbsoluteLayout.SetLayoutBounds(image, new Rectangle(0.5, 0.5, 100, 100));
             Android.Util.Log.Debug("friendly", "Made Taco");
-            image.Clicked += (s, e) => { layout.Children[pos] = new Image(); }; 
+            image.Clicked += (s, e) => { layout.Children[pos] = new Image(); TacoFrenzyActive = false; }; 
             StartDing();
 
         }
@@ -45,7 +46,7 @@ namespace Auto_Besturing.Droid
         {
             int PreviousPixelX = 0;
             int PreviousPixelY = 0;
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 100 && TacoFrenzyActive; i++)
             {
                 int PixelX = random.Next(-300, 300);
                 int PixelY = random.Next(-180, 180);
@@ -56,12 +57,11 @@ namespace Auto_Besturing.Droid
                 double Distance = Math.Sqrt(Math.Pow(DeltaX, 2) + Math.Pow(DeltaY, 2));
                 await image.TranslateTo(PixelX, PixelY, ((uint)Distance * 2), Easing.Linear);
 
-                MainPage.LogEntry( Distance.ToString());
-
                 PreviousPixelX = PixelX;
                 PreviousPixelY = PixelY;
             }
             layout.Children[pos] = new Image();
+            TacoFrenzyActive = false;
         }
     }
 }

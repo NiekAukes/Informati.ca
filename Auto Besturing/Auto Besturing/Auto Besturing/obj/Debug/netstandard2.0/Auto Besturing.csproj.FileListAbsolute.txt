@@ -7,13 +7,3 @@ C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing\ob
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing\obj\Debug\netstandard2.0\XamlC.stamp
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing\obj\Debug\netstandard2.0\Auto Besturing.dll
 C:\Users\Niek Aukes\source\repos\Auto Besturing\Auto Besturing\Auto Besturing\obj\Debug\netstandard2.0\Auto Besturing.pdb
-D:\Users\Niek Aukes\Documents\Informati.ca\Auto Besturing\Auto Besturing\Auto Besturing\bin\Debug\netstandard2.0\Auto Besturing.deps.json
-D:\Users\Niek Aukes\Documents\Informati.ca\Auto Besturing\Auto Besturing\Auto Besturing\bin\Debug\netstandard2.0\Auto Besturing.dll
-D:\Users\Niek Aukes\Documents\Informati.ca\Auto Besturing\Auto Besturing\Auto Besturing\bin\Debug\netstandard2.0\Auto Besturing.pdb
-D:\Users\Niek Aukes\Documents\Informati.ca\Auto Besturing\Auto Besturing\Auto Besturing\obj\Debug\netstandard2.0\Auto Besturing.csprojAssemblyReference.cache
-D:\Users\Niek Aukes\Documents\Informati.ca\Auto Besturing\Auto Besturing\Auto Besturing\obj\Debug\netstandard2.0\Auto Besturing.csproj.CoreCompileInputs.cache
-D:\Users\Niek Aukes\Documents\Informati.ca\Auto Besturing\Auto Besturing\Auto Besturing\obj\Debug\netstandard2.0\Auto Besturing.AssemblyInfoInputs.cache
-D:\Users\Niek Aukes\Documents\Informati.ca\Auto Besturing\Auto Besturing\Auto Besturing\obj\Debug\netstandard2.0\Auto Besturing.AssemblyInfo.cs
-D:\Users\Niek Aukes\Documents\Informati.ca\Auto Besturing\Auto Besturing\Auto Besturing\obj\Debug\netstandard2.0\XamlC.stamp
-D:\Users\Niek Aukes\Documents\Informati.ca\Auto Besturing\Auto Besturing\Auto Besturing\obj\Debug\netstandard2.0\Auto Besturing.dll
-D:\Users\Niek Aukes\Documents\Informati.ca\Auto Besturing\Auto Besturing\Auto Besturing\obj\Debug\netstandard2.0\Auto Besturing.pdb
