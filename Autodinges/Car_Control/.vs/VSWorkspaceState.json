@@ -4,8 +4,11 @@
     "\\Car_Control",
     "\\DOCUMENTATION",
     "\\Lib",
-    "\\MultiTasker"
+    "\\Lib\\AutoProfile",
+    "\\Lib\\CarController",
+    "\\Lib\\DistanceMeter",
+    "\\Lib\\MultiTasker"
   ],
-  "SelectedNode": "\\Car_Control\\Car_Control.ino",
+  "SelectedNode": "\\Lib\\DistanceMeter\\DistanceMeter.h",
   "PreviewInSolutionExplorer": false
 }

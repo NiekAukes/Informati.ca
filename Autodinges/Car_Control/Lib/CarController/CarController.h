@@ -30,24 +30,27 @@ namespace Car_Control {
 		Servo120deg = 253,//hex FD
 		Servo160deg = 254//hex FE
 	};
-	class Controller {
+
+	class IController {
 	public:
-		Controller(AutoProfile* autoProfile);
-		Controller();
-		
-		static Controller* activeController;
 		static AutoProfile* profile;
+		static short DriveAcceleration; //-100 t/m 100
+		static short SteerAcceleration; //-100 t/m 100
+	};
+
+	class Controller : public IController {
+	private:
+		Controller();
+	public:
 		static States inBit;
 
 		static ClassMultiTasker<Controller> tasker;
-		
-		int DriveAcceleration; //-100 t/m 100
-		int SteerAcceleration; //-100 t/m 100
-		void StopCar();
-		static void carAccelerate(int carSpeed, int steerSpeed);
+	
+		static void StopCar();
+		static void carAccelerate(short carSpeed, short steerSpeed);
 		static char CompareData();
-		void AssignCharArray(char copy[], char original[]);
-		bool arraysMatch(int array1[], int array2[]);
+		static void AssignCharArray(char copy[], char original[]);
+		static bool arraysMatch(int array1[], int array2[]);
 
 	};
 }

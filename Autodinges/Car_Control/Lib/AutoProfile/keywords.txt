@@ -7,11 +7,21 @@
 #######################################
 
 AutoProfile	KEYWORD1	AutoProfile
+Controller	KEYWORD1	Controller
+DistanceMeter	KEYWORD1	DistanceMeter
 FirstProfile	KEYWORD1	FirstProfile
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
+
+ReadDistanceVar	KEYWORD2
+SetServo	KEYWORD2
+GetDistance	KEYWORD2
+
+StopCar	KEYWORD2
+carAccelerate	KEYWORD2
+CompareData	KEYWORD2
 
 PrintDistances	KEYWORD2
 SelfDrive	KEYWORD2

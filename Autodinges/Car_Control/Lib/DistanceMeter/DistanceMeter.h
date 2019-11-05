@@ -8,16 +8,33 @@
 #include <Arduino.h>
 #include <MultiTasker.h>
 namespace Car_Control {
-	class DistanceMeter {
+	struct MeasureResult
+	{
+		unsigned short Duration; //in 1/100 a second
+		unsigned short Distance; //in cm
+		short Angle; // degrees
+	};
+	class IDistanceMeter {
+	public:
+		short TriggerPin = 0;
+		short EchoPin = 0;
+	private:
+		virtual void GetDistance() = 0;
+		virtual void RegisterMeasurement(short angle, void (*Callback)(MeasureResult)) = 0;
+	};
+
+
+
+	class DistanceMeter : public IDistanceMeter {
 
 	public:
-		static DistanceMeter* activeMeter;
-		static ClassMultiTasker<DistanceMeter> tasker;
-		Servo servo;
-		int Distance = 0;
-		int ServoPin = 0;
-		int TriggerPin = 0;
-		int EchoPin = 0;
+		static IDistanceMeter* activeMeter;
+		static ClassMultiTasker<DistanceMeter>* tasker;
+		Servo* servo = new Servo();
+		void (*RegisteredCallbacks[20])(MeasureResult);
+		short RegisteredAngles[20];
+		unsigned short Distance = 0;
+		unsigned short ServoPin = 0;
 
 		DistanceMeter(int servoPin, int triggerPin, int echoPin);
 
@@ -26,9 +43,14 @@ namespace Car_Control {
 			return 0;
 		}
 		void GetDistancesOfAngles() {}
-		void SetServo(int deg);
+		void SetServo(short deg);
+		
+		void RegisterMeasurement(short angle, void (*Callback)(MeasureResult));
+
+		void CheckNextDistance();
 	private:
 		void GetDistance();
+		void GetDistanceCallBack();
 	};
 }
 #endif

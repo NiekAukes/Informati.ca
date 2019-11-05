@@ -40,7 +40,7 @@
  //                     |'''''''''''CAR''''''''''|                            \\
 //=============================================================================\\
 
-/*Distance meter werkt eindelijk! Nu nog de app checken of die werkt. De WhichDirection code was ook een beetje herhalend dus heb een for loopje erbij geplakt.
+/*	Douwe Osinga 21/10/2019: Distance meter werkt eindelijk! Nu nog de app checken of die werkt. De WhichDirection code was ook een beetje herhalend dus heb een for loopje erbij geplakt.
     Heb ook de void WhichDirection gemaakt. Eerst had ik moeite met het handig invoeren van of een afstand onder een threshold was, dus ik heb nog wat arrays gemaakt.
     Had een heleboel errors met chars en strings, heb uiteindelijk maar gekozen voor een fixt length char van 11, om verdere errors te voorkomen. Jammer van de spaties
     in de woorden maarja.
@@ -77,6 +77,49 @@
       Als er de hoeveelheid tijd is verstreken die ingesteld is in de RegisterTask functie, wordt de aangewezen functie geactiveerd.
 */
 
+
+/* Log van Niek: 01/11/2019
+	-Ik heb een aantal veranderingen doorgevoerd die het programma geheel anders in elkaar zet. dit is de log waarin deze veranderingen worden besproken:
+	  --Veel functies zijn overgezet in andere classes dan de program (.ino) class. in totaal zijn er nog 3 classes aangemaakt en de States enum apart gezet.
+		deze classes gaan onder de namen: Controller (voor de controle over de auto), DistanceMeter (zorgt voor servo) en de abstracte AutoProfile (voor selfdrive).
+		deze classes worden geplaatst in de library folder en zijn daarom libraries. Deze Libraries zijn NIET bedoeld om aangepast te worden. 
+		Als er toch een nieuwe feature moet komen, kun je een nieuwe class maken en deze afleiden van de I- versies van de classes.
+		Deze I- versies zijn interfaces waarin de gebruiker zelf de gedefineerde functies moet maken.
+
+	  --Door de Nieuwe Constructie zijn een aantal nieuwe termen beschikbaar.
+			
+				 Program	--->    Program  -  IController  -  ...
+					|				   |			 |
+				SubClasses			Functies	Subclasses
+				Functies						Functies
+		
+		Het nieuwe programma gebruikt een andere structuur dan de vorige versies. hier komt ook nieuwe syntax bij.
+		2 belangrijke operators van de nieuwe structuur bespreek ik bij deze log.
+
+		2 nieuwe operators zijn nu van toepassing op de code. dit zijn de Scope-operator (::) en de Arrow-operator (->).
+		-De Scope-operator wordt gebruikt om 'in te scopen' op een klasse/enum.
+		om toegang te krijgen van een lid van een klasse moet je de Scope-operator toepassen op de klasse.
+		VB:
+				DistanceMeter::GetDistancesOfAngles();
+				^Klasse		 ^Scope		^Lid
+
+		-De Arrow-operator wordt gebruikt om (snel) toegang te krijgen tot een object van een referentie, oftewel pointers(*). 
+		pointers zijn adressen die verwijzen naar een object.
+		Bijvoorbeeld: 'AutoProfile* profile;' verwijst naar een AutoProfile object.
+		om bij de leden van dit object te kunnen moet je de Arrow-Operator gebruiken.
+		VB:
+				int pin = DistanceMeter::activeMeter->ServoPin
+				///////   ^klasse		 ^pointer   ^Arrow
+
+
+	-Update aan de MultiTasker lib.
+	  --MultiTasker.h heeft een nieuwe klasse: ClassMultiTasker<Class> 
+		Deze nieuwe klasse heeft support voor lidfuncties (T::*). 
+	  
+	  --Er is maar 1 actieve instantie van de klasse MultiTasker. deze klasse overziet nu alle ClassMultiTaskers.
+*/
+
+#include "SecondProfile.h"
 #include <MultiTasker.h>
 #include <SoftwareSerial.h>
 #include <Servo.h>
@@ -99,8 +142,7 @@ using namespace Car_Control;
 MultiTasker tasker; //maakt instance van een class voor multitasken
 
 DistanceMeter disMeter(3, triggerPin, echoPin);
-AutoProfile* profile = new FirstProfile();
-Controller CarController(profile);
+AutoProfile* profile;
 
   
 
@@ -127,12 +169,14 @@ void setup(){
   pinMode(triggerPin, OUTPUT);
   pinMode(echoPin, INPUT);
   Serial.println("Setup is done.");
-  //DistanceMeter::GetDistancesOfAngles();
+  profile = FirstProfile::SetProfile();
   
 }
 
 void loop() {
-  CarController.CompareData();
-
+  Controller::CompareData();
   tasker.Distribute(); //check timers if there are any pending tasks, if so, activate those functions.
+  //disMeter.tasker.Distribute();
+  //profile->tasker.Distribute();
+  //CarController.tasker.Distribute();
 }

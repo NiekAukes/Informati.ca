@@ -12,13 +12,20 @@ namespace Car_Control {
 	void AutoProfile::EvalSelfDrive() {
 		AutoProfile::currentProfile->SelfDrive();
 	}
-
-	FirstProfile::FirstProfile(DistanceMeter* distanceMeter) {
-		meter = distanceMeter;
-		currentProfile = this;
+	AutoProfile* AutoProfile::GetProfile() {
+		if (currentProfile == NULL) {
+			return nullptr;
+		}
+		else {
+			return currentProfile;
+		}
 	}
+
 	FirstProfile::FirstProfile() {
 		currentProfile = this;
+	}
+	AutoProfile* FirstProfile::SetProfile() {
+		return new FirstProfile();
 	}
 
 	void FirstProfile::PrintDistances() {
@@ -44,7 +51,7 @@ namespace Car_Control {
 			AutoModeDriveAcc = 0;
 			AutoModeSteerAcc = -80;
 			Controller::carAccelerate(AutoModeDriveAcc, AutoModeSteerAcc);
-			Controller::tasker.RegisterTask(&Controller::StopCar, 500UL);
+			MultiTasker::Tasker->RegisterTask(&Controller::StopCar, 500UL);
 		}
 		else if (WhereToGo == 'F') {
 			AutoModeDriveAcc = 40;
@@ -55,13 +62,13 @@ namespace Car_Control {
 			AutoModeDriveAcc = 0;
 			AutoModeSteerAcc = -75;
 			Controller::carAccelerate(AutoModeDriveAcc, AutoModeSteerAcc);
-			Controller::tasker.RegisterTask(&Controller::StopCar, 500UL);
+			MultiTasker::Tasker->RegisterTask(&Controller::StopCar, 500UL);
 		}
 		else if (WhereToGo == 'R') {
 			AutoModeDriveAcc = 0;
 			AutoModeSteerAcc = 75;
 			Controller::carAccelerate(AutoModeDriveAcc, AutoModeSteerAcc);
-			Controller::tasker.RegisterTask(&Controller::StopCar, 700UL);
+			MultiTasker::Tasker->RegisterTask(&Controller::StopCar, 700UL);
 		}
 		else if (WhereToGo == 'U') {
 			AutoModeDriveAcc = 80;
@@ -100,7 +107,7 @@ namespace Car_Control {
 				meter->GetDistancesOfAngles();
 			}
 			else {
-				DistanceMeter::tasker.RegisterTask(&meter->GetDistancesOfAngles, 500UL);
+				DistanceMeter::tasker->RegisterTask(meter, &meter->GetDistancesOfAngles, 500UL);
 			}
 		}
 		
@@ -152,7 +159,7 @@ namespace Car_Control {
 		}
 		//Zegmaar recursion maar dan getimed
 		if ((States)((short)Serial.read()) == States::Auto) {
-			DistanceMeter::tasker.RegisterTask(&meter->GetDistancesOfAngles, 1750UL);
+			DistanceMeter::tasker->RegisterTask(meter, &meter->GetDistancesOfAngles, 1750UL);
 		}
 	}
 }
