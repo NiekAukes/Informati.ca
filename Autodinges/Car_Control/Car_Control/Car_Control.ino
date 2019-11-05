@@ -8,8 +8,6 @@
 //  HIGH  HIGH  HIGH  HIGH  HIGH  HIGH  Car is stoped
 //  LOW   LOW   N/A   N/A   N/A   N/A   Car is stoped
 
-//Hex values: https://www.ascii-code.com/
-
 //    Left motor truth table
 //  ENA         IN1               IN2         Description  
 //  LOW   Not Applicable    Not Applicable    Motor is off
@@ -24,7 +22,10 @@
 //  HIGH        LOW             LOW         Motor is stopped (brakes)
 //  HIGH        LOW             HIGH        Motor is on and turning forwards
 //  HIGH        HIGH            LOW         Motor is on and turning backwards
-//  HIGH        HIGH            HIGH        Motor is stopped (brakes) 
+//  HIGH        HIGH            HIGH        Motor is stopped (brakes)
+
+//Hex values: https://www.ascii-code.com/ 
+
 // carAccelerate(float DriveAcceleration, float SteerAcceleration){}
             //=====================================================\\
            //       60deg           90deg          120deg           \\
@@ -55,8 +56,6 @@
     door blijven rijden terwijl we de servo meten. We hebben bijna een werkende selfDrive functie! 
     (P.S. Niek en ik hebben in dit autootje en de app al ongeveer beide 30 uur in gestoken)*/
 
-//voor multitasking, zie https://www.youtube.com/watch?v=zhWV_D_9OCY
-
 /*MultiTasker is een door Niek gecreëerde lokale library die zorgt voor het timen van acties, zoals het setten van een servo en het meten van een afstand.
   Commands:
     Multitasker [tasker];
@@ -77,7 +76,6 @@
       Als er de hoeveelheid tijd is verstreken die ingesteld is in de RegisterTask functie, wordt de aangewezen functie geactiveerd.
 */
 
-
 /* Log van Niek: 01/11/2019
 	-Ik heb een aantal veranderingen doorgevoerd die het programma geheel anders in elkaar zet. dit is de log waarin deze veranderingen worden besproken:
 	  --Veel functies zijn overgezet in andere classes dan de program (.ino) class. in totaal zijn er nog 3 classes aangemaakt en de States enum apart gezet.
@@ -89,9 +87,9 @@
 	  --Door de Nieuwe Constructie zijn een aantal nieuwe termen beschikbaar.
 			
 				 Program	--->    Program  -  IController  -  ...
-					|				   |			 |
-				SubClasses			Functies	Subclasses
-				Functies						Functies
+					|				           |			       |
+				SubClasses			Functies	     Subclasses
+				Functies				               Functies
 		
 		Het nieuwe programma gebruikt een andere structuur dan de vorige versies. hier komt ook nieuwe syntax bij.
 		2 belangrijke operators van de nieuwe structuur bespreek ik bij deze log.
@@ -101,7 +99,7 @@
 		om toegang te krijgen van een lid van een klasse moet je de Scope-operator toepassen op de klasse.
 		VB:
 				DistanceMeter::GetDistancesOfAngles();
-				^Klasse		 ^Scope		^Lid
+				^Klasse		    ^Scope		^Lid
 
 		-De Arrow-operator wordt gebruikt om (snel) toegang te krijgen tot een object van een referentie, oftewel pointers(*). 
 		pointers zijn adressen die verwijzen naar een object.
@@ -118,7 +116,6 @@
 	  
 	  --Er is maar 1 actieve instantie van de klasse MultiTasker. deze klasse overziet nu alle ClassMultiTaskers.
 */
-
 #include "SecondProfile.h"
 #include <MultiTasker.h>
 #include <SoftwareSerial.h>
@@ -127,39 +124,26 @@
 #include <AutoProfile.h>
 #include <CarController.h>
 #include <DistanceMeter.h>
+
 using namespace Car_Control;
+
 #define ENA 6
 #define ENB 5
 #define IN1 7
 #define IN2 8
 #define IN3 9
 #define IN4 11
+
 //Voor de afstandssensor:
 #define triggerPin A5
 #define echoPin A4
 
-
 MultiTasker tasker; //maakt instance van een class voor multitasken
-
 DistanceMeter disMeter(3, triggerPin, echoPin);
 AutoProfile* profile;
 
-  
-
-
-  //                Wall       //                 //                 //                     //       Wall                   ETC.
-  //          Wall        Wall //    Wall Wall    //  Wall   Wall    //  Wall        Wall   //            Wall              ETC.
-  //          Wall  |--|  Wall //    |--| Wall    //  Wall   |--|    //  Wall  |--|  Wall   //     |--|   Wall              ETC.
-  // |--|=car    go backward   //     go left     //       go right  //     go forward      //go fwd with 30deg left turn   ETC.
-
-
-//allemaal aparte functies omdat de scheduler geen argumenten aankan. fuck.
-
-
-
 void setup(){
   Serial.begin(9600); //serial bit rate of 9600 baud
-  
   pinMode(IN1, OUTPUT); 
   pinMode(IN2, OUTPUT);
   pinMode(IN3, OUTPUT);
@@ -170,12 +154,11 @@ void setup(){
   pinMode(echoPin, INPUT);
   Serial.println("Setup is done.");
   profile = FirstProfile::SetProfile();
-  
 }
 
 void loop() {
   Controller::CompareData();
-  tasker.Distribute(); //check timers if there are any pending tasks, if so, activate those functions.
+  tasker.Distribute(); //check timers if there are any pending tasks, and if so, activates those functions.
   //disMeter.tasker.Distribute();
   //profile->tasker.Distribute();
   //CarController.tasker.Distribute();
