@@ -138,7 +138,7 @@ using namespace Car_Control;
 #define triggerPin A5
 #define echoPin A4
 
-MultiTasker tasker; //maakt instance van een class voor multitasken
+MultiTasker* tasker = MultiTasker::SetMultiTasker(); //maakt instance van een class voor multitasken
 DistanceMeter disMeter(3, triggerPin, echoPin);
 AutoProfile* profile;
 
@@ -153,13 +153,11 @@ void setup(){
   pinMode(triggerPin, OUTPUT);
   pinMode(echoPin, INPUT);
   Serial.println("Setup is done.");
-  profile = FirstProfile::SetProfile();
+  //profile = SecondProfile::SetProfile();
 }
 
 void loop() {
-  Controller::CompareData();
-  tasker.Distribute(); //check timers if there are any pending tasks, and if so, activates those functions.
-  //disMeter.tasker.Distribute();
-  //profile->tasker.Distribute();
-  //CarController.tasker.Distribute();
+  //Controller::CompareData();
+  Serial.println("fff");
+  tasker->Distribute(); //check timers if there are any pending tasks, and if so, activates those functions.
 }
