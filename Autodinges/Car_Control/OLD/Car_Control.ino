@@ -115,35 +115,17 @@
 		Deze nieuwe klasse heeft support voor lidfuncties (T::*). 
 	  
 	  --Er is maar 1 actieve instantie van de klasse MultiTasker. deze klasse overziet nu alle ClassMultiTaskers.
-
-
-#ifdef __arm__
-// should use uinstd.h to define sbrk but Due causes a conflict
-extern "C" char* sbrk(int incr);
-#else  // __ARM__
-extern char *__brkval;
-#endif  // __arm__
- 
-int freeMemory() {
-  char top;
-#ifdef __arm__
-  return &top - reinterpret_cast<char*>(sbrk(0));
-#elif defined(CORE_TEENSY) || (ARDUINO > 103 && ARDUINO != 151)
-  return &top - __brkval;
-#else  // __arm__
-  return __brkval ? &top - __brkval : &top - __malloc_heap_start;
-#endif  // __arm__
-}
-
 */
+#include "SecondProfile.h"
 #include <MultiTasker.h>
 #include <SoftwareSerial.h>
 #include <Servo.h>
 #include <SoftwareSerial.h>
+#include <AutoProfile.h>
 #include <CarController.h>
 #include <DistanceMeter.h>
 
-using namespace CarControl;
+using namespace Car_Control;
 
 #define ENA 6
 #define ENB 5
@@ -157,7 +139,8 @@ using namespace CarControl;
 #define echoPin A4
 
 MultiTasker* tasker = MultiTasker::SetMultiTasker(); //maakt instance van een class voor multitasken
-DistanceMeter* disMeter;
+DistanceMeter disMeter(3, triggerPin, echoPin);
+AutoProfile* profile;
 
 void setup(){
   Serial.begin(9600); //serial bit rate of 9600 baud
@@ -169,22 +152,12 @@ void setup(){
   pinMode(ENB, OUTPUT);
   pinMode(triggerPin, OUTPUT);
   pinMode(echoPin, INPUT);
-  Serial.println("Setupsdfg is done.");
-  tasker->RegisterTask(&PrintSometing, 7000U);
-  disMeter = new DistanceMeter(3, triggerPin, echoPin);
-  disMeter->RegisterMeasurement(-70, &DistanceMeter::GetDistancesnow);
-  disMeter->RegisterMeasurement(0, &DistanceMeter::GetDistancesnow);
-  disMeter->RegisterMeasurement(70, &DistanceMeter::GetDistancesnow);
-  delay(100);
-  Serial.println("yes, we are");
+  Serial.println("Setup is done.");
+  //profile = SecondProfile::SetProfile();
 }
 
 void loop() {
-  Controller::CompareData();
+  //Controller::CompareData();
+  Serial.println("fff");
   tasker->Distribute(); //check timers if there are any pending tasks, and if so, activates those functions.
-  disMeter->Distribute();
-}
-
-void PrintSometing() {
-  Serial.println("printed someting");
 }
