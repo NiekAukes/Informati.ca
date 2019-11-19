@@ -12,13 +12,14 @@
 #define IN4 11
 
 
-namespace Car_Control {
+namespace CarControl {
+
+
 
 	AutoProfile* Controller::profile = 0;
-	ClassMultiTasker<Controller> Controller::tasker;
 	States Controller::inBit = States::Null;
-	short IController::DriveAcceleration = 100;
-	short IController::SteerAcceleration = 0;
+	char IController::DriveAcceleration = 100;
+	char IController::SteerAcceleration = 0;
 
 	void Controller::carAccelerate(short carSpeed, short steerSpeed) {
 		Serial.print(carSpeed);
@@ -36,8 +37,8 @@ namespace Car_Control {
 		else if (carSpeed >= -100 && carSpeed <= 100 && steerSpeed >= -100 && steerSpeed <= 100) {  //drive the car according to the driveacceleration and steeracceleration
 			if (steerSpeed > 0 && carSpeed > 0) {
 				Serial.println("Going RF");
-				analogWrite(ENA, (short)(carSpeed * 0.2 * 2.55));
-				analogWrite(ENB, (short)(carSpeed * 2.55));
+				analogWrite(ENA, (carSpeed * 0.2 * 2.55));
+				analogWrite(ENB, (carSpeed * 2.55));
 				digitalWrite(IN1, LOW); //left motors forward = true
 				digitalWrite(IN2, HIGH); //left motors backward = false
 				digitalWrite(IN3, LOW); //rightmotors backward = false
@@ -46,56 +47,56 @@ namespace Car_Control {
 			else if (steerSpeed < 0 && carSpeed > 0) {
 
 				Serial.println("Going LF");
-				analogWrite(ENA, (short)(carSpeed) * 2.55);
-				analogWrite(ENB, (short)(0.2 * carSpeed * 2.55));
+				analogWrite(ENA, (carSpeed) * 2.55);
+				analogWrite(ENB, (0.2 * carSpeed * 2.55));
 				digitalWrite(IN1, HIGH); //left motors forward = true
 				digitalWrite(IN2, LOW); //left motors backward = false
 				digitalWrite(IN3, HIGH); //rightmotors backward = false
 				digitalWrite(IN4, LOW); //rightmotors forward = true
 			}
 			else if (steerSpeed > 0 && carSpeed < 0) {
-				analogWrite(ENA, (short)((-0.70 * (carSpeed - steerSpeed)) * 2.55));
-				analogWrite(ENB, (short)((-0.5 * carSpeed) * 2.55));
+				analogWrite(ENA, ((-0.70 * (carSpeed - steerSpeed)) * 2.55));
+				analogWrite(ENB, ((-0.5 * carSpeed) * 2.55));
 				digitalWrite(IN1, HIGH); //left motors forward = true
 				digitalWrite(IN2, LOW); //left motors backward = false
 				digitalWrite(IN3, LOW); //rightmotors backward = false
 				digitalWrite(IN4, HIGH); //rightmotors forward = true
 			}
 			else if (steerSpeed < 0 && carSpeed < 0) {
-				analogWrite(ENA, (short)((0.5 * carSpeed)));
-				analogWrite(ENB, (short)((-(carSpeed - steerSpeed)) * 2.55));
+				analogWrite(ENA, ((0.5 * carSpeed)));
+				analogWrite(ENB, ((-(carSpeed - steerSpeed)) * 2.55));
 				digitalWrite(IN1, HIGH); //left motors forward = true
 				digitalWrite(IN2, LOW); //left motors backward = false
 				digitalWrite(IN3, LOW); //rightmotors backward = false
 				digitalWrite(IN4, HIGH); //rightmotors forward = true
 			}
 			else if (carSpeed < 0) { //if the software wants the car to go backward:
-				analogWrite(ENA, (short)(-carSpeed * 2.55));//motoren aan op de snelheid van 0 tot 100 (wordt geconvert naar 0 tot 255 voor de motoren)
-				analogWrite(ENB, (short)(-carSpeed * 2.55));//idem
+				analogWrite(ENA, (-carSpeed * 2.55));//motoren aan op de snelheid van 0 tot 100 (wordt geconvert naar 0 tot 255 voor de motoren)
+				analogWrite(ENB, (-carSpeed * 2.55));//idem
 				digitalWrite(IN1, LOW); //left motors forward = false
 				digitalWrite(IN2, HIGH); //left motors backward = true
 				digitalWrite(IN3, HIGH); //rightmotors backward = true
 				digitalWrite(IN4, LOW); //rightmotors forward = false
 			}
 			else if (carSpeed > 0) { //if the car needs to go to forward:
-				analogWrite(ENA, (short)(carSpeed * 2.55));
-				analogWrite(ENB, (short)(carSpeed * 2.55));
+				analogWrite(ENA, (carSpeed * 2.55));
+				analogWrite(ENB, (carSpeed * 2.55));
 				digitalWrite(IN1, HIGH);//left motors forward = true
 				digitalWrite(IN2, LOW);
 				digitalWrite(IN3, LOW);
 				digitalWrite(IN4, HIGH); //right motors forward = true
 			}
 			else if (steerSpeed < 0) { //if the car needs to go to left:
-				analogWrite(ENA, (short)(steerSpeed * -2.55));
-				analogWrite(ENB, (short)(steerSpeed * -2.55));
+				analogWrite(ENA, (steerSpeed * -2.55));
+				analogWrite(ENB, (steerSpeed * -2.55));
 				digitalWrite(IN1, LOW);
 				digitalWrite(IN2, HIGH);//left motors backward
 				digitalWrite(IN3, LOW);
 				digitalWrite(IN4, HIGH); //right motors forward = true
 			}
 			else if (steerSpeed > 0) { //if the car needs to go to right:
-				analogWrite(ENA, (short)(steerSpeed * 2.55));
-				analogWrite(ENB, (short)(steerSpeed * 2.55));
+				analogWrite(ENA, (steerSpeed * 2.55));
+				analogWrite(ENB, (steerSpeed * 2.55));
 				digitalWrite(IN1, HIGH);//left motors fwd = true
 				digitalWrite(IN2, LOW);
 				digitalWrite(IN3, HIGH);//right motors backward = true
@@ -139,6 +140,7 @@ namespace Car_Control {
 	char Controller::CompareData() {
 		if (Serial.available()) { // als er bits beschikbaar zijn
 			inBit = (States)Serial.read();
+			Serial.println((unsigned char)inBit);
 			if (inBit == States::Null) {
 				//do nothing
 			}
@@ -153,8 +155,8 @@ namespace Car_Control {
 				AutoProfile::SelfDriveActive = false;
 			}
 			else if (inBit == States::Auto) {
-				Serial.println("Going into automatic mode...");
-
+				Serial.println("automatic");
+				
 				AutoProfile::SelfDriveActive = true;
 				AutoProfile::EvalSelfDrive();
 			}
