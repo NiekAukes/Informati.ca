@@ -116,7 +116,7 @@
 	  
 	  --Er is maar 1 actieve instantie van de klasse MultiTasker. deze klasse overziet nu alle ClassMultiTaskers.
 
-
+*/
 #ifdef __arm__
 // should use uinstd.h to define sbrk but Due causes a conflict
 extern "C" char* sbrk(int incr);
@@ -135,7 +135,7 @@ int freeMemory() {
 #endif  // __arm__
 }
 
-*/
+
 #include <MultiTasker.h>
 #include <SoftwareSerial.h>
 #include <Servo.h>
@@ -143,6 +143,7 @@ int freeMemory() {
 #include <AutoProfile.h>
 #include <CarController.h>
 #include <DistanceMeter.h>
+#include "SecondProfile.h"
 
 using namespace CarControl;
 
@@ -158,8 +159,8 @@ using namespace CarControl;
 #define echoPin A4
 
 MultiTasker* tasker = MultiTasker::SetMultiTasker(); //maakt instance van een class voor multitasken
-DistanceMeter* disMeter;
-AutoProfile* profile = SecondProfile::SetProfile(disMeter);
+DistanceMeter disMeter;
+AutoProfile* profile;
 
 void setup(){
   Serial.begin(9600); //serial bit rate of 9600 baud
@@ -172,12 +173,12 @@ void setup(){
   pinMode(triggerPin, OUTPUT);
   pinMode(echoPin, INPUT);
   Serial.println("Setup is done.");
-  tasker->RegisterTask(&PrintSometing, 7000U);
-  profile = &mainprof;
-  disMeter = new DistanceMeter(3, triggerPin, echoPin);
-  disMeter->RegisterMeasurement(-70, &DistanceMeter::GetDistancesnow);
-  disMeter->RegisterMeasurement(0, &DistanceMeter::GetDistancesnow);
-  disMeter->RegisterMeasurement(70, &DistanceMeter::GetDistancesnow);
+  tasker->RegisterTask(&PrintSometing, 3000U);
+  profile = SecondProfile::SetProfile(&disMeter);
+  disMeter.InitDistanceMeter(3, triggerPin, echoPin);
+  disMeter.RegisterMeasurement(-70, &DistanceMeter::GetDistancesnow);
+  disMeter.RegisterMeasurement(0, &DistanceMeter::GetDistancesnow);
+  disMeter.RegisterMeasurement(70, &DistanceMeter::GetDistancesnow);
   delay(100);
   Serial.println("yes, we are");
 }
@@ -185,10 +186,11 @@ void setup(){
 void loop() {
   Controller::CompareData();
   tasker->Distribute(); //check timers if there are any pending tasks, and if so, activates those functions.
-  disMeter->Distribute();
-  mainprof.OnUpdate();
+  disMeter.Distribute();
+  profile->OnUpdate();
 }
 
 void PrintSometing() {
   Serial.println("printed someting");
+  profile->SelfDrive();
 }

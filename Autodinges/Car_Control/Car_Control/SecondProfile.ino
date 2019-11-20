@@ -6,6 +6,9 @@
 #include <AutoProfile.h>
 #include <CarController.h>
 #include <DistanceMeter.h>
+#include <stdlib.h> // for malloc and free
+void* operator new(size_t size) { return malloc(size); } 
+void operator delete(void* ptr) { free(ptr); }
 #define ENA 6
 #define ENB 5
 #define IN1 7
@@ -15,14 +18,16 @@
 //Voor de afstandssensor:
 #define triggerPin A5
 #define echoPin A4
-namespace Car_Control {
+namespace CarControl {
 
 
-
+  ActionData ActionData::actions[50];
    MeasureResult SecondProfile::lastResult;
   int ActionData::totalDriven = millis();
   bool SecondProfile::RetrievedMeasureResult = false;
+ SecondProfile SecondProfile::newProfile;
 
+ //SecondProfile::SecondProfile
   void SecondProfile::SelfDrive() {
     //functie
     
@@ -97,16 +102,16 @@ namespace Car_Control {
       }
     }
     if (RetrievedMeasureResult && !OnBackTrack) {
-
-char spc = 0xFF;
+      //Serial.println((short)lastResult.Angle);
+      char spc = 0xFF;
       switch (lastResult.Angle) {
-      case 5: {
-        
+      case -85: {
+        Serial.println(spc);
         //if the measurement is initiated by forward stop
         if (SpecifiedNext == 0) {
-          if (lastResult.Distance < 80) {
+          if (lastResult.Distance < 60) {
             //no option to go left, so look right
-            meter->RegisterMeasurement(-85, &SecondProfile::ReceiveMeasureData);
+            meter->RegisterMeasurement(85, &SecondProfile::ReceiveMeasureData);
             spc = 2;
           }
           else {
@@ -130,26 +135,38 @@ char spc = 0xFF;
         SpecifiedNext = spc;
         break;
       }
-      case 45: {
-        if (lastResult.Distance - LastMeasures[1] > 20) {
+      case -45: {
+        short dis = (short)lastResult.Distance;
+        short lastdis = (short)LastMeasures[1];
+        if (dis - lastdis > 20 && LastMeasures[1] != 0) {
           //if the distance varied by more than 20, look there
+          
           Controller::StopCar();
+          spc = 1;
           meter->RegisterMeasurement(-85, &SecondProfile::ReceiveMeasureData);
 
         }
+        else {
         meter->RegisterMeasurement(45, &SecondProfile::ReceiveMeasureData);
+        }
+        Serial.print("deltadistance: ");
+          Serial.print(dis);
+          Serial.print("  //  ");
+          Serial.println(lastdis);
         LastMeasures[1] = lastResult.Distance & 0x00FF;
         break;
       }
-      case 90:{
+      case 0:{
+        //Serial.println((short)lastResult.Distance);
         if (lastResult.Distance > 120) {
           //look elsewhere
           Controller::carAccelerate(80, 0);
           stack->SetNewAction((char)States::Forward, 80);
           meter->RegisterMeasurement(-45, &SecondProfile::ReceiveMeasureData);
         }
-        else if (lastResult.Distance > 60) {
+        else if (lastResult.Distance > 40) {
           //look elsewhere
+          
           Controller::carAccelerate(40, 0);
           stack->SetNewAction((char)States::Forward, 40);
           meter->RegisterMeasurement(-45, &SecondProfile::ReceiveMeasureData);
@@ -163,15 +180,24 @@ char spc = 0xFF;
         LastMeasures[2] = lastResult.Distance & 0x00FF;
         break;
       }
-      case 135: {
+      case 45: {
+        if (lastResult.Distance - LastMeasures[3] > 20 && LastMeasures[3] != 0) {
+          //if the distance varied by more than 20, look there
+          Controller::StopCar();
+          meter->RegisterMeasurement(85, &SecondProfile::ReceiveMeasureData);
+
+        }
+        else {
+          meter->RegisterMeasurement(0, &SecondProfile::ReceiveMeasureData);
+        }
         LastMeasures[3] = lastResult.Distance & 0x00FF;
         break;
       }
-      case 175: {
+      case 85: {
         spc = 0xFF;
         //if the measurement is initiated by forward stop
         if (SpecifiedNext == 0) {
-          if (lastResult.Distance < 80) {
+          if (lastResult.Distance < 60) {
             //no option to go right, turn around
             Controller::carAccelerate(0, -100);
             MultiTasker::Tasker->RegisterTask(&Controller::StopCar, 700);
@@ -203,13 +229,21 @@ char spc = 0xFF;
           break;
         }
       }
-    }
     RetrievedMeasureResult = false;
+    }
   }
 
-  void SecondProfile::ReceiveMeasureData(MeasureResult result) {
+  void SecondProfile::ReceiveMeasureData(MeasureResult result, IDistanceMeter* meter) {
     RetrievedMeasureResult = true;
-    lastResult = result;
+    lastResult.Distance = result.Distance;
+    lastResult.Angle = result.Angle;
+    lastResult.Duration = result.Duration;
+    
+    /*Serial.print(RetrievedMeasureResult);
+    Serial.print("  //  ");
+    Serial.print(lastResult.Distance);
+    Serial.print("  //  ");
+    Serial.println((short)result.Angle);*/
   }
   void SecondProfile::PrintDistances() {
 
@@ -217,7 +251,7 @@ char spc = 0xFF;
   AutoProfile* SecondProfile::SetProfile(DistanceMeter* dismeter) {
     
     AutoProfile::currentProfile = &newProfile;
-    newProfile->meter = dismeter;
+    newProfile.meter = dismeter;
     return &newProfile;
   }
 }
