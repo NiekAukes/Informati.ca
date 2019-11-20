@@ -1,7 +1,6 @@
 #include <CarController.h>
 #include <Arduino.h>
 #include <MultiTasker.h>
-#include <AutoProfile.h>
 #include <DistanceMeter.h>
 
 #define ENA 6
@@ -16,10 +15,10 @@ namespace CarControl {
 
 
 
-	AutoProfile* Controller::profile = 0;
 	States Controller::inBit = States::Null;
 	char IController::DriveAcceleration = 100;
 	char IController::SteerAcceleration = 0;
+	DistanceMeter* Controller::meter = nullptr;
 
 	void Controller::carAccelerate(short carSpeed, short steerSpeed) {
 		Serial.print(carSpeed);
@@ -151,14 +150,13 @@ namespace CarControl {
 			else if (inBit == States::Manual) {
 				Serial.println("Switching to manual...");
 				carAccelerate(0, 0);
-				profile->meter->ReadDistanceVar(0);
-				AutoProfile::SelfDriveActive = false;
+				//AutoProfile::SelfDriveActive = false;
 			}
 			else if (inBit == States::Auto) {
 				Serial.println("automatic");
 				
-				AutoProfile::SelfDriveActive = true;
-				AutoProfile::EvalSelfDrive();
+				//AutoProfile::SelfDriveActive = true;
+				//AutoProfile::EvalSelfDrive();
 			}
 			else if (inBit == States::Stop) {
 				Serial.println("stopping");
@@ -194,27 +192,27 @@ namespace CarControl {
 			}
 			else if (inBit == States::Servo20deg) {
 				Serial.println("Servo going to 20deg");
-				profile->meter->SetServo(-70);
+				meter->SetServo(-70);
 				inBit = States::Null;
 			}
 			else if (inBit == States::Servo60deg) {
 				Serial.println("Servo going to 60deg");
-				profile->meter->SetServo(-30);
+				meter->SetServo(-30);
 				inBit = States::Null;
 			}
 			else if (inBit == States::Servo90deg) {
 				Serial.println("Servo going to 90deg");
-				profile->meter->SetServo(0);
+				meter->SetServo(0);
 				inBit = States::Null;
 			}
 			else if (inBit == States::Servo120deg) {
 				Serial.println("Servo going to 120deg");
-				profile->meter->SetServo(30);
+				meter->SetServo(30);
 				inBit = States::Null;
 			}
 			else if (inBit == States::Servo160deg) {
 				Serial.println("Servo going to 160deg");
-				profile->meter->SetServo(70);
+				meter->SetServo(70);
 				inBit = States::Null;
 			}
 

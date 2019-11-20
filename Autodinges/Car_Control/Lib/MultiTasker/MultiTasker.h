@@ -15,6 +15,7 @@ class MultiTasker : public IMultiTasker {
 private:
 	unsigned int RegisteredTimers[20];
 	void (*RegisteredTasks[20])();
+	static MultiTasker taskerval;
 public: 
 	static MultiTasker* Tasker;
 	IMultiTasker* ClassMultiTaskers[5];

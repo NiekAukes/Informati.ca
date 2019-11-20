@@ -2,7 +2,6 @@
 #define CarController_h
 #include <MultiTasker.h>
 #include <Arduino.h>
-#include <AutoProfile.h>
 #include <DistanceMeter.h>
 namespace CarControl {
 	
@@ -34,7 +33,6 @@ namespace CarControl {
 
 	class IController {
 	public:
-		static AutoProfile* profile;
 		static char DriveAcceleration; //-100 t/m 100
 		static char SteerAcceleration; //-100 t/m 100
 	};
@@ -44,7 +42,7 @@ namespace CarControl {
 		Controller();
 	public:
 		static States inBit;
-	
+		static DistanceMeter* meter;
 		static void StopCar();
 		static void carAccelerate(short carSpeed, short steerSpeed);
 		static char CompareData();

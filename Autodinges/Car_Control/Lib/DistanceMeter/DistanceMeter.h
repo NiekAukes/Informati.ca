@@ -17,7 +17,7 @@ namespace CarControl {
 		char EchoPin = 0;
 	protected:
 		virtual void GetDistance() = 0;
-		virtual void RegisterMeasurement(char angle, void (*Callback)(MeasureResult)) = 0;
+		virtual void RegisterMeasurement(char angle, void (*Callback)(MeasureResult, IDistanceMeter*)) = 0;
 	};
 
 
@@ -27,24 +27,27 @@ namespace CarControl {
 		int counter;
 		unsigned long prevCount;
 	public:
+		static char adjustRight; //chars so that it uses only 1 byte, instead of a short (2B), int (4B) or unsigned long (8B)
+		static char adjustCentre;
+		static char adjustLeft;
 		static IDistanceMeter* activeMeter;
-		Servo* servo;
-		void (*RegisteredCallbacks[10])(MeasureResult);
+		Servo servo;
+		void (*RegisteredCallbacks[10])(MeasureResult, IDistanceMeter*);
 		char RegisteredAngles[10];
 		unsigned char Distance = 0;
 		unsigned char ServoPin;
 
-		DistanceMeter(int servoPin, int triggerPin, int echoPin);
+		void InitDistanceMeter(int servoPin, int triggerPin, int echoPin);
 
 		int ReadDistanceVar(int deg);
 		void ReadDistance90() {
-			servo->write(90);
+			servo.write(0);
 		}
-		static void GetDistancesnow(MeasureResult result);
+		static void GetDistancesnow(MeasureResult result, IDistanceMeter* meter);
 		void GetDistancesOfAngles() {}
 		void SetServo(short deg);
 		
-		void RegisterMeasurement(char angle, void (*Callback)(MeasureResult));
+		void RegisterMeasurement(char angle, void (*Callback)(MeasureResult, IDistanceMeter*));
 		void Distribute();
 
 		void CheckNextDistance();
