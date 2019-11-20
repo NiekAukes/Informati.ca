@@ -140,6 +140,7 @@ int freeMemory() {
 #include <SoftwareSerial.h>
 #include <Servo.h>
 #include <SoftwareSerial.h>
+#include <AutoProfile.h>
 #include <CarController.h>
 #include <DistanceMeter.h>
 
@@ -158,6 +159,7 @@ using namespace CarControl;
 
 MultiTasker* tasker = MultiTasker::SetMultiTasker(); //maakt instance van een class voor multitasken
 DistanceMeter* disMeter;
+AutoProfile* profile = SecondProfile::SetProfile(disMeter);
 
 void setup(){
   Serial.begin(9600); //serial bit rate of 9600 baud
@@ -169,8 +171,9 @@ void setup(){
   pinMode(ENB, OUTPUT);
   pinMode(triggerPin, OUTPUT);
   pinMode(echoPin, INPUT);
-  Serial.println("Setupsdfg is done.");
+  Serial.println("Setup is done.");
   tasker->RegisterTask(&PrintSometing, 7000U);
+  profile = &mainprof;
   disMeter = new DistanceMeter(3, triggerPin, echoPin);
   disMeter->RegisterMeasurement(-70, &DistanceMeter::GetDistancesnow);
   disMeter->RegisterMeasurement(0, &DistanceMeter::GetDistancesnow);
@@ -183,6 +186,7 @@ void loop() {
   Controller::CompareData();
   tasker->Distribute(); //check timers if there are any pending tasks, and if so, activates those functions.
   disMeter->Distribute();
+  mainprof.OnUpdate();
 }
 
 void PrintSometing() {

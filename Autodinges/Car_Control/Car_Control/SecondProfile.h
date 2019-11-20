@@ -20,7 +20,6 @@
 #define echoPin A4
 namespace Car_Control {
 
-  int freeMemory();
 	class ActionData
 	{
 	private:
@@ -83,6 +82,8 @@ public:
 
 	void OnUpdate();
 	static bool RetrievedMeasureResult;
+ 
+    static SecondProfile newProfile;
     static AutoProfile* SetProfile(DistanceMeter* dismeter);
 	ActionData* stack = ActionData::SetNewStack();
 	static MeasureResult lastResult;

@@ -134,12 +134,17 @@ namespace CarControl {
 		}
 		return doTheyMatch;
 	}
+
+	void Controller::callbackdefault(MeasureResult result, IDistanceMeter* meter) {
+		Serial.Write(result.Angle/2 + 20);//zorgt ervoor dat de gestuurde value tussen 20 en 110 zit
+		Serial.Write(result.Distance / 2 + 120); //zorgt ervoor dat de distance niet uit de hand loopt.
+	}
 	char Controller::CompareData() {
 		if (Serial.available()) { // als er bits beschikbaar zijn
 			inBit = (States)Serial.read();
 			Serial.println((unsigned char)inBit);
 			if (inBit == States::Null) {
-				//do nothing
+				//do nothing but send nudes
 			}
 			else if (inBit == States::Faulty) {
 				Serial.println("Error code 1: Fault with app");
@@ -158,7 +163,7 @@ namespace CarControl {
 			}
 			else if (inBit == States::Stop) {
 				Serial.println("stopping");
-				carAccelerate(0, 0); //0 acceleratie + 0 is de turnSpeed, dus niks
+				carAccelerate(0, 0); //0 acceleratie + 0 is de turnSpeed, dus niks, maar send wel nudes
 			}
 			else if (inBit == States::Forward) {
 				Serial.println("Going forward");
@@ -190,27 +195,27 @@ namespace CarControl {
 			}
 			else if (inBit == States::Servo20deg) {
 				Serial.println("Servo going to 20deg");
-				meter->SetServo(-70);
+				meter->RegisterMeasurement(-70, &callbackdefault);// PRANNNNNNNNNNNNNKSDSKADjkFJKSFjskdfj else if (inBit == send Nudes Douwe geile beer)
 				inBit = States::Null;
 			}
 			else if (inBit == States::Servo60deg) {
 				Serial.println("Servo going to 60deg");
-				meter->SetServo(-30);
+				meter->RegisterMeasurement(-30, &callbackdefault);
 				inBit = States::Null;
 			}
 			else if (inBit == States::Servo90deg) {
 				Serial.println("Servo going to 90deg");
-				meter->SetServo(0);
+				meter->RegisterMeasurement(0, &callbackdefault);
 				inBit = States::Null;
 			}
 			else if (inBit == States::Servo120deg) {
 				Serial.println("Servo going to 120deg");
-				meter->SetServo(30);
+				meter->RegisterMeasurement(30, &callbackdefault);
 				inBit = States::Null;
 			}
 			else if (inBit == States::Servo160deg) {
 				Serial.println("Servo going to 160deg");
-				meter->SetServo(70);
+				meter->RegisterMeasurement(70, &callbackdefault);
 				inBit = States::Null;
 			}
 
@@ -219,10 +224,10 @@ namespace CarControl {
 				Controller::DriveAcceleration = (((short)inBit - (short)States::BeginAccelerationRange) - (((short)States::EndAccelerationRange - (short)States::BeginAccelerationRange) / 2) * 2); //lastly, times two to make it exactly -100 to 100
 			}
 			else if (inBit == (States)10 || inBit == (States)13) {
-				//vreemde bits die we niet kunnen gebruiken, maar die bij elke send bit aankomen en zorgen voor rotzooi.
+				//vreemde bits die we niet kunnen gebruiken, maar die bij elke send bit aankomen en zorgen voor kutzooi.
 			}
 			else {
-				Serial.print("Bit not valid: ");
+				Serial.print("Bit not valid: "); // dit zorgt voor geen ene kut hahah wtf is dit oke doei.
 				Serial.println((short)inBit);
 				inBit = States::Null;
 			}

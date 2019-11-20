@@ -5,9 +5,6 @@
 
 namespace CarControl {
 	IDistanceMeter* DistanceMeter::activeMeter = NULL;
-	short distanceMeter::adjustRight = 15;
-	short distanceMeter::adjustCentre = 15;
-	short distanceMeter::adjustLeft = 30;
 	
 	void DistanceMeter::InitDistanceMeter(int servoPin, int triggerPin, int echoPin) 
 	{

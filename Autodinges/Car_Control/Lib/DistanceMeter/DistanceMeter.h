@@ -27,9 +27,9 @@ namespace CarControl {
 		int counter;
 		unsigned long prevCount;
 	public:
-		static char adjustRight; //chars so that it uses only 1 byte, instead of a short (2B), int (4B) or unsigned long (8B)
-		static char adjustCentre;
-		static char adjustLeft;
+		char adjustRight = 15; //chars so that it uses only 1 byte, instead of a short (2B), int (4B) or unsigned long (8B)
+		char adjustCentre = 15;
+		char adjustLeft = 30;
 		static IDistanceMeter* activeMeter;
 		Servo servo;
 		void (*RegisteredCallbacks[10])(MeasureResult, IDistanceMeter*);

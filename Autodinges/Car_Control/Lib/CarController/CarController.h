@@ -48,7 +48,7 @@ namespace CarControl {
 		static char CompareData();
 		static void AssignCharArray(char copy[], char original[]);
 		static bool arraysMatch(int array1[], int array2[]);
-
+		static void callbackdefault(MeasureResult result, IDistanceMeter* meter);
 	};
 }
 #endif
