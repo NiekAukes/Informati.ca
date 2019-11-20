@@ -13,8 +13,6 @@
 
 namespace CarControl {
 
-
-
 	States Controller::inBit = States::Null;
 	char IController::DriveAcceleration = 100;
 	char IController::SteerAcceleration = 0;
