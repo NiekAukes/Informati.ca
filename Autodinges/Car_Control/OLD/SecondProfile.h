@@ -9,7 +9,6 @@
 #include <AutoProfile.h>
 #include <CarController.h>
 #include <DistanceMeter.h>
-#include <stdlib.h> // for malloc and free
 #define ENA 6
 #define ENB 5
 #define IN1 7
@@ -19,50 +18,50 @@
 //Voor de afstandssensor:
 #define triggerPin A5
 #define echoPin A4
-namespace CarControl {
-
+namespace Car_Control {
 	class ActionData
 	{
-  private:
-    ActionData() {
+	private:
+		ActionData() {
 
-    }
+		}
 	public:
-    
 		static int totalDriven;
-    static ActionData actions[50];
 		unsigned char ID = 0;
 		unsigned char speed;
 		unsigned char Size = 1;
 		unsigned char DistanceDriven = 0;
 		char optionChosen = 0x00;
+		ActionData* nextAction;
 
 		static ActionData* SetNewStack() {
-			return &actions[0];
+			return new ActionData();
 		}
 
 		ActionData* SetNewAction(char Direction, unsigned char Speed) {
 			Size++;
-			if (actions[ID+1].optionChosen == 0x00) {
+			if (!nextAction) {
+				nextAction = new ActionData();
 				this->DistanceDriven = (millis() - totalDriven) * speed / 100;
-				actions[ID+1].totalDriven = millis();
-				actions[ID+1].optionChosen = Direction;
-				actions[ID+1].ID = ID + 1;
-				actions[ID+1].speed = Speed;
-				return &actions[ID+1];
+				nextAction->totalDriven = millis();
+				nextAction->optionChosen = Direction;
+				nextAction->ID = ID + 1;
+				nextAction->speed = Speed;
+				return nextAction;
 			}
 			else {
-				return actions[ID+1].SetNewAction(Direction, Speed);
+				return nextAction->SetNewAction(Direction, Speed);
 			}
 		}
 
 		ActionData ReverseDirection() {
-			if (actions[ID+1].optionChosen == 0x00) {
+			if (!nextAction) {
 				ActionData returnval = *this;
+				delete this;
 				return returnval;
 			}
 			else {
-				actions[ID+1].ReverseDirection();
+				nextAction->ReverseDirection();
 			}
 		}
 		ActionData* FindByID(unsigned char FindID) {
@@ -70,23 +69,19 @@ namespace CarControl {
 				return this;
 			}
 			else {
-				actions[ID+1].FindByID(FindID);
+				nextAction->FindByID(FindID);
 			}
 		}
 	};
   
 class SecondProfile : public AutoProfile {
-private:
-    SecondProfile(){}  
 public:
     void PrintDistances();
     void SelfDrive();
 
 	void OnUpdate();
 	static bool RetrievedMeasureResult;
- 
-    static SecondProfile newProfile;
-    static AutoProfile* SetProfile(DistanceMeter* dismeter);
+    static AutoProfile* SetProfile();
 	ActionData* stack = ActionData::SetNewStack();
 	static MeasureResult lastResult;
 	static void GoForward() {
@@ -96,7 +91,7 @@ public:
 	bool OnBackTrack = false;
 	int StartingBackTrack;
 
-	static void ReceiveMeasureData(MeasureResult result, IDistanceMeter* meter);
+	static void ReceiveMeasureData(MeasureResult result);
 };
 }
 #endif
