@@ -2,10 +2,10 @@
 #define CarController_h
 #include <MultiTasker.h>
 #include <Arduino.h>
-#include <AutoProfile.h>
 #include <DistanceMeter.h>
-namespace Car_Control {
+namespace CarControl {
 	
+
 	enum class States : short {
 		Null,//00 hex
 		Faulty,//01 hex
@@ -33,9 +33,8 @@ namespace Car_Control {
 
 	class IController {
 	public:
-		static AutoProfile* profile;
-		static short DriveAcceleration; //-100 t/m 100
-		static short SteerAcceleration; //-100 t/m 100
+		static char DriveAcceleration; //-100 t/m 100
+		static char SteerAcceleration; //-100 t/m 100
 	};
 
 	class Controller : public IController {
@@ -43,15 +42,13 @@ namespace Car_Control {
 		Controller();
 	public:
 		static States inBit;
-
-		static ClassMultiTasker<Controller> tasker;
-	
+		static DistanceMeter* meter;
 		static void StopCar();
 		static void carAccelerate(short carSpeed, short steerSpeed);
 		static char CompareData();
 		static void AssignCharArray(char copy[], char original[]);
 		static bool arraysMatch(int array1[], int array2[]);
-
+		static void callbackdefault(MeasureResult result, IDistanceMeter* meter);
 	};
 }
 #endif

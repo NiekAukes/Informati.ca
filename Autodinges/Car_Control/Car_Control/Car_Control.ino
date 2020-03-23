@@ -115,8 +115,27 @@
 		Deze nieuwe klasse heeft support voor lidfuncties (T::*). 
 	  
 	  --Er is maar 1 actieve instantie van de klasse MultiTasker. deze klasse overziet nu alle ClassMultiTaskers.
+
 */
-#include "SecondProfile.h"
+#ifdef __arm__
+// should use uinstd.h to define sbrk but Due causes a conflict
+extern "C" char* sbrk(int incr);
+#else  // __ARM__
+extern char *__brkval;
+#endif  // __arm__
+ 
+int freeMemory() {
+  char top;
+#ifdef __arm__
+  return &top - reinterpret_cast<char*>(sbrk(0));
+#elif defined(CORE_TEENSY) || (ARDUINO > 103 && ARDUINO != 151)
+  return &top - __brkval;
+#else  // __arm__
+  return __brkval ? &top - __brkval : &top - __malloc_heap_start;
+#endif  // __arm__
+}
+
+
 #include <MultiTasker.h>
 #include <SoftwareSerial.h>
 #include <Servo.h>
@@ -124,8 +143,9 @@
 #include <AutoProfile.h>
 #include <CarController.h>
 #include <DistanceMeter.h>
+#include "SecondProfile.h"
 
-using namespace Car_Control;
+using namespace CarControl;
 
 #define ENA 6
 #define ENB 5
@@ -138,8 +158,8 @@ using namespace Car_Control;
 #define triggerPin A5
 #define echoPin A4
 
-MultiTasker tasker; //maakt instance van een class voor multitasken
-DistanceMeter disMeter(3, triggerPin, echoPin);
+MultiTasker* tasker = MultiTasker::SetMultiTasker(); //maakt instance van een class voor multitasken
+DistanceMeter disMeter;
 AutoProfile* profile;
 
 void setup(){
@@ -153,13 +173,24 @@ void setup(){
   pinMode(triggerPin, OUTPUT);
   pinMode(echoPin, INPUT);
   Serial.println("Setup is done.");
-  profile = FirstProfile::SetProfile();
+  tasker->RegisterTask(&PrintSometing, 3000U);
+  profile = SecondProfile::SetProfile(&disMeter);
+  disMeter.InitDistanceMeter(3, triggerPin, echoPin);
+  disMeter.RegisterMeasurement(-70, &DistanceMeter::GetDistancesnow);
+  disMeter.RegisterMeasurement(0, &DistanceMeter::GetDistancesnow);
+  disMeter.RegisterMeasurement(70, &DistanceMeter::GetDistancesnow);
+  delay(100);
+  Serial.println("yes, we are");
 }
 
 void loop() {
   Controller::CompareData();
-  tasker.Distribute(); //check timers if there are any pending tasks, and if so, activates those functions.
-  //disMeter.tasker.Distribute();
-  //profile->tasker.Distribute();
-  //CarController.tasker.Distribute();
+  tasker->Distribute(); //check timers if there are any pending tasks, and if so, activates those functions.
+  disMeter.Distribute();
+  profile->OnUpdate();
+}
+
+void PrintSometing() {
+  Serial.println("printed someting");
+  profile->SelfDrive();
 }
